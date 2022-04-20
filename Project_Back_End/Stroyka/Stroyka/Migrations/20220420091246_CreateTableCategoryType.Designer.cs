@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Stroyka.Models;
 
 namespace Stroyka.Migrations
 {
     [DbContext(typeof(StroykaDbContext))]
-    partial class StroykaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220420091246_CreateTableCategoryType")]
+    partial class CreateTableCategoryType
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -46,7 +48,7 @@ namespace Stroyka.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<int>("MegaCategoryId")
+                    b.Property<int?>("MegaCategoryId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -62,6 +64,22 @@ namespace Stroyka.Migrations
                         .IsUnique();
 
                     b.ToTable("Categories");
+                });
+
+            modelBuilder.Entity("Stroyka.Models.CategoryType", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasMaxLength(4)
+                        .HasColumnType("nvarchar(4)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(70)
+                        .HasColumnType("nvarchar(70)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CategoryType");
                 });
 
             modelBuilder.Entity("Stroyka.Models.Color", b =>
@@ -126,7 +144,7 @@ namespace Stroyka.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<string>("CategoryTypeClass")
+                    b.Property<string>("CategoryTypeId")
                         .HasMaxLength(4)
                         .HasColumnType("nvarchar(4)");
 
@@ -136,6 +154,8 @@ namespace Stroyka.Migrations
                         .HasColumnType("nvarchar(200)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CategoryTypeId");
 
                     b.HasIndex("Name")
                         .IsUnique();
@@ -331,9 +351,7 @@ namespace Stroyka.Migrations
                 {
                     b.HasOne("Stroyka.Models.MegaCategory", "MegaCategory")
                         .WithMany("Categories")
-                        .HasForeignKey("MegaCategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("MegaCategoryId");
 
                     b.Navigation("MegaCategory");
                 });
@@ -355,6 +373,15 @@ namespace Stroyka.Migrations
                     b.Navigation("Color");
 
                     b.Navigation("ProductDetail");
+                });
+
+            modelBuilder.Entity("Stroyka.Models.MegaCategory", b =>
+                {
+                    b.HasOne("Stroyka.Models.CategoryType", "CategoryType")
+                        .WithMany("MegaCategories")
+                        .HasForeignKey("CategoryTypeId");
+
+                    b.Navigation("CategoryType");
                 });
 
             modelBuilder.Entity("Stroyka.Models.Product", b =>
@@ -461,6 +488,11 @@ namespace Stroyka.Migrations
             modelBuilder.Entity("Stroyka.Models.Category", b =>
                 {
                     b.Navigation("SubCategories");
+                });
+
+            modelBuilder.Entity("Stroyka.Models.CategoryType", b =>
+                {
+                    b.Navigation("MegaCategories");
                 });
 
             modelBuilder.Entity("Stroyka.Models.Color", b =>

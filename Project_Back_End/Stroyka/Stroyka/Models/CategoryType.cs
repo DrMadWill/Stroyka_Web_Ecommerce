@@ -6,15 +6,14 @@ using System.Threading.Tasks;
 
 namespace Stroyka.Models
 {
-    public class MegaCategory
+    public class CategoryType
     {
         [Key]
-        public virtual int Id { get; set; }
-        [Required]
-        [MaxLength(200)]
-        public string Name { get; set; }
-        public virtual ICollection<Category> Categories { get; set; }
         [MaxLength(4)]
-        public string CategoryTypeClass { get; set; }
+        public virtual string Id { get; set; }
+        [Required]
+        [MaxLength(70)]
+        public string Name { get; set; }
+
     }
 }

@@ -291,7 +291,10 @@
             items: 1,
             nav: false,
             dots: true,
-            loop: true
+            loop: true,
+            autoplay:true,
+            autoplayTimeout:3500,
+            autoplayHoverPause:true
         });
     });
 

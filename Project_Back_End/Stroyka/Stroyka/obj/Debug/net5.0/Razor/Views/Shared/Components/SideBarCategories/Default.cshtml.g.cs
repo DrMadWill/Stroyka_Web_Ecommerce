@@ -26,22 +26,8 @@ using Stroyka.Models;
 #line default
 #line hidden
 #nullable disable
-#nullable restore
-#line 3 "C:\Users\nofel\OneDrive\Desktop\Stroyka_Web_Ecommerce\Project_Back_End\Stroyka\Stroyka\Views\_ViewImports.cshtml"
-using Stroyka.ViewModels.ViewComponentModels;
-
-#line default
-#line hidden
-#nullable disable
-#nullable restore
-#line 4 "C:\Users\nofel\OneDrive\Desktop\Stroyka_Web_Ecommerce\Project_Back_End\Stroyka\Stroyka\Views\_ViewImports.cshtml"
-using Stroyka.ViewModels;
-
-#line default
-#line hidden
-#nullable disable
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"8e6efa1713d5f836e33d0eb33b6df1d550968588", @"/Views/Shared/Components/SideBarCategories/Default.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"53d2f2e2c274c80693592b372baa7e4d0492d0f2", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"9a08215df57130e74098e88f07fefc8ee211a834", @"/Views/_ViewImports.cshtml")]
     public class Views_Shared_Components_SideBarCategories_Default : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<IList<MegaCategory>>
     {
         #pragma warning disable 1998

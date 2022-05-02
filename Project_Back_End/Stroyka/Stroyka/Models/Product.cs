@@ -14,7 +14,8 @@ namespace Stroyka.Models
         [Required]
         public string Name { get; set; }
         [Required]
-        public float Price { get; set; }
+        public float CurrentPrice { get; set; }
+        public float? OldPrice { get; set; }
 
         [MaxLength(300)]
         public string Image { get; set; }

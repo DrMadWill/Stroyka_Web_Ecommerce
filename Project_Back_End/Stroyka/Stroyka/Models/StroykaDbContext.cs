@@ -96,7 +96,6 @@ namespace Stroyka.Models
                .WithMany(x => x.ColorToProductDetails)
                .HasForeignKey(x => x.ProductDetailId);
 
-
         }
 
     }

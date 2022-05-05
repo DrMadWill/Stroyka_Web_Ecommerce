@@ -28,7 +28,7 @@ namespace Stroyka.Models
 
         public virtual Brand Brand { get; set; }
         public virtual int BrandId { get; set; }
-        
+        public DateTime Date { get; set; }
         public virtual ICollection<SubCategoryToProduct> SubCategoryToProducts { get; set; }
     }
 }

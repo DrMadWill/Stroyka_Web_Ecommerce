@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Stroyka.Models;
+using Stroyka.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -12,21 +14,23 @@ namespace Stroyka.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private readonly StroykaDbContext _dbContext;
+        public HomeController(ILogger<HomeController> logger, StroykaDbContext dbContext)
         {
             _logger = logger;
+            _dbContext = dbContext;
+        }
+        public async Task<IActionResult> Index()
+        {
+            IndexVM index = new IndexVM
+            {
+                IndexSliders = await _dbContext.IndexSliders.ToListAsync(),
+                // Popular Algorithm Using Seals Tables But now not added
+                Categories = await _dbContext.Categories.Include(x=>x.SubCategories).Take(6).ToListAsync()
+            };
+            return View(index);
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

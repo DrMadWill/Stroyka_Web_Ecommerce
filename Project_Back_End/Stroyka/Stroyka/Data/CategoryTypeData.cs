@@ -13,11 +13,17 @@ namespace Stroyka.Data
         {
             CategoryTypes = new List<CategoryType>
             {
-                new CategoryType{ Id = "xl" , Name = "Extra Large" },
-                new CategoryType{ Id="lg", Name="Large" },
-                new CategoryType{ Id="nl", Name="Normal" },
-                new CategoryType{ Id="sm",Name="Small" }
+                new CategoryType{ Id = "xl" , Name = "Extra Large",ClassCol= "col-3" },
+                new CategoryType{ Id="lg", Name="Large",ClassCol= "col-4" },
+                new CategoryType{ Id="nl", Name="Normal",ClassCol= "col-6" },
+                new CategoryType{ Id="sm",Name="Small",ClassCol= "col-12" }
             }; ;
+        }
+
+        public string GetColById(string id)
+        {
+            id = id.ToLower();
+            return CategoryTypes.Find(x => x.Id == id).ClassCol;
         }
 
     }

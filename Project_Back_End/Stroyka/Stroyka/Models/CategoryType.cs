@@ -14,6 +14,6 @@ namespace Stroyka.Models
         [Required]
         [MaxLength(70)]
         public string Name { get; set; }
-
+        public string ClassCol { get; set; }
     }
 }

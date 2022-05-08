@@ -20,7 +20,7 @@ namespace Stroyka.Models
         public string DescriptionFull { get; set; }
         [Column(TypeName = "ntext")]
         public string Specification { get; set; }
-        public virtual ICollection<Review> Reviews { get; set; }
+       
         public virtual ICollection<ColorToProductDetail> ColorToProductDetails { get; set; }
 
     }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Stroyka.Extensions;
 using Stroyka.Models;
 using Stroyka.ViewModels;
 using System;
@@ -22,15 +23,28 @@ namespace Stroyka.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            IndexVM index = new IndexVM
+            IndexVM index = new()
             {
+                // Index Silder Data
                 IndexSliders = await _dbContext.IndexSliders.ToListAsync(),
                 // Popular Algorithm Using Seals Tables But now not added
-                Categories = await _dbContext.Categories.Include(x=>x.SubCategories).Take(6).ToListAsync()
+                PopularCategories = await _dbContext.Categories.Include(x=>x.SubCategories).Take(6).ToListAsync(),
+                // Top Rated Product 
+                RatedProducts = await _dbContext.Products
+                .Include(x=>x.Reviews)
+                .Include(x=>x.Status)
+                .Where(dr=>dr.Stars > 3).Take(3).ToListAsync(),
+                //Full MegaCategories
+                MegaCategories = await _dbContext.MegaCategories.ToListAsync(),
+                // New Arrivals Product
+                NewArrivals = (await _dbContext.Products
+                .Include(x => x.Reviews)
+                .Include(x => x.Status)
+                .Where(dr => dr.Date > DateTime.Now.AddMonths(-3))
+                .ToListAsync()).GenarateNewArrivals()
             };
             return View(index);
         }
-
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

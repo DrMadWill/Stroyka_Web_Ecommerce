@@ -2,6 +2,7 @@
 
 
 using Stroyka.Models;
+using Stroyka.Models.Blogs;
 using System.Collections.Generic;
 
 namespace Stroyka.Extensions
@@ -23,6 +24,5 @@ namespace Stroyka.Extensions
             }
             return productListList;
         }
-
     }
 }

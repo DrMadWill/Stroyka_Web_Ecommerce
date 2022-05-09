@@ -38,7 +38,7 @@ namespace Stroyka.Models
         public DbSet<BlogToTag> BlogToTags { get; set; }
         public DbSet<Detail> BlogDetails { get; set; }
         public DbSet<Comment> Comments { get; set; }
-        public DbSet<Tag> Tags { get; set; }
+        public DbSet<Tag> BlogTags { get; set; }
         #endregion
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Stroyka.Models;
 
 namespace Stroyka.Migrations
 {
     [DbContext(typeof(StroykaDbContext))]
-    partial class StroykaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220509111655_ChangeTableNameTagsToBlogTags")]
+    partial class ChangeTableNameTagsToBlogTags
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -700,9 +702,6 @@ namespace Stroyka.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Description")
-                        .HasColumnType("ntext");
-
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -717,10 +716,6 @@ namespace Stroyka.Migrations
 
                     b.Property<bool>("Gender")
                         .HasColumnType("bit");
-
-                    b.Property<string>("Image")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("Location")
                         .HasColumnType("nvarchar(max)");

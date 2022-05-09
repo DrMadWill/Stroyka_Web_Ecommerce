@@ -24,7 +24,8 @@ namespace Stroyka.ViewComponents
             {
                 BlogCategories = await _dbContext.BlogCategories.Include(x=>x.SubCategories).ToListAsync(),
                 LastestBlogs = await _dbContext.Blogs.OrderByDescending(dr => dr.Date).Take(3).ToListAsync(),
-                LastestComments = await _dbContext.Comments.OrderByDescending(dr => dr.Date).Take(3).ToListAsync()
+                LastestComments = await _dbContext.Comments.OrderByDescending(dr => dr.Date).Take(3).Include(x=>x.Blog).Include(x=>x.User).ToListAsync(),
+                Tags = await _dbContext.BlogTags.ToListAsync()
             };
             return View(blogSidebar);
         }

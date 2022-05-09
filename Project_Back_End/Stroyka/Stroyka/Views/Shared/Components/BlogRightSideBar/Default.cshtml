@@ -71,7 +71,7 @@
                 {
                     <li class="widget-categories__item" data-collapse-item>
                         <div class="widget-categories__row">
-                            <a href="#">
+                            <a href="/BlogAsistant/BlogListByCategory/@item.Id">
                                 <svg class="widget-categories__arrow" width="6px" height="9px">
                                     <use xlink:href="/images/sprite.svg#arrow-rounded-right-6x9">
                                     </use>
@@ -89,9 +89,9 @@
                         <div class="widget-categories__subs" data-collapse-content>
                             <ul>
                                 @foreach (var child in item.SubCategories)
-                               {
-                                   <li><a href="#">@child.Name</a></li>
-                               }
+                                {
+                                    <li><a href="#">@child.Name</a></li>
+                                }
                             </ul>
                         </div>
 
@@ -100,32 +100,32 @@
             </ul>
         </div>
     </div>
-     @*Lastest Posts*@
+    @*Lastest Posts*@
     <div class="block-sidebar__item">
         <div class="widget-posts widget">
             <h4 class="widget__title">Latest Posts</h4>
             <div class="widget-posts__list">
                 @foreach (var item in Model.LastestBlogs)
-               {
-                   <div class="widget-posts__item">
-                    <div class="widget-posts__image">
-                        <a href="#">
-                            <img src="~/images/posts/@item.Image" alt="">
-                        </a>
-                    </div>
-                    <div class="widget-posts__info">
-                        <div class="widget-posts__name">
-                            <a href="#">
-                                @item.Title
+                {
+                    <div class="widget-posts__item">
+                        <div class="widget-posts__image">
+                            <a href="/Blog/Single/@item.Id">
+                                <img src="~/images/posts/@item.Image" alt="">
                             </a>
                         </div>
-                        <div class="widget-posts__date">@item.Date.ToString("M"), @item.Date.Year</div>
+                        <div class="widget-posts__info">
+                            <div class="widget-posts__name">
+                                <a href="/Blog/Single/@item.Id">
+                                    @item.Title
+                                </a>
+                            </div>
+                            <div class="widget-posts__date">@item.Date.ToString("M"), @item.Date.Year</div>
+                        </div>
                     </div>
-                </div>
-               }
+                }
 
-                
-                
+
+
             </div>
         </div>
     </div>
@@ -150,62 +150,33 @@
         <div class="widget-comments widget">
             <h4 class="widget__title">Latest Comments</h4>
             <ul class="widget-comments__list">
-                <li class="widget-comments__item">
-                    <div class="widget-comments__author"><a href="#">Emma Williams</a></div>
-                    <div class="widget-comments__content">
-                        In one general sense, philosophy is
-                        associated with wisdom, intellectual culture and a search for
-                        knowledge...
-                    </div>
-                    <div class="widget-comments__meta">
-                        <div class="widget-comments__date">3 minutes ago</div>
-                        <div class="widget-comments__name">
-                            On <a href="#"
-                                  title="Nullam at varius sapien sed sit amet condimentum elit">
-                                Nullam
-                                at varius sapien sed sit amet condimentum elit
-                            </a>
+                @foreach (var item in Model.LastestComments)
+                {
+                    <li class="widget-comments__item">
+                        <div class="widget-comments__author"><a href="#">@item.User.FullName</a></div>
+                        <div class="widget-comments__content">
+                            @item.Description
                         </div>
-                    </div>
-                </li>
-                <li class="widget-comments__item">
-                    <div class="widget-comments__author"><a href="#">Airic Ford</a></div>
-                    <div class="widget-comments__content">
-                        In one general sense, philosophy is
-                        associated with wisdom, intellectual culture and a search for
-                        knowledge...
-                    </div>
-                    <div class="widget-comments__meta">
-                        <div class="widget-comments__date">25 minutes ago</div>
-                        <div class="widget-comments__name">
-                            On <a href="#"
-                                  title="Integer efficitur efficitur velit non pulvinar pellentesque dictum viverra">
-                                Integer
-                                efficitur efficitur velit non pulvinar pellentesque dictum
-                                viverra
-                            </a>
+                        <div class="widget-comments__meta">
+                            <div class="widget-comments__date">@item.Date.ToString("M"),@item.Date.Year</div>
+                            <div class="widget-comments__name">
+                                On <a href="/Blog/Single/@item.Blog.Id"
+                                  title="@item.Blog.Title">
+                                    @if (item.Blog.Title.Length > 23)
+                                    {
+                                        <span> @item.Blog.Title.Substring(0,22) ...</span>
+                                    }
+                                    else
+                                    {
+                                        @item.Blog.Title
+                                    }
+                                </a>
+                            </div>
                         </div>
-                    </div>
-                </li>
-                <li class="widget-comments__item">
-                    <div class="widget-comments__author"><a href="#">Loyd Walker</a></div>
-                    <div class="widget-comments__content">
-                        In one general sense, philosophy is
-                        associated with wisdom, intellectual culture and a search for
-                        knowledge...
-                    </div>
-                    <div class="widget-comments__meta">
-                        <div class="widget-comments__date">2 hours ago</div>
-                        <div class="widget-comments__name">
-                            On <a href="#"
-                                  title="Curabitur quam augue vestibulum in mauris fermentum pellentesque libero">
-                                Curabitur
-                                quam augue vestibulum in mauris fermentum pellentesque
-                                libero
-                            </a>
-                        </div>
-                    </div>
-                </li>
+                    </li>
+                }
+
+
             </ul>
         </div>
     </div>
@@ -214,8 +185,10 @@
             <h4 class="widget__title">Tags Cloud</h4>
             <div class="tags tags--lg">
                 <div class="tags__list">
-                    <a href="#">Promotion</a> <a href="#">Power Tool</a> <a href="#">New Arrivals</a> <a href="#">Screwdriver</a> <a href="#">Wrench</a> <a href="#">Mounts</a> <a href="#">Electrodes</a> <a href="#">Chainsaws</a> <a href="#">Manometers</a> <a href="#">Nails</a>
-                    <a href="#">Air Guns</a> <a href="#">Cutting Discs</a>
+                    @foreach (var item in Model.Tags)
+                    {
+                        <a href="#">@item.Name</a>
+                    }
                 </div>
             </div>
         </div>

@@ -1,28 +1,5 @@
-﻿@model PaginationList<Blog>
+﻿@model BlogListByCategoryVM
 
-@section header{
-<style>
-    /* Blog Category Link Color*/
-    .blogColor {
-        color: #C8C8C8
-    }
-
-        .blogColor:hover {
-            color: #1A66FF
-        }
-
-    .point{
-        display:inline-block;
-        width:5px;
-        height:5px;
-        background-color:#C8C8C8;
-        border-radius:5px;
-        margin: 0px 3px 2px 3px;
-        
-    }
-
-</style>
-}
 
 <div class="site__body">
     <div class="page-header">
@@ -38,18 +15,18 @@
                             </svg>
                         </li>
                         <li class="breadcrumb-item">
-                            <a href="#">Blogs</a>
+                            <a href="#">Categories</a>
                             <svg class="breadcrumb-arrow"
                                  width="6px" height="9px">
                                 <use xlink:href="/images/sprite.svg#arrow-rounded-right-6x9"></use>
                             </svg>
                         </li>
-                        <li class="breadcrumb-item active" aria-current="page">Latest Shares</li>
+                        <li class="breadcrumb-item active" aria-current="page">@Model.Category.Name</li>
                     </ol>
                 </nav>
             </div>
             <div class="page-header__title">
-                <h1>Latest Shares</h1>
+                <h1>@Model.Category.Name</h1>
             </div>
         </div>
     </div>
@@ -58,24 +35,25 @@
             <div class="col-12 col-lg-8">
                 <div class="block">
                     <div class="posts-view">
-                        <div class="posts-view__list posts-list posts-list--layout--grid2">
+                        <div class="posts-view__list posts-list posts-list--layout--list">
                             <div class="posts-list__body">
-                                @foreach (var item in Model)
+                                @foreach (var item in Model.Blogs)
                                 {
                                     <div class="posts-list__item">
-                                        <div class="post-card post-card--layout--grid post-card--size--nl">
+                                        <div class="post-card post-card--layout--list post-card--size--nl">
                                             <div class="post-card__image">
                                                 <a href="/Blog/Single/@item.Id">
                                                     <img src="~/images/posts/@item.Image" alt="">
                                                 </a>
                                             </div>
                                             <div class="post-card__info">
+                                                <div class="post-card__category">
+                                                    <a href="/BlogAsistant/BlogListByCategory/@item.Category.Id">@item.Category.Name</a>
+                                                </div>
                                                 <div class="post-card__name">
                                                     <a href="/Blog/Single/@item.Id">@item.Title</a>
                                                 </div>
                                                 <div class="post-card__date">
-                                                    <a href="/BlogAsistant/BlogListByCategory/@item.Category.Id" class="blogColor">@item.Category.Name</a> 
-                                                    <div class="point"></div>
                                                     @item.Date.ToString("M"),@item.Date.Year
                                                 </div>
                                                 <div class="post-card__content">@item.PreviewDescription</div>
@@ -89,7 +67,10 @@
                                 }
                             </div>
                         </div>
-                        <partial name="_PaginationList" model="Model.PaginationLinkModel" />
+                        @if (Model.Blogs.Count != 0)
+                        {
+                            <partial name="_PaginationList" model="Model.Blogs.PaginationLinkModel" />
+                        }
                     </div>
                 </div>
             </div>

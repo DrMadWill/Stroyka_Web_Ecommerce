@@ -72,3 +72,6 @@ C:\Users\nofel\OneDrive\Desktop\Stroyka_Web_Ecommerce\Project_Back_End\Stroyka\S
 C:\Users\nofel\OneDrive\Desktop\Stroyka_Web_Ecommerce\Project_Back_End\Stroyka\Stroyka\bin\Debug\net5.0\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
 C:\Users\nofel\OneDrive\Desktop\Stroyka_Web_Ecommerce\Project_Back_End\Stroyka\Stroyka\obj\Debug\net5.0\Razor\Views\Shared\Components\SideBarCategories\Default.cshtml.g.cs
 C:\Users\nofel\OneDrive\Desktop\Stroyka_Web_Ecommerce\Project_Back_End\Stroyka\Stroyka\obj\Debug\net5.0\refint\Stroyka.dll
+C:\Users\nofel\OneDrive\Desktop\Stroyka_Web_Ecommerce\Project_Back_End\Stroyka\Stroyka\obj\Debug\net5.0\Razor\Views\Blog\Index.cshtml.g.cs
+C:\Users\nofel\OneDrive\Desktop\Stroyka_Web_Ecommerce\Project_Back_End\Stroyka\Stroyka\obj\Debug\net5.0\Razor\Views\Shared\Components\BlogRightSideBar\Default.cshtml.g.cs
+C:\Users\nofel\OneDrive\Desktop\Stroyka_Web_Ecommerce\Project_Back_End\Stroyka\Stroyka\obj\Debug\net5.0\Razor\Views\Shared\_PaginationList.cshtml.g.cs

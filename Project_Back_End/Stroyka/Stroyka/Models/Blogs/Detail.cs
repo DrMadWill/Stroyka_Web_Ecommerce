@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Stroyka.Models.Blogs
 {
-    public class BlogDetail
+    public class Detail
     {
         [Key, ForeignKey("Blog")]
         public virtual int Id { get; set; }

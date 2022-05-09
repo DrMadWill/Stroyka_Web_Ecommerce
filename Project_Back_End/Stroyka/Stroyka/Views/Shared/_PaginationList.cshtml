@@ -1,0 +1,35 @@
+﻿@model PaginationLinkModel
+
+<div class="posts-view__pagination">
+    <ul class="pagination justify-content-center">
+        <li class="page-item @(Model.HasPreviousPage?"":"disabled")">
+            <a class="page-link page-link--with-arrow" href="@Model.Link/@(Model.PageIndex - 1)" aria-label="Previous">
+                <svg class="page-link__arrow page-link__arrow--left" aria-hidden="true"
+                     width="8px" height="13px">
+                    <use xlink:href="/images/sprite.svg#arrow-rounded-left-8x13"></use>
+                </svg>
+            </a>
+        </li>
+        
+
+        @for (int i = 1; i <= Model.TotalPages; i++)
+        {
+            <li class="page-item @(Model.PageIndex == i?"active":"")">
+                <a class="page-link"  href="@Model.Link/@i">
+                    @i
+                </a>
+            </li>
+        }
+        
+
+        <li class="page-item @(Model.HasNextPage?"":"disabled" )">
+            <a class="page-link page-link--with-arrow" href="@Model.Link/@(Model.PageIndex + 1)"
+               aria-label="Next">
+                <svg class="page-link__arrow page-link__arrow--right"
+                     aria-hidden="true" width="8px" height="13px">
+                    <use xlink:href="/images/sprite.svg#arrow-rounded-right-8x13"></use>
+                </svg>
+            </a>
+        </li>
+    </ul>
+</div>

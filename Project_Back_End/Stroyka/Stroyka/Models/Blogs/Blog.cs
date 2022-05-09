@@ -23,16 +23,26 @@ namespace Stroyka.Models.Blogs
         public DateTime Date { get; set; } = DateTime.Now;
 
 
-        public virtual BlogCategory BlogCategory { get; set; }
-        public virtual int BlogCategoryId { get; set; }
-        public virtual List<BlogToTag> BlogToTags { get; set; }
-        public virtual IList<Comment> Comments { get; set; }
+        // Only Category Required  
+        public virtual Category Category { get; set; }
+        public virtual int CategoryId { get; set; }
+
+
+        public virtual SubCategory SubCategory { get; set; }
+        public virtual int? SubCategoryId { get; set; }
+
 
         public virtual User User { get; set; }
         [Required]
         public virtual string UserId { get; set; }
 
-        public virtual BlogDetail BlogDetail { get; set; }
+
+        public virtual List<BlogToTag> BlogToTags { get; set; }
+        public virtual IList<Comment> Comments { get; set; }
+
+        
+
+        public virtual Detail Detail { get; set; }
 
         [NotMapped]
         public TimeSpan Time { get { return (DateTime.Now.Subtract(Date)); } }

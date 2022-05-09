@@ -33,9 +33,10 @@ namespace Stroyka.Models
 
         #region Blog
         public DbSet<Blog> Blogs { get; set; }
-        public DbSet<BlogCategory> BlogCategories { get; set; }
+        public DbSet<Blogs.Category> BlogCategories { get; set; }
+        public DbSet<Blogs.SubCategory> BlogSubCategories { get; set; }
         public DbSet<BlogToTag> BlogToTags { get; set; }
-        public DbSet<BlogDetail> BlogDetails { get; set; }
+        public DbSet<Detail> BlogDetails { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Tag> Tags { get; set; }
         #endregion
@@ -122,7 +123,7 @@ namespace Stroyka.Models
                .HasDefaultValueSql("getdate()");
 
             //Unique Key
-            modelBuilder.Entity<BlogCategory>()
+            modelBuilder.Entity<Blogs.Category>()
                 .HasIndex(u => u.Name)
                 .IsUnique();
 

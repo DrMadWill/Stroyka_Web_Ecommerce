@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Stroyka.Extensions;
 using Stroyka.Models;
+using Stroyka.Models.Blogs;
+using Stroyka.Models.Users;
 using Stroyka.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -15,9 +18,27 @@ namespace Stroyka.Controllers
 {
     public class BlogController : Controller
     {
-        public IActionResult Index()
+
+        private readonly StroykaDbContext _dbContext;
+        private readonly UserManager<User> userManager;
+        private readonly RoleManager<IdentityRole> roleManager;
+
+        public BlogController( StroykaDbContext dbContext, UserManager<User> _userManager,RoleManager<IdentityRole> _roleManager)
         {
-            return View();
+            _dbContext = dbContext;
+            userManager = _userManager;
+            roleManager = _roleManager;
+        }
+        
+
+
+
+        public async Task<IActionResult> Index(int? id)
+        {
+
+            var blogsQuery = _dbContext.Blogs.AsNoTracking().AsQueryable();
+            var blogs = await PaginationList<Blog>.CreateAsync(blogsQuery, id ?? 1, 10, "/Blog/Index");
+            return View(blogs);
         }
     }
 }

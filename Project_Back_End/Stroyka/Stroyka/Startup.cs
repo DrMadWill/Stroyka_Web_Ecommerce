@@ -1,11 +1,13 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Stroyka.Models;
+using Stroyka.Models.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,7 +33,19 @@ namespace Stroyka
             {
                 option.UseSqlServer(Configuration.GetConnectionString("Defaultdb"));
             });
+            services.AddIdentity<User, IdentityRole>()
+                .AddEntityFrameworkStores<StroykaDbContext>()
+                .AddTokenProvider<DataProtectorTokenProvider<User>>(TokenOptions.DefaultProvider);
 
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequireDigit = true;
+                options.Password.RequiredLength = 8;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+            });
 
         }
 
@@ -51,11 +65,8 @@ namespace Stroyka
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseStaticFiles();
-
             app.UseRouting();
-
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

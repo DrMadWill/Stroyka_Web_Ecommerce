@@ -1,0 +1,30 @@
+﻿@model IList<Blog>
+<div class="owl-carousel">
+
+    @foreach (var item in Model)
+   {
+       <div class="post-card">
+        <div class="post-card__image">
+            <a href="/Blog/Single/@item.Id"><img src="~/images/posts/@item.Image" alt=""></a>
+        </div>
+        <div class="post-card__info">
+            <div class="post-card__name">
+                <a href="/Blog/Single/@item.Id">
+                    @item.Title
+                </a>
+            </div>
+            <div class="post-card__date">@item.Date.ToString("M"), @item.Date.Year</div>
+            <div class="post-card__content">
+               @item.PreviewDescription
+            </div>
+            <div class="post-card__read-more">
+                <a href="/Blog/Single/@item.Id" class="btn btn-secondary btn-sm">
+                    Read
+                    More
+                </a>
+            </div>
+        </div>
+    </div>
+   }
+    
+</div>

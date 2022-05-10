@@ -80,3 +80,5 @@ C:\Users\nofel\OneDrive\Desktop\Stroyka_Web_Ecommerce\Project_Back_End\Stroyka\S
 C:\Users\nofel\OneDrive\Desktop\Stroyka_Web_Ecommerce\Project_Back_End\Stroyka\Stroyka\obj\Debug\net5.0\Razor\Views\BlogAsistant\BlogListBySubCategory.cshtml.g.cs
 C:\Users\nofel\OneDrive\Desktop\Stroyka_Web_Ecommerce\Project_Back_End\Stroyka\Stroyka\obj\Debug\net5.0\Razor\Views\BlogAsistant\BlogListByTag.cshtml.g.cs
 C:\Users\nofel\OneDrive\Desktop\Stroyka_Web_Ecommerce\Project_Back_End\Stroyka\Stroyka\obj\Debug\net5.0\Razor\Views\Shared\_BlogListPartial.cshtml.g.cs
+C:\Users\nofel\OneDrive\Desktop\Stroyka_Web_Ecommerce\Project_Back_End\Stroyka\Stroyka\obj\Debug\net5.0\Razor\Views\Shared\_BlogListContainerPartial.cshtml.g.cs
+C:\Users\nofel\OneDrive\Desktop\Stroyka_Web_Ecommerce\Project_Back_End\Stroyka\Stroyka\obj\Debug\net5.0\Razor\Views\BlogAsistant\BlogListByKeyword.cshtml.g.cs

@@ -26,6 +26,8 @@ namespace Stroyka.Controllers
             roleManager = _roleManager;
         }
 
+        // Grid Blog List Page
+        [HttpGet]
         public async Task<IActionResult> Index(int? id)
         {
             var blogsQuery = _dbContext.Blogs.
@@ -36,7 +38,8 @@ namespace Stroyka.Controllers
             return View(blogs);
         }
 
-
+        // Blog Detail //Single Page GET
+        [HttpGet]
         public async Task<IActionResult> Single(int? id)
         {
             if (id == null) return NotFound();

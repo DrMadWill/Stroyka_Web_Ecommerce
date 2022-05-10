@@ -37,16 +37,5 @@
             </div>
         </div>
     </div>
-    <div class="container">
-        <div class="row">
-            <div class="col-12 col-lg-8">
-                <div class="block">
-                    <partial name="_BlogListPartial" model="@Model.Blogs" />
-                </div>
-            </div>
-            <div class="col-12 col-lg-4">
-                @await Component.InvokeAsync("BlogRightSideBar")
-            </div>
-        </div>
-    </div>
+    <partial name="_BlogListContainerPartial" model="Model.Blogs" />
 </div>

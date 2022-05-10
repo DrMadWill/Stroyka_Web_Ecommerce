@@ -4,15 +4,34 @@
 
     <div class="block-sidebar__item">
         <div class="widget-search">
-            <form class="widget-search__body">
-                <input class="widget-search__input"
-                       placeholder="Blog search..." type="text" autocomplete="off"
-                       spellcheck="false"> <button class="widget-search__button" type="submit">
+            <form id="blog_search_form" class="widget-search__body">
+                
+                <input id="blog_search" class="widget-search__input"
+                       placeholder="Blog search..." type="text" required autocomplete="off"
+                       spellcheck="false">
+                <button class="widget-search__button" type="submit">
                     <svg width="20px" height="20px">
                         <use xlink:href="/images/sprite.svg#search-20"></use>
                     </svg>
                 </button>
             </form>
+            <a class="w-0 search_link h-0 invisible" ></a>
+            <script>
+
+                $(document).ready(() => {
+                   $(document).on('submit', '#blog_search_form', (e) => {
+                       e.preventDefault();
+                       let keyword = $("#blog_search").val()
+                       let link = document.querySelector(".search_link")
+                       $(link).attr("href",`/BlogAsistant/BlogListByKeyword/${keyword}`)
+
+                       link.click()
+                       
+                   })
+                })
+
+
+            </script>
         </div>
     </div>
 

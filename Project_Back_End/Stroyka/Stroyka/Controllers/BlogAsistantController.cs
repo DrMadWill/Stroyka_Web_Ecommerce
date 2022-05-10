@@ -28,12 +28,13 @@ namespace Stroyka.Controllers
             var category = await _dbContext.BlogCategories.FirstOrDefaultAsync(b => b.Id == id);
             if (category == null) return NotFound();
 
-
+            // DataBase Select
             var blogsQuery = _dbContext.Blogs
                 .Where(dr=>dr.Category.Id == category.Id)
                 .OrderByDescending(x=>x.Date)
                 .Include(x=>x.Category)
                 .AsNoTracking().AsQueryable();
+
             var blogs = await PaginationList<Blog>.CreateAsync(blogsQuery, page ?? 1, 15, "/BlogAsistant/BlogListByCategory/"+id.ToString());
             BlogListByCategoryVM blogListByCategory = new()
             {
@@ -52,7 +53,7 @@ namespace Stroyka.Controllers
                 .Include(x=>x.BlogCategory)
                 .FirstOrDefaultAsync(b => b.Id == id);
             if (subCategory == null) return NotFound();
-
+            // DataBase Select
             var blogsQuery = _dbContext.Blogs
                 .Where(dr => dr.SubCategoryId == subCategory.Id)
                 .OrderByDescending(x => x.Date)
@@ -75,7 +76,7 @@ namespace Stroyka.Controllers
             var tag = await _dbContext.BlogTags
                 .FirstOrDefaultAsync(b => b.Id == id);
             if (tag == null) return NotFound();
-
+            // DataBase Select
             var blogsQuery = _dbContext.BlogToTags
                 .Where(dr => dr.TagId == tag.Id)
                 .Select(dr => new Blog
@@ -89,6 +90,7 @@ namespace Stroyka.Controllers
                 })
                 .OrderByDescending(x => x.Date)
                 .AsNoTracking().AsQueryable();
+
             var blogs = await PaginationList<Blog>.CreateAsync(blogsQuery, page ?? 1, 15, "/BlogAsistant/BlogListBySubCategory/" + id.ToString());
             BlogListByTagVM blogListByTag = new()
             {
@@ -96,6 +98,33 @@ namespace Stroyka.Controllers
                 Blogs = blogs
             };
             return View(blogListByTag);
+        }
+
+
+        // Shearch Blog By Keyword GET
+        [HttpGet]
+        public async Task<IActionResult> BlogListByKeyword(string id, int? page)
+        {
+
+            string keyword = id;
+            if(string.IsNullOrEmpty(keyword)) return NotFound();
+            keyword=keyword.Trim();
+            // DataBase Select
+            var blogsQuery = _dbContext.Blogs
+                .Where(dr => dr.Title.ToLower().Contains(keyword.ToLower()))
+                .Include(x=>x.Category)
+                .OrderByDescending(x => x.Date)
+                .AsNoTracking().AsQueryable();
+
+            var blogs = await PaginationList<Blog>.CreateAsync(blogsQuery, page ?? 1, 5, "/BlogAsistant/BlogListByKeyword/" + id.ToString());
+
+            BlogListByKeywordVM blogListByKeyword = new()
+            {
+                Keyword = keyword,
+                Blogs = blogs,
+            };
+
+            return View(blogListByKeyword);
         }
 
     }

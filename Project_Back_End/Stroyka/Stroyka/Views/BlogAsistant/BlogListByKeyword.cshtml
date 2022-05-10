@@ -1,4 +1,4 @@
-﻿@model BlogListByTagVM
+﻿@model BlogListByKeywordVM
 
 <div class="site__body">
     <div class="page-header">
@@ -21,18 +21,18 @@
                             </svg>
                         </li>
                         <li class="breadcrumb-item active">
-                            Tag
+                            Sheach
                             <svg class="breadcrumb-arrow"
                                  width="6px" height="9px">
                                 <use xlink:href="/images/sprite.svg#arrow-rounded-right-6x9"></use>
                             </svg>
                         </li>
-                        <li class="breadcrumb-item active" aria-current="page">@Model.Tag.Name</li>
+                        <li class="breadcrumb-item active" aria-current="page">@Model.Keyword</li>
                     </ol>
                 </nav>
             </div>
             <div class="page-header__title">
-                <h1>@Model.Tag.Name</h1>
+                <h1>@Model.Keyword</h1>
             </div>
         </div>
     </div>

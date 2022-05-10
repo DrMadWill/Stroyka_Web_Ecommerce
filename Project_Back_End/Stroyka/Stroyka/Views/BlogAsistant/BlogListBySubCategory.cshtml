@@ -1,4 +1,4 @@
-﻿@model BlogListByCategoryVM
+﻿@model BlogListBySubCategoryVM
 
 
 <div class="site__body">
@@ -28,12 +28,19 @@
                                 <use xlink:href="/images/sprite.svg#arrow-rounded-right-6x9"></use>
                             </svg>
                         </li>
-                        <li class="breadcrumb-item active" aria-current="page">@Model.Category.Name</li>
+                        <li class="breadcrumb-item active">
+                            @Model.SubCategory.BlogCategory.Name
+                            <svg class="breadcrumb-arrow"
+                                 width="6px" height="9px">
+                                <use xlink:href="/images/sprite.svg#arrow-rounded-right-6x9"></use>
+                            </svg>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">@Model.SubCategory.Name</li>
                     </ol>
                 </nav>
             </div>
             <div class="page-header__title">
-                <h1>@Model.Category.Name</h1>
+                <h1>@Model.SubCategory.Name</h1>
             </div>
         </div>
     </div>

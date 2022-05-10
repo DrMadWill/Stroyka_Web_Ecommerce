@@ -40,5 +40,30 @@ namespace Stroyka.Controllers
             };
             return View(blogListByCategory);
         }
+
+
+        public async Task<IActionResult> BlogListBySubCategory(int? id, int? page)
+        {
+            if (id == null) return NotFound();
+            var subCategory = await _dbContext.BlogSubCategories
+                .Include(x=>x.BlogCategory)
+                .FirstOrDefaultAsync(b => b.Id == id);
+            if (subCategory == null) return NotFound();
+
+            var blogsQuery = _dbContext.Blogs
+                .Where(dr => dr.SubCategoryId == subCategory.Id)
+                .OrderByDescending(x => x.Date)
+                .Include(x => x.Category)
+                .AsNoTracking().AsQueryable();
+            var blogs = await PaginationList<Blog>.CreateAsync(blogsQuery, page ?? 1, 15, "/BlogAsistant/BlogListBySubCategory/" + id.ToString());
+            BlogListBySubCategoryVM blogListByCategory = new()
+            {
+                SubCategory = subCategory,
+                Blogs = blogs
+            };
+            return View(blogListByCategory);
+        }
+
+
     }
 }

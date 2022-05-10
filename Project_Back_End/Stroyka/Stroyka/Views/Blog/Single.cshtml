@@ -14,13 +14,13 @@
                             </svg>
                         </li>
                         <li class="breadcrumb-item">
-                            <a href="#">@Model.Blog.Category.Name</a>
+                            <a href="/Blog/Index">Blog</a>
                             <svg class="breadcrumb-arrow"
                                  width="6px" height="9px">
                                 <use xlink:href="/images/sprite.svg#arrow-rounded-right-6x9"></use>
                             </svg>
                         </li>
-                        <li class="breadcrumb-item active" aria-current="page">Blog</li>
+                        <li class="breadcrumb-item active" aria-current="page">@Model.Blog.Category.Name</li>
                     </ol>
                 </nav>
             </div>
@@ -31,7 +31,7 @@
             <div class="col-12 col-lg-8">
                 <div class="block post post--layout--classic">
                     <div class="post__header post-header post-header--layout--classic">
-                        <div class="post-header__categories"><a href="#">@Model.Blog.Category.Name</a></div>
+                        <div class="post-header__categories"><a href="/BlogAsistant/BlogListByCategory/@Model.Blog.Category.Id">@Model.Blog.Category.Name</a></div>
                         <h1 class="post-header__title">
                             @Model.Blog.Title
                         </h1>

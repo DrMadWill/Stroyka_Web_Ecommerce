@@ -20,6 +20,8 @@ namespace Stroyka.Controllers
             _dbContext = dbContext;
         }
 
+        // Shearch Blog By Category GET
+        [HttpGet]
         public async Task<IActionResult> BlogListByCategory(int? id,int? page)
         {
             if (id == null) return NotFound();
@@ -41,7 +43,8 @@ namespace Stroyka.Controllers
             return View(blogListByCategory);
         }
 
-
+        // Shearch Blog By SubCategory GET
+        [HttpGet]
         public async Task<IActionResult> BlogListBySubCategory(int? id, int? page)
         {
             if (id == null) return NotFound();
@@ -56,14 +59,44 @@ namespace Stroyka.Controllers
                 .Include(x => x.Category)
                 .AsNoTracking().AsQueryable();
             var blogs = await PaginationList<Blog>.CreateAsync(blogsQuery, page ?? 1, 15, "/BlogAsistant/BlogListBySubCategory/" + id.ToString());
-            BlogListBySubCategoryVM blogListByCategory = new()
+            BlogListBySubCategoryVM blogListBySubCategory = new()
             {
                 SubCategory = subCategory,
                 Blogs = blogs
             };
-            return View(blogListByCategory);
+            return View(blogListBySubCategory);
         }
 
+        // Shearch Blog By Tag GET
+        [HttpGet]
+        public async Task<IActionResult> BlogListByTag(int? id, int? page)
+        {
+            if (id == null) return NotFound();
+            var tag = await _dbContext.BlogTags
+                .FirstOrDefaultAsync(b => b.Id == id);
+            if (tag == null) return NotFound();
+
+            var blogsQuery = _dbContext.BlogToTags
+                .Where(dr => dr.TagId == tag.Id)
+                .Select(dr => new Blog
+                {
+                    Id= dr.Blog.Id,
+                    Category = dr.Blog.Category,
+                    Title = dr.Blog.Title,
+                    Image =dr.Blog.Image,
+                    PreviewDescription = dr.Blog.PreviewDescription,
+                    Date = dr.Blog.Date,
+                })
+                .OrderByDescending(x => x.Date)
+                .AsNoTracking().AsQueryable();
+            var blogs = await PaginationList<Blog>.CreateAsync(blogsQuery, page ?? 1, 15, "/BlogAsistant/BlogListBySubCategory/" + id.ToString());
+            BlogListByTagVM blogListByTag = new()
+            {
+                Tag = tag,
+                Blogs = blogs
+            };
+            return View(blogListByTag);
+        }
 
     }
 }

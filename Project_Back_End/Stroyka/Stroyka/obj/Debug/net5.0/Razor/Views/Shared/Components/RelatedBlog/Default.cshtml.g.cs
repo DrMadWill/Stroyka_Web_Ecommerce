@@ -56,13 +56,20 @@ using Stroyka.Models.Blogs;
 #nullable disable
 #nullable restore
 #line 7 "C:\Users\nofel\OneDrive\Desktop\Stroyka_Web_Ecommerce\Project_Back_End\Stroyka\Stroyka\Views\_ViewImports.cshtml"
+using Stroyka.Models.Products;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 8 "C:\Users\nofel\OneDrive\Desktop\Stroyka_Web_Ecommerce\Project_Back_End\Stroyka\Stroyka\Views\_ViewImports.cshtml"
 using Stroyka.Models.Users;
 
 #line default
 #line hidden
 #nullable disable
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"d01c31ec3ea536fbbac34e5104f1427364cbd459", @"/Views/Shared/Components/RelatedBlog/Default.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"ac159b872a800ce4250da71fc3ea34984a542271", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"365e3b62364b3499d51da633ee451e4767c5db40", @"/Views/_ViewImports.cshtml")]
     #nullable restore
     public class Views_Shared_Components_RelatedBlog_Default : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<IList<Blog>>
     #nullable disable
@@ -113,7 +120,7 @@ WriteAttributeValue("", 353, item.Id, 353, 8, false);
 #nullable disable
             EndWriteAttribute();
             WriteLiteral(">\r\n                    ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagOnly, "d01c31ec3ea536fbbac34e5104f1427364cbd4595919", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagOnly, "d01c31ec3ea536fbbac34e5104f1427364cbd4596144", async() => {
             }
             );
             __Microsoft_AspNetCore_Mvc_Razor_TagHelpers_UrlResolutionTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.Razor.TagHelpers.UrlResolutionTagHelper>();

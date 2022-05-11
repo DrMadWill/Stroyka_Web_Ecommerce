@@ -1,11 +1,11 @@
 ﻿@model BlogSidebarVCM
 
 <div class="block block-sidebar block-sidebar--position--end">
-
+    @*Search Blog With Keyword*@
     <div class="block-sidebar__item">
         <div class="widget-search">
             <form id="blog_search_form" class="widget-search__body">
-                
+
                 <input id="blog_search" class="widget-search__input"
                        placeholder="Blog search..." type="text" required autocomplete="off"
                        spellcheck="false">
@@ -15,7 +15,7 @@
                     </svg>
                 </button>
             </form>
-            <a class="w-0 search_link h-0 invisible" ></a>
+            <a class="w-0 search_link h-0 invisible"></a>
             <script>
 
                 $(document).ready(() => {
@@ -26,7 +26,7 @@
                        $(link).attr("href",`/BlogAsistant/BlogListByKeyword/${keyword}`)
 
                        link.click()
-                       
+
                    })
                 })
 
@@ -35,6 +35,7 @@
         </div>
     </div>
 
+    @*Blog About*@
     <div class="block-sidebar__item">
         <div class="widget-aboutus widget">
             <h4 class="widget__title">About Blog</h4>
@@ -119,6 +120,7 @@
             </ul>
         </div>
     </div>
+
     @*Lastest Posts*@
     <div class="block-sidebar__item">
         <div class="widget-posts widget">
@@ -148,6 +150,8 @@
             </div>
         </div>
     </div>
+
+    @*Blog Subscribe*@
     <div class="block-sidebar__item">
         <div class="widget-newsletter widget">
             <h4 class="widget-newsletter__title">Our Newsletter</h4>
@@ -156,15 +160,75 @@
                 sollicitudin arcu semper mattis. Mauris quis mi quis ipsum tristique lobortis.
                 Nulla vitae est blandit rutrum.
             </div>
-            <form class="widget-newsletter__form" action="#">
-                <label for="widget-newsletter-email" class="sr-only">Email Address</label> <input id="widget-newsletter-email" type="text" class="form-control"
-                                                                                                  placeholder="Email Address"> <button type="submit"
-                                                                                                                                       class="btn btn-primary mt-3">
+            <form id="subscribe_email_form" class="widget-newsletter__form">
+                <label for="widget-newsletter-email" class="sr-only">Email Address</label>
+                <input id="widget-newsletter-email" type="text" class="form-control" placeholder="Email Address">
+                <button type="submit" class="btn btn-primary mt-3">
                     Subscribe
                 </button>
             </form>
+
+            <script>
+                $(document).on("submit", "#subscribe_email_form", (e) => {
+                        e.preventDefault();
+                        let email = $("#widget-newsletter-email").val()
+                        let wait = Swal.fire({
+                            title: 'Give me a second.',
+                            text: '"',
+                            imageUrl: 'https://media.giphy.com/media/xTkcEQACH24SMPxIQg/giphy.gif',
+                            imageWidth: 350,
+                            imageHeight: 300,
+                            imageAlt: 'Loading',
+                        });
+                        $.ajax({
+                            url: '/BlogAsistant/BlogSubscribe',
+                            headers: {
+                                 __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
+                            },
+                            type: 'POST',
+                            data: { email:email },
+                            success: (response) => {
+                                if (response.hasOwnProperty('status') && response.status === 201) {
+                                    wait.close();
+                                    Swal.fire(
+                                        'We accept your email',
+                                        'we send emil when Next post related',
+                                        'success'
+                                    )
+                                } else if (response.hasOwnProperty('status') && response.status === 409){
+                                    wait.close()
+                                    Swal.fire(
+                                        'Already Exsit Emil',
+                                        'We already accept your emil',
+                                        'error'
+                                    )
+                                } else if (response.hasOwnProperty('status') && response.status === 422){
+                                    wait.close()
+                                    Swal.fire(
+                                        'Email fornmat wrong',
+                                        'Check your emil. Something wrong in your email',
+                                        'error'
+                                    )
+                                }else{
+                                    wait.close()
+                                    Swal.fire(
+                                        'Email fornmat wrong',
+                                        'Check your emil. Something wrong in your email',
+                                        'error'
+                                    )
+                                }
+                            }
+                        })
+                    });
+
+
+
+            </script>
+
         </div>
     </div>
+
+    @*Lastest Comment*@
     <div class="block-sidebar__item">
         <div class="widget-comments widget">
             <h4 class="widget__title">Latest Comments</h4>
@@ -199,6 +263,8 @@
             </ul>
         </div>
     </div>
+
+    @*Tags*@
     <div class="block-sidebar__item">
         <div class="widget-tags widget">
             <h4 class="widget__title">Tags Cloud</h4>
@@ -214,3 +280,8 @@
     </div>
 
 </div>
+
+
+@section script{
+
+}

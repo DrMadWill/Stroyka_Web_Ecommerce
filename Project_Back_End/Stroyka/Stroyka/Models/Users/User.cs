@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Stroyka.Models.Blogs;
+using Stroyka.Models.Products;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

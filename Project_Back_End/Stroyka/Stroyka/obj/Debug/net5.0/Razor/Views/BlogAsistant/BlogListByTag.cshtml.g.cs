@@ -56,13 +56,20 @@ using Stroyka.Models.Blogs;
 #nullable disable
 #nullable restore
 #line 7 "C:\Users\nofel\OneDrive\Desktop\Stroyka_Web_Ecommerce\Project_Back_End\Stroyka\Stroyka\Views\_ViewImports.cshtml"
+using Stroyka.Models.Products;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 8 "C:\Users\nofel\OneDrive\Desktop\Stroyka_Web_Ecommerce\Project_Back_End\Stroyka\Stroyka\Views\_ViewImports.cshtml"
 using Stroyka.Models.Users;
 
 #line default
 #line hidden
 #nullable disable
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"f619558ef2382f97c5af9324a8f7501ae069edb8", @"/Views/BlogAsistant/BlogListByTag.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"ac159b872a800ce4250da71fc3ea34984a542271", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"365e3b62364b3499d51da633ee451e4767c5db40", @"/Views/_ViewImports.cshtml")]
     #nullable restore
     public class Views_BlogAsistant_BlogListByTag : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<BlogListByTagVM>
     #nullable disable
@@ -138,7 +145,7 @@ using Stroyka.Models.Users;
 #line hidden
 #nullable disable
             WriteLiteral("</h1>\r\n            </div>\r\n        </div>\r\n    </div>\r\n    ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("partial", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "f619558ef2382f97c5af9324a8f7501ae069edb87155", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("partial", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "f619558ef2382f97c5af9324a8f7501ae069edb87380", async() => {
             }
             );
             __Microsoft_AspNetCore_Mvc_TagHelpers_PartialTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.TagHelpers.PartialTagHelper>();

@@ -1,4 +1,5 @@
 ﻿using Stroyka.Models;
+using Stroyka.Models.Products;
 using System;
 using System.Collections.Generic;
 using System.Linq;

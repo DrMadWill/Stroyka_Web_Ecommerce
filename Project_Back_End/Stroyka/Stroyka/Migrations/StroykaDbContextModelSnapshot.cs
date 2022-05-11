@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Stroyka.Models;
+using Stroyka.Data;
 
 namespace Stroyka.Migrations
 {
@@ -330,7 +330,33 @@ namespace Stroyka.Migrations
                     b.ToTable("BlogTags");
                 });
 
-            modelBuilder.Entity("Stroyka.Models.Brand", b =>
+            modelBuilder.Entity("Stroyka.Models.Commoun.EmailForSubscribe", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(320)
+                        .HasColumnType("nvarchar(320)");
+
+                    b.Property<bool>("IsBlog")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsProduct")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.ToTable("EmailForSubscribes");
+                });
+
+            modelBuilder.Entity("Stroyka.Models.Products.Brand", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -350,7 +376,7 @@ namespace Stroyka.Migrations
                     b.ToTable("Brands");
                 });
 
-            modelBuilder.Entity("Stroyka.Models.Category", b =>
+            modelBuilder.Entity("Stroyka.Models.Products.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -379,7 +405,7 @@ namespace Stroyka.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("Stroyka.Models.Color", b =>
+            modelBuilder.Entity("Stroyka.Models.Products.Color", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -399,7 +425,7 @@ namespace Stroyka.Migrations
                     b.ToTable("Colors");
                 });
 
-            modelBuilder.Entity("Stroyka.Models.ColorToProductDetail", b =>
+            modelBuilder.Entity("Stroyka.Models.Products.ColorToProductDetail", b =>
                 {
                     b.Property<int>("ColorId")
                         .HasColumnType("int");
@@ -414,7 +440,7 @@ namespace Stroyka.Migrations
                     b.ToTable("ColorToProductDetails");
                 });
 
-            modelBuilder.Entity("Stroyka.Models.IndexSlider", b =>
+            modelBuilder.Entity("Stroyka.Models.Products.IndexSlider", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -443,7 +469,7 @@ namespace Stroyka.Migrations
                     b.ToTable("IndexSliders");
                 });
 
-            modelBuilder.Entity("Stroyka.Models.Material", b =>
+            modelBuilder.Entity("Stroyka.Models.Products.Material", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -463,7 +489,7 @@ namespace Stroyka.Migrations
                     b.ToTable("Materials");
                 });
 
-            modelBuilder.Entity("Stroyka.Models.MegaCategory", b =>
+            modelBuilder.Entity("Stroyka.Models.Products.MegaCategory", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -487,7 +513,7 @@ namespace Stroyka.Migrations
                     b.ToTable("MegaCategories");
                 });
 
-            modelBuilder.Entity("Stroyka.Models.Product", b =>
+            modelBuilder.Entity("Stroyka.Models.Products.Product", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -541,7 +567,7 @@ namespace Stroyka.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("Stroyka.Models.ProductDetail", b =>
+            modelBuilder.Entity("Stroyka.Models.Products.ProductDetail", b =>
                 {
                     b.Property<int>("Id")
                         .HasColumnType("int");
@@ -566,7 +592,7 @@ namespace Stroyka.Migrations
                     b.ToTable("ProductDetails");
                 });
 
-            modelBuilder.Entity("Stroyka.Models.ProductImage", b =>
+            modelBuilder.Entity("Stroyka.Models.Products.ProductImage", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -587,7 +613,7 @@ namespace Stroyka.Migrations
                     b.ToTable("ProductImages");
                 });
 
-            modelBuilder.Entity("Stroyka.Models.Review", b =>
+            modelBuilder.Entity("Stroyka.Models.Products.Review", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -625,7 +651,7 @@ namespace Stroyka.Migrations
                     b.ToTable("Reviews");
                 });
 
-            modelBuilder.Entity("Stroyka.Models.Status", b =>
+            modelBuilder.Entity("Stroyka.Models.Products.Status", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -645,7 +671,7 @@ namespace Stroyka.Migrations
                     b.ToTable("Statuses");
                 });
 
-            modelBuilder.Entity("Stroyka.Models.SubCategory", b =>
+            modelBuilder.Entity("Stroyka.Models.Products.SubCategory", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -670,7 +696,7 @@ namespace Stroyka.Migrations
                     b.ToTable("SubCategories");
                 });
 
-            modelBuilder.Entity("Stroyka.Models.SubCategoryToProduct", b =>
+            modelBuilder.Entity("Stroyka.Models.Products.SubCategoryToProduct", b =>
                 {
                     b.Property<int>("SubCategoryId")
                         .HasColumnType("int");
@@ -913,9 +939,9 @@ namespace Stroyka.Migrations
                     b.Navigation("BlogCategory");
                 });
 
-            modelBuilder.Entity("Stroyka.Models.Category", b =>
+            modelBuilder.Entity("Stroyka.Models.Products.Category", b =>
                 {
-                    b.HasOne("Stroyka.Models.MegaCategory", "MegaCategory")
+                    b.HasOne("Stroyka.Models.Products.MegaCategory", "MegaCategory")
                         .WithMany("Categories")
                         .HasForeignKey("MegaCategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -924,15 +950,15 @@ namespace Stroyka.Migrations
                     b.Navigation("MegaCategory");
                 });
 
-            modelBuilder.Entity("Stroyka.Models.ColorToProductDetail", b =>
+            modelBuilder.Entity("Stroyka.Models.Products.ColorToProductDetail", b =>
                 {
-                    b.HasOne("Stroyka.Models.Color", "Color")
+                    b.HasOne("Stroyka.Models.Products.Color", "Color")
                         .WithMany("ColorToProductDetails")
                         .HasForeignKey("ColorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Stroyka.Models.ProductDetail", "ProductDetail")
+                    b.HasOne("Stroyka.Models.Products.ProductDetail", "ProductDetail")
                         .WithMany("ColorToProductDetails")
                         .HasForeignKey("ProductDetailId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -943,21 +969,21 @@ namespace Stroyka.Migrations
                     b.Navigation("ProductDetail");
                 });
 
-            modelBuilder.Entity("Stroyka.Models.Product", b =>
+            modelBuilder.Entity("Stroyka.Models.Products.Product", b =>
                 {
-                    b.HasOne("Stroyka.Models.Brand", "Brand")
+                    b.HasOne("Stroyka.Models.Products.Brand", "Brand")
                         .WithMany("Products")
                         .HasForeignKey("BrandId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Stroyka.Models.Material", "Material")
+                    b.HasOne("Stroyka.Models.Products.Material", "Material")
                         .WithMany("Products")
                         .HasForeignKey("MaterialId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Stroyka.Models.Status", "Status")
+                    b.HasOne("Stroyka.Models.Products.Status", "Status")
                         .WithMany("Products")
                         .HasForeignKey("StatusId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -970,20 +996,20 @@ namespace Stroyka.Migrations
                     b.Navigation("Status");
                 });
 
-            modelBuilder.Entity("Stroyka.Models.ProductDetail", b =>
+            modelBuilder.Entity("Stroyka.Models.Products.ProductDetail", b =>
                 {
-                    b.HasOne("Stroyka.Models.Product", "Product")
+                    b.HasOne("Stroyka.Models.Products.Product", "Product")
                         .WithOne("ProductDetail")
-                        .HasForeignKey("Stroyka.Models.ProductDetail", "Id")
+                        .HasForeignKey("Stroyka.Models.Products.ProductDetail", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("Stroyka.Models.ProductImage", b =>
+            modelBuilder.Entity("Stroyka.Models.Products.ProductImage", b =>
                 {
-                    b.HasOne("Stroyka.Models.ProductDetail", "ProductDetail")
+                    b.HasOne("Stroyka.Models.Products.ProductDetail", "ProductDetail")
                         .WithMany()
                         .HasForeignKey("ProductDetailId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -992,13 +1018,13 @@ namespace Stroyka.Migrations
                     b.Navigation("ProductDetail");
                 });
 
-            modelBuilder.Entity("Stroyka.Models.Review", b =>
+            modelBuilder.Entity("Stroyka.Models.Products.Review", b =>
                 {
-                    b.HasOne("Stroyka.Models.Review", "Parent")
+                    b.HasOne("Stroyka.Models.Products.Review", "Parent")
                         .WithMany()
                         .HasForeignKey("ParentId");
 
-                    b.HasOne("Stroyka.Models.Product", "Product")
+                    b.HasOne("Stroyka.Models.Products.Product", "Product")
                         .WithMany("Reviews")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1017,9 +1043,9 @@ namespace Stroyka.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Stroyka.Models.SubCategory", b =>
+            modelBuilder.Entity("Stroyka.Models.Products.SubCategory", b =>
                 {
-                    b.HasOne("Stroyka.Models.Category", "Category")
+                    b.HasOne("Stroyka.Models.Products.Category", "Category")
                         .WithMany("SubCategories")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1028,15 +1054,15 @@ namespace Stroyka.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("Stroyka.Models.SubCategoryToProduct", b =>
+            modelBuilder.Entity("Stroyka.Models.Products.SubCategoryToProduct", b =>
                 {
-                    b.HasOne("Stroyka.Models.Product", "Product")
+                    b.HasOne("Stroyka.Models.Products.Product", "Product")
                         .WithMany("SubCategoryToProducts")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Stroyka.Models.SubCategory", "SubCategory")
+                    b.HasOne("Stroyka.Models.Products.SubCategory", "SubCategory")
                         .WithMany("SubCategoryToProducts")
                         .HasForeignKey("SubCategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1068,32 +1094,32 @@ namespace Stroyka.Migrations
                     b.Navigation("BlogToTags");
                 });
 
-            modelBuilder.Entity("Stroyka.Models.Brand", b =>
+            modelBuilder.Entity("Stroyka.Models.Products.Brand", b =>
                 {
                     b.Navigation("Products");
                 });
 
-            modelBuilder.Entity("Stroyka.Models.Category", b =>
+            modelBuilder.Entity("Stroyka.Models.Products.Category", b =>
                 {
                     b.Navigation("SubCategories");
                 });
 
-            modelBuilder.Entity("Stroyka.Models.Color", b =>
+            modelBuilder.Entity("Stroyka.Models.Products.Color", b =>
                 {
                     b.Navigation("ColorToProductDetails");
                 });
 
-            modelBuilder.Entity("Stroyka.Models.Material", b =>
+            modelBuilder.Entity("Stroyka.Models.Products.Material", b =>
                 {
                     b.Navigation("Products");
                 });
 
-            modelBuilder.Entity("Stroyka.Models.MegaCategory", b =>
+            modelBuilder.Entity("Stroyka.Models.Products.MegaCategory", b =>
                 {
                     b.Navigation("Categories");
                 });
 
-            modelBuilder.Entity("Stroyka.Models.Product", b =>
+            modelBuilder.Entity("Stroyka.Models.Products.Product", b =>
                 {
                     b.Navigation("ProductDetail");
 
@@ -1102,17 +1128,17 @@ namespace Stroyka.Migrations
                     b.Navigation("SubCategoryToProducts");
                 });
 
-            modelBuilder.Entity("Stroyka.Models.ProductDetail", b =>
+            modelBuilder.Entity("Stroyka.Models.Products.ProductDetail", b =>
                 {
                     b.Navigation("ColorToProductDetails");
                 });
 
-            modelBuilder.Entity("Stroyka.Models.Status", b =>
+            modelBuilder.Entity("Stroyka.Models.Products.Status", b =>
                 {
                     b.Navigation("Products");
                 });
 
-            modelBuilder.Entity("Stroyka.Models.SubCategory", b =>
+            modelBuilder.Entity("Stroyka.Models.Products.SubCategory", b =>
                 {
                     b.Navigation("SubCategoryToProducts");
                 });

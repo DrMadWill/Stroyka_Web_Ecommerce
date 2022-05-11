@@ -3,6 +3,7 @@
 
 using Stroyka.Models;
 using Stroyka.Models.Blogs;
+using Stroyka.Models.Products;
 using System.Collections.Generic;
 
 namespace Stroyka.Extensions

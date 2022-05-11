@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Stroyka.Data;
 using Stroyka.Extensions;
-using Stroyka.Models;
 using Stroyka.Models.Blogs;
-using Stroyka.Models.Users;
+using Stroyka.Models.Commoun;
 using Stroyka.ViewModels;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 
@@ -116,7 +117,7 @@ namespace Stroyka.Controllers
                 .OrderByDescending(x => x.Date)
                 .AsNoTracking().AsQueryable();
 
-            var blogs = await PaginationList<Blog>.CreateAsync(blogsQuery, page ?? 1, 5, "/BlogAsistant/BlogListByKeyword/" + id.ToString());
+            var blogs = await PaginationList<Blog>.CreateAsync(blogsQuery, page ?? 1, 15, "/BlogAsistant/BlogListByKeyword/" + id.ToString());
 
             BlogListByKeywordVM blogListByKeyword = new()
             {
@@ -127,5 +128,23 @@ namespace Stroyka.Controllers
             return View(blogListByKeyword);
         }
 
+        // Blog Subscribe  GET
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<JsonResult> BlogSubscribe(string email)
+        {
+            email = email.Trim();
+            var resault = Regex.IsMatch(email, @"^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$");
+            if (!resault) return Json(new { status = 422 });// Is Not Vaild
+
+            // IsAlready Added
+            var emailDb = await _dbContext.EmailForSubscribes.FirstOrDefaultAsync(dr => dr.Email.ToLower() == email.ToLower());
+            if (emailDb != null) return Json(new { status = 409 });// DataBase Conflict
+
+            EmailForSubscribe  newEmailForSubscribe = new() { Email = email,IsBlog=true,IsProduct=false };
+            await _dbContext.EmailForSubscribes.AddAsync(newEmailForSubscribe);
+            await _dbContext.SaveChangesAsync();
+            return Json(new { status = 201});
+        }
     }
 }

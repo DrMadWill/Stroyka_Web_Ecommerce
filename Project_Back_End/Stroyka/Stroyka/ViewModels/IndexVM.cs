@@ -1,8 +1,5 @@
-﻿using Stroyka.Models;
-using System;
+﻿using Stroyka.Models.Products;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Stroyka.ViewModels
 {

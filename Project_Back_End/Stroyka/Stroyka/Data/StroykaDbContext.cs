@@ -1,19 +1,17 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Stroyka.Models.Blogs;
+using Stroyka.Models.Commoun;
+using Stroyka.Models.Products;
 using Stroyka.Models.Users;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace Stroyka.Models
+namespace Stroyka.Data
 {
     public class StroykaDbContext: IdentityDbContext<User>
     {
 
         public StroykaDbContext(DbContextOptions<StroykaDbContext> options):base(options){}
-
+        // Using Praduct Class
         #region Product
         public DbSet<Status> Statuses { get; set; }
         public DbSet<Brand> Brands { get; set; }
@@ -21,8 +19,8 @@ namespace Stroyka.Models
         public DbSet<Product> Products { get; set; }
         public DbSet<IndexSlider> IndexSliders { get; set; }
         public DbSet<Color> Colors { get; set; }
-        public DbSet<Category> Categories { get; set; }
-        public DbSet<SubCategory> SubCategories { get; set; }
+        public DbSet<Models.Products.Category> Categories { get; set; }
+        public DbSet<Models.Products.SubCategory> SubCategories { get; set; }
         public DbSet<SubCategoryToProduct> SubCategoryToProducts { get; set; }
         public DbSet<ColorToProductDetail> ColorToProductDetails { get; set; }
         public DbSet<Review> Reviews { get; set; }
@@ -31,20 +29,25 @@ namespace Stroyka.Models
         public DbSet<ProductImage> ProductImages { get; set; }
         #endregion
 
+        // Using Blog Class
         #region Blog
         public DbSet<Blog> Blogs { get; set; }
-        public DbSet<Blogs.Category> BlogCategories { get; set; }
-        public DbSet<Blogs.SubCategory> BlogSubCategories { get; set; }
+        public DbSet<Models.Blogs.Category> BlogCategories { get; set; }
+        public DbSet<Models.Blogs.SubCategory> BlogSubCategories { get; set; }
         public DbSet<BlogToTag> BlogToTags { get; set; }
         public DbSet<Detail> BlogDetails { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Tag> BlogTags { get; set; }
         #endregion
 
+        // Using Commoun Class
+        #region Commoun
+        public DbSet<EmailForSubscribe> EmailForSubscribes { get; set; }
+
+        #endregion
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
 
             #region Product
             // Is Unique
@@ -64,11 +67,11 @@ namespace Stroyka.Models
                 .HasIndex(x => x.Name)
                 .IsUnique();
 
-            modelBuilder.Entity<SubCategory>()
+            modelBuilder.Entity<Models.Products.SubCategory>()
                 .HasIndex(x => x.Name)
                 .IsUnique();
 
-            modelBuilder.Entity<Category>()
+            modelBuilder.Entity<Models.Products.Category>()
                 .HasIndex(x => x.Name)
                 .IsUnique();
 
@@ -123,7 +126,7 @@ namespace Stroyka.Models
                .HasDefaultValueSql("getdate()");
 
             //Unique Key
-            modelBuilder.Entity<Blogs.Category>()
+            modelBuilder.Entity<Models.Blogs.Category>()
                 .HasIndex(u => u.Name)
                 .IsUnique();
 
@@ -146,6 +149,13 @@ namespace Stroyka.Models
                 .WithMany(y => y.BlogToTags)
                 .HasForeignKey(fk => fk.BlogId);
             #endregion
+
+            #region Commoun
+            modelBuilder.Entity<EmailForSubscribe>()
+                .HasIndex(e => e.Email)
+                .IsUnique();
+            #endregion
+
         }
 
     }

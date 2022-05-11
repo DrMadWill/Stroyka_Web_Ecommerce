@@ -37,8 +37,8 @@
                         </h1>
                         <div class="post-header__meta">
                             <div class="post-header__meta-item">By <a href="#">@Model.Blog.User.FullName</a></div>
-                            <div class="post-header__meta-item"><a href="#">@Model.Blog.Date.ToString("M"), @Model.Blog.Date.Year</a></div>
-                            <div class="post-header__meta-item"><a href="#">@Model.CommentCount Comments</a></div>
+                            <div class="post-header__meta-item">@Model.Blog.Date.ToString("M"), @Model.Blog.Date.Year</div>
+                            <div class="post-header__meta-item"><a href="#comment_header">@Model.CommentCount Comments</a></div>
                         </div>
                     </div>
                     <div class="post__featured"><a href="~/images/posts/@Model.Blog.Image"><img src="~/images/posts/@Model.Blog.Image" alt=""></a></div>
@@ -85,7 +85,7 @@
                         @await Component.InvokeAsync("RelatedBlog",Model.Blog.CategoryId)
                     </section>
                     <section class="post__section">
-                        <h4 class="post__section-title">Comments (@Model.CommentCount)</h4>
+                        <h4 id="comment_header" class="post__section-title">Comments (@Model.CommentCount)</h4>
                         <ol class="comments-list comments-list--level--0">
 
                             @foreach (var item in Model.Comments)

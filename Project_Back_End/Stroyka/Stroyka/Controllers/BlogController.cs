@@ -19,13 +19,17 @@ namespace Stroyka.Controllers
         private readonly StroykaDbContext _dbContext;
         private readonly UserManager<User> userManager;
         private readonly RoleManager<IdentityRole> roleManager;
-
-        public BlogController(StroykaDbContext dbContext, UserManager<User> _userManager, RoleManager<IdentityRole> _roleManager)
+        private readonly SignInManager<User> _signInManager ;
+        public BlogController(StroykaDbContext dbContext, UserManager<User> _userManager, RoleManager<IdentityRole> _roleManager, SignInManager<User> signInManager)
         {
             _dbContext = dbContext;
             userManager = _userManager;
             roleManager = _roleManager;
+            _signInManager = signInManager;
         }
+
+
+        
 
         // Grid Blog List Page
         [HttpGet]
@@ -57,13 +61,13 @@ namespace Stroyka.Controllers
                 Blog = blog,
                 Tags = await _dbContext.BlogToTags
                 .Where(dr => dr.BlogId == blog.Id).Select(x => x.Tag).ToListAsync(),
-                Comments = await _dbContext.Comments
+                Comments = await _dbContext.BlogComments
                 .Where(dr=>dr.BlogId == blog.Id && dr.ParentId == null)
                 .Include(x=>x.User)
                 .OrderBy(x=>x.Date)
                 .Take(5)
                 .ToListAsync(),
-                CommentCount = await _dbContext.Comments.Where(dr => dr.BlogId == blog.Id).CountAsync()
+                CommentCount = await _dbContext.BlogComments.Where(dr => dr.BlogId == blog.Id).CountAsync()
             };
 
             return View(blogVM);

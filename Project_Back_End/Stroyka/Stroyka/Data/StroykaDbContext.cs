@@ -36,7 +36,7 @@ namespace Stroyka.Data
         public DbSet<Models.Blogs.SubCategory> BlogSubCategories { get; set; }
         public DbSet<BlogToTag> BlogToTags { get; set; }
         public DbSet<Detail> BlogDetails { get; set; }
-        public DbSet<Comment> Comments { get; set; }
+        public DbSet<Comment> BlogComments { get; set; }
         public DbSet<Tag> BlogTags { get; set; }
         #endregion
 

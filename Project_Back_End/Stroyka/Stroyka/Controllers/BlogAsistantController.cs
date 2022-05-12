@@ -49,6 +49,7 @@ namespace Stroyka.Controllers
         [HttpGet]
         public async Task<IActionResult> BlogListBySubCategory(int? id, int? page)
         {
+            
             if (id == null) return NotFound();
             var subCategory = await _dbContext.BlogSubCategories
                 .Include(x=>x.BlogCategory)
@@ -130,17 +131,19 @@ namespace Stroyka.Controllers
 
         // Blog Subscribe  GET
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public async Task<JsonResult> BlogSubscribe(string email)
         {
+            // Validator
             email = email.Trim();
             var resault = Regex.IsMatch(email, @"^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$");
             if (!resault) return Json(new { status = 422 });// Is Not Vaild
 
-            // IsAlready Added
+            // Database Chack : IsAlready Added
             var emailDb = await _dbContext.EmailForSubscribes.FirstOrDefaultAsync(dr => dr.Email.ToLower() == email.ToLower());
             if (emailDb != null) return Json(new { status = 409 });// DataBase Conflict
-
+            
+            // Creeate New DataBase
             EmailForSubscribe  newEmailForSubscribe = new() { Email = email,IsBlog=true,IsProduct=false };
             await _dbContext.EmailForSubscribes.AddAsync(newEmailForSubscribe);
             await _dbContext.SaveChangesAsync();

@@ -7,14 +7,14 @@
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
-                            <a href="/Home/Index">Home</a>
+                            <a asp-controller="Home" asp-action="Index">Home</a>
                             <svg class="breadcrumb-arrow"
                                  width="6px" height="9px">
                                 <use xlink:href="/images/sprite.svg#arrow-rounded-right-6x9"></use>
                             </svg>
                         </li>
                         <li class="breadcrumb-item">
-                            <a href="/Blog/Index">Blog</a>
+                            <a asp-controller="Blog" asp-action="Index">Blog</a>
                             <svg class="breadcrumb-arrow"
                                  width="6px" height="9px">
                                 <use xlink:href="/images/sprite.svg#arrow-rounded-right-6x9"></use>
@@ -51,7 +51,7 @@
                                 <div class="tags__list">
                                     @foreach (var item in Model.Tags)
                                     {
-                                        <a href="/BlogAsistant/BlogListByTag/@item.Id">@item.Name</a>
+                                        <a asp-controller="BlogFilter" asp-action="BlogListByTag" asp-route-id="@item.Id" >@item.Name</a>
                                     }
                                 </div>
                             </div>

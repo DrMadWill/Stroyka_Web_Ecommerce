@@ -4757,7 +4757,7 @@
                 e.preventDefault();
                 let id = $(e.currentTarget).attr("data-id");
                 $.ajax({
-                    url: `/AsistantProduct/NewArrivals/${id}`,
+                    url: `/ProductAsistant/NewArrivals/${id}`,
                     type: 'GET',
                     success: (response) => {
                         if (response.hasOwnProperty('status') && response.status === 404) {

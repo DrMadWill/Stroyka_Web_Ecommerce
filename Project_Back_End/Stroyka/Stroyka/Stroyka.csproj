@@ -21,4 +21,8 @@
     <PackageReference Include="MimeKit" Version="3.2.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\BlogAsistant\" />
+  </ItemGroup>
+
 </Project>

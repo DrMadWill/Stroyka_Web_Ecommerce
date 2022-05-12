@@ -9,23 +9,24 @@
                 <div class="posts-list__item">
                     <div class="post-card post-card--layout--list post-card--size--nl">
                         <div class="post-card__image">
-                            <a href="/Blog/Single/@item.Id">
+                            <a asp-controller="Blog" asp-action="Single" asp-route-id="@item.Id">
                                 <img src="~/images/posts/@item.Image" alt="">
                             </a>
                         </div>
                         <div class="post-card__info">
                             <div class="post-card__category">
-                                <a href="/BlogAsistant/BlogListByCategory/@item.Category.Id">@item.Category.Name</a>
+                                <a asp-controller="BlogFilter" asp-action="BlogListByCategory" asp-route-id="@item.Category.Id">@item.Category.Name</a>
                             </div>
                             <div class="post-card__name">
-                                <a href="/Blog/Single/@item.Id">@item.Title</a>
+                                <a asp-controller="Blog" asp-action="Single" asp-route-id="@item.Id">@item.Title</a>
                             </div>
                             <div class="post-card__date">
                                 @item.Date.ToString("M"),@item.Date.Year
                             </div>
                             <div class="post-card__content">@item.PreviewDescription</div>
                             <div class="post-card__read-more">
-                                <a href="/Blog/Single/@item.Id"
+
+                               <a asp-controller="Blog" asp-action="Single" asp-route-id="@item.Id"
                                class="btn btn-secondary btn-sm">Read More</a>
                             </div>
                         </div>

@@ -31,14 +31,14 @@
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
-                            <a href="index.html">Home</a>
+                            <a href="/">Home</a>
                             <svg class="breadcrumb-arrow"
                                  width="6px" height="9px">
                                 <use xlink:href="/images/sprite.svg#arrow-rounded-right-6x9"></use>
                             </svg>
                         </li>
                         <li class="breadcrumb-item">
-                            <a href="#">Blogs</a>
+                            <a asp-controller="Blog" asp-action="Index">Blogs</a>
                             <svg class="breadcrumb-arrow"
                                  width="6px" height="9px">
                                 <use xlink:href="/images/sprite.svg#arrow-rounded-right-6x9"></use>
@@ -65,22 +65,22 @@
                                     <div class="posts-list__item">
                                         <div class="post-card post-card--layout--grid post-card--size--nl">
                                             <div class="post-card__image">
-                                                <a href="/Blog/Single/@item.Id">
+                                                <a asp-controller="Blog" asp-action="Single" asp-route-id="@item.Id">
                                                     <img src="~/images/posts/@item.Image" alt="">
                                                 </a>
                                             </div>
                                             <div class="post-card__info">
                                                 <div class="post-card__name">
-                                                    <a href="/Blog/Single/@item.Id">@item.Title</a>
+                                                    <a asp-controller="Blog" asp-action="Single" asp-route-id="@item.Id">@item.Title</a>
                                                 </div>
                                                 <div class="post-card__date">
-                                                    <a href="/BlogAsistant/BlogListByCategory/@item.Category.Id" class="blogColor">@item.Category.Name</a> 
+                                                    <a asp-controller="BlogFilter" asp-action="BlogListByCategory" asp-route-id="@item.Category.Id" class="blogColor">@item.Category.Name</a> 
                                                     <div class="point"></div>
                                                     @item.Date.ToString("M"),@item.Date.Year
                                                 </div>
                                                 <div class="post-card__content">@item.PreviewDescription</div>
                                                 <div class="post-card__read-more">
-                                                    <a href="#"
+                                                    <a asp-controller="Blog" asp-action="Single" asp-route-id="@item.Id"
                                                    class="btn btn-secondary btn-sm">Read More</a>
                                                 </div>
                                             </div>

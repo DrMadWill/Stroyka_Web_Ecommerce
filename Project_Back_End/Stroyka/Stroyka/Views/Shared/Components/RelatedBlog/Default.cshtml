@@ -4,26 +4,26 @@
 <div class="related-posts">
     <div class="related-posts__list">
         @foreach (var item in Model)
-       {
-           <div class="related-posts__item post-card post-card--layout--related">
-            <div class="post-card__image">
-                <a href="/BLog/Single/@item.Id">
-                    <img src="~/images/posts/@item.Image"
+        {
+            <div class="related-posts__item post-card post-card--layout--related">
+                <div class="post-card__image">
+                    <a asp-controller="BLog" asp-action="Single" asp-route-id="@item.Id">
+                        <img src="~/images/posts/@item.Image"
                          alt="">
-                </a>
-            </div>
-            <div class="post-card__info">
-                <div class="post-card__name">
-                    <a href="/BLog/Single/@item.Id">
-                        @item.Title
                     </a>
                 </div>
-                <div class="post-card__date">@item.Date.ToString("M"), @item.Date.Year</div>
+                <div class="post-card__info">
+                    <div class="post-card__name">
+                        <a asp-controller="BLog" asp-action="Single" asp-route-id="@item.Id">
+                            @item.Title
+                        </a>
+                    </div>
+                    <div class="post-card__date">@item.Date.ToString("M"), @item.Date.Year</div>
+                </div>
             </div>
-        </div>
-       }
+        }
 
-        
+
     </div>
 </div>
 

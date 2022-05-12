@@ -14,13 +14,14 @@ using System.Threading.Tasks;
 
 namespace Stroyka.Controllers
 {
-    public class AsistantProductController : Controller
+    public class ProductAsistantController : Controller
     {
         private readonly StroykaDbContext _dbContext;
-        public AsistantProductController( StroykaDbContext dbContext)
+        public ProductAsistantController( StroykaDbContext dbContext)
         {
             _dbContext = dbContext;
         }
+
         [HttpGet]
         public async Task<JsonResult> NewArrivals(int? id)
         {
@@ -34,5 +35,6 @@ namespace Stroyka.Controllers
                 .ToListAsync();
             return Json(newArrivalsProduct.GenarateNewArrivals());
         }
+
     }
 }

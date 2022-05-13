@@ -148,7 +148,6 @@ namespace Stroyka.Controllers
             return View(sign);
         }
 
-        
 
         [HttpGet]
         public IActionResult ForgetPassword()

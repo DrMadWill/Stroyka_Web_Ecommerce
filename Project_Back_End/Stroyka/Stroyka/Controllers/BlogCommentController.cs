@@ -4,7 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using Stroyka.Data;
 using Stroyka.Models.Blogs;
 using Stroyka.Models.Users;
+using Stroyka.ViewModels;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Stroyka.Controllers
@@ -24,13 +26,13 @@ namespace Stroyka.Controllers
         //[ValidateAntiForgeryToken]
         public async Task<JsonResult> Create(Comment commentu)
         {
-            var userName = User.Identity.Name;
-            if (string.IsNullOrWhiteSpace(userName)) return Json(new
+         
+            if (string.IsNullOrWhiteSpace(User.Identity.Name)) return Json(new
             {
                 status = 403
             });
 
-            var user = await userManager.FindByNameAsync(userName);
+            var user = await userManager.FindByNameAsync(User.Identity.Name);
             if (user == null) return Json(new
             {
                 status = 403
@@ -38,22 +40,22 @@ namespace Stroyka.Controllers
 
             commentu.UserId = user.Id;
 
+
             // Model Validation
             if (!ModelState.IsValid) return Json(new
             {
                 status = 422
             });
-            
+
             // Leave Comment
             if (commentu.ParentId == null)
             {
-                var blog = await _dbContext.Blogs.FirstOrDefaultAsync(dr => dr.Id == commentu.Id);
+                var blog = await _dbContext.Blogs.FirstOrDefaultAsync(dr => dr.Id == commentu.BlogId);
                 if (blog == null) return Json(new
                 {
                     status = 404
                 });
-
-
+                commentu.IsChild = false;
                 commentu.BlogId = blog.Id;
                 commentu.Date = DateTime.Now;
                 commentu.IsBlocked = false;
@@ -167,67 +169,67 @@ namespace Stroyka.Controllers
         //}
 
 
-        //[HttpGet]
-        //public async Task<JsonResult> GetMoreComment(int? blogId, int? commentSectionIndex)
-        //{
+        [HttpGet]
+        public async Task<JsonResult> GetMoreComment(int? blogId, int? commentSectionIndex)
+        {
 
-        //    if (blogId == null) return Json(new { status = 404 });
+            if (blogId == null) return Json(new { status = 404 });
 
-        //    var blog = await dbContext.Blogs.FirstOrDefaultAsync(dr => dr.Id == blogId);
-        //    if (blog == null) return Json(new { status = 404 });
+            var blog = await _dbContext.Blogs.FirstOrDefaultAsync(dr => dr.Id == blogId);
+            if (blog == null) return Json(new { status = 404 });
 
-        //    // DataBase Count 
-        //    int count = await dbContext.Commets.CountAsync();
-        //    // CommentSize
-        //    int commentSize = 5;
+            // DataBase Count 
+            int count = await _dbContext.BlogComments.CountAsync();
+            // CommentSize
+            int commentSize = 5;
 
-        //    int maxSize = (int)Math.Ceiling(count / (double)commentSize);
-        //    if (commentSectionIndex > maxSize) return Json(new { status = 404 });
+            int maxSize = (int)Math.Ceiling(count / (double)commentSize);
+            if (commentSectionIndex > maxSize) return Json(new { status = 404 });
 
-        //    // Defaul Number
-        //    if (commentSectionIndex == 0 || commentSectionIndex < 0) commentSectionIndex = 1;
-        //    int index = commentSectionIndex ?? 1;
-        //    var comments = await dbContext.Commets
-        //        .Where(dr => dr.BlogDetailsId == blog.Id && dr.IsBlocked == false && dr.ParentId == null)
-        //        .Select(x => new
-        //        {
-        //            x.Id,
-        //            x.IsChild,
-        //            x.ParentId,
-        //            x.BlogDetailsId,
-        //            x.Comment,
-        //            x.Date,
-        //            x.HtmlId,
-        //            x.User.UserName,
-        //            x.User.Image
-        //        })
-        //        .Skip(Math.Abs(index - 1) * commentSize).Take(commentSize).ToListAsync();
-        //    return Json(comments);
-        //}
+            // Defaul Number
+            if (commentSectionIndex == 0 || commentSectionIndex < 0) commentSectionIndex = 1;
+            int index = commentSectionIndex ?? 1;
+            var comments = await _dbContext.BlogComments
+                .Where(dr => dr.BlogId == blog.Id && dr.IsBlocked == false && dr.ParentId == null)
+                .Select(x => new
+                {
+                    x.Id,
+                    x.IsChild,
+                    x.ParentId,
+                    x.BlogId,
+                    x.Description,
+                    x.Date,
+                    x.HtmlId,
+                    x.User.UserName,
+                    x.User.Image
+                })
+                .Skip(Math.Abs(index - 1) * commentSize).Take(commentSize).ToListAsync();
+            return Json(comments);
+        }
 
-        //[HttpGet]
-        //public async Task<JsonResult> GetChildComment(int? parentId, int? index)
-        //{
-        //    if (parentId == null && index == null) return Json(new { status = 404 });
-        //    int cIndex = index ?? 1;
+        [HttpGet]
+        public async Task<JsonResult> GetChildComment(int? parentId, int? index)
+        {
+            if (parentId == null && index == null) return Json(new { status = 404 });
+            int cIndex = index ?? 1;
 
-        //    var comments = await dbContext.Commets
-        //        .Where(dr => dr.ParentId == parentId && dr.IsBlocked == false)
-        //        .Select(x => new CommentJVM
-        //        {
-        //            Id = x.Id,
-        //            IsChild = x.IsChild,
-        //            ParentId = x.ParentId,
-        //            BlogDetailsId = x.BlogDetailsId,
-        //            Comment = x.Comment,
-        //            Date = x.Date,
-        //            HtmlId = x.HtmlId,
-        //            UserName = x.User.UserName,
-        //            Image = x.User.Image,
-        //            ParentUserName = x.Parent.User.UserName
-        //        })
-        //        .Skip((cIndex - 1) * 5).Take(5).ToListAsync();
-        //    return Json(comments);
-        //}
+            var comments = await _dbContext.BlogComments
+                .Where(dr => dr.ParentId == parentId && dr.IsBlocked == false)
+                .Select(x => new CommentAjaxVM
+                {
+                    Id = x.Id,
+                    IsChild = x.IsChild,
+                    ParentId = x.ParentId,
+                    BlogId = x.BlogId,
+                    Description = x.Description,
+                    Date = x.Date,
+                    HtmlId = x.HtmlId,
+                    UserName = x.User.UserName,
+                    Image = x.User.Image,
+                    ParentUserName = x.Parent.User.UserName
+                })
+                .Skip((cIndex - 1) * 5).Take(5).ToListAsync();
+            return Json(comments);
+        }
     }
 }

@@ -1,5 +1,32 @@
 ﻿@model BlogVM
 
+<div id="child_comment_modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Replay</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="comment_child_send">
+                    <div class="form-group">
+                        <textarea placeholder="Comment *" class="form-control" id="comment_child_content" rows="6"></textarea>
+                        <span id="error_text_child" class="d-block my-2 text-danger"></span>
+                    </div>
+                    <input type="hidden" id="parent_id" />
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button form="comment_child_send" type="submit" class="btn btn-primary"> Post Comment</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <div class="site__body">
     <div class="page-header">
         <div class="page-header__container container">
@@ -51,7 +78,7 @@
                                 <div class="tags__list">
                                     @foreach (var item in Model.Tags)
                                     {
-                                        <a asp-controller="BlogFilter" asp-action="BlogListByTag" asp-route-id="@item.Id" >@item.Name</a>
+                                        <a asp-controller="BlogFilter" asp-action="BlogListByTag" asp-route-id="@item.Id">@item.Name</a>
                                     }
                                 </div>
                             </div>
@@ -101,8 +128,8 @@
                                             <div class="comment__header">
                                                 <div class="comment__author"><a href="#">@item.User.FullName</a></div>
                                                 <div class="comment__reply">
-                                                    <button type="button"
-                                                        class="btn btn-xs btn-light">
+                                                    <button type="button" class="btn btn_replay btn-xs btn-light"
+                                                        data-id="@item.Id" data-username="@item.User.FullName" data-toggle="modal" data-target="#child_comment_modal">
                                                         Reply
                                                     </button>
                                                 </div>
@@ -125,15 +152,12 @@
                     <section class="post__section">
                         <h4 class="post__section-title">Write A Comment</h4>
                         <form id="comment_send">
-                            @{
-                                string name = User.Identity.Name;
-                            }
                             <div class="form-group">
                                 <textarea placeholder="Comment *" class="form-control" id="comment-content" rows="6"></textarea>
                                 <span id="error_text" class="d-block my-2 text-danger"></span>
                             </div>
-                            <input id="user_name" type="hidden" value="@User.Identity.Name" />                            <input id="blog_id" type="hidden" value="@Model.Blog.Id" />
-                            <input id="blog_id" type="hidden" value="@Model.Blog.Id" />                            <input id="blog_id" type="hidden" value="@Model.Blog.Id" />
+                            <input id="user_name" type="hidden" value="@User.Identity.Name" />
+                            <input id="blog_id" type="hidden" value="@Model.Blog.Id" />
                             <div class="form-group mt-4">
                                 <button type="submit"
                                         class="btn btn-primary btn-lg">
@@ -152,27 +176,18 @@
 </div>
 
 @section script{
+
+@*Leave Create Comment *@
 <script>
     $(document).ready(function () {
            $(document).on('submit', '#comment_send', (e) => {
                e.preventDefault();
-               let Comment = new String($("comment-content").val()).trim()
+               let Comment = $("#comment-content").val()
                let UserName = $("#user_name").val()
-               let id = $("#blog_id").val()
+               let blogid = $("#blog_id").val()
                let errorText = document.querySelector("#error_text")
 
-               if (!Comment || Comment == undefined || Comment == "" || Comment.length == 0) {
-                   errorText.innerHTML = "Please Comment Add"
-                   return;
-               }
-
-               if (Comment.length < 3) {
-                   errorText.innerHTML = "Mimum Comment Character 2"
-                   return;
-               }
-
-               if (UserName.length == 0) {
-                   errorText.innerHTML = "Please Sign In Or Sign Up"
+               if(!CommentValidation(Comment,UserName,errorText)){
                    return;
                }
 
@@ -191,7 +206,7 @@
                        "RequestVerificationToken": $('input[name="__RequestVerificationToken"]').val()
                    },
                    type: 'POST',
-                   data: { UserId: UserName, Comment: Comment, Id: id },
+                   data: { UserId: UserName, Description: Comment, BlogId: blogid },
                    success: (response) => {
                        if (response.hasOwnProperty('status') && response.status === 201) {
                            // Comment Success
@@ -203,7 +218,7 @@
                            )
                            // Reload
                            setTimeout(() => {
-                               location.href = `/Blog/Single/${BlogDetailsId}`;
+                               location.reload();
                            }, 2000)
 
                        } else if (response.status == 403) {
@@ -225,7 +240,108 @@
                })
            })
        })
-
-
 </script>
+
+@*Child Create Comment *@
+<script>
+    $(document).ready(function () {
+           $(document).on('submit', '#child_comment_modal', (e) => {
+               e.preventDefault();
+               let Comment = $("#comment_child_content").val()
+               let UserName = $("#user_name").val()
+               let blogid = $("#blog_id").val()
+               let parentId = $("#parent_id").val()
+               let errorText = document.querySelector("#error_text_child")
+               
+               if(!CommentValidation(Comment,UserName,errorText)){
+                   return;
+               }
+             
+               let wait = Swal.fire({
+                   title: 'Give me a second.',
+                   text: '"',
+                   imageUrl: 'https://media.giphy.com/media/xTkcEQACH24SMPxIQg/giphy.gif',
+                   imageWidth: 400,
+                   imageHeight: 350,
+                   imageAlt: 'Loading',
+               })
+
+               $.ajax({
+                   url: '/BlogComment/Create',
+                   headers: {
+                       "RequestVerificationToken": $('input[name="__RequestVerificationToken"]').val()
+                   },
+                   type: 'POST',
+                   data: { UserId: UserName, Description: Comment, BlogId: blogid,ParentId:parentId},
+                   success: (response) => {
+                       if (response.hasOwnProperty('status') && response.status === 201) {
+                           // Comment Success
+                           wait.close()
+                           Swal.fire(
+                               'Comment Accept',
+                               '',
+                               'success'
+                           )
+                           // Reload
+                           setTimeout(() => {
+                               location.reload();
+                           }, 2000)
+
+                       } else if (response.status == 403) {
+                           wait.close()
+                           Swal.fire(
+                               'Plase Sign In',
+                               '',
+                               'error'
+                           )
+                       } else {
+                           wait.close()
+                           Swal.fire(
+                               'Not Added',
+                               '',
+                               'error'
+                           )
+                       }
+                   }
+               })
+           })
+       })
+</script>
+
+@*See More Answer*@
+
+@*Replay Click Event*@
+<script>
+     $(document).ready(function () {
+         $(document).on("click",".btn_replay",(e)=>{
+             let userName = $(e.currentTarget).attr("data-username");
+             let parentId = $(e.currentTarget).attr("data-id");
+             $("#parent_id").attr("value",parentId)
+             $(".modal-title").text(userName +" Replay")
+         });
+     });
+</script>
+
+@*Comment Validation*@
+<script>
+    function CommentValidation(Comment,UserName,errorText){
+        if (!Comment || Comment == undefined || Comment == "" || Comment.length == 0) {
+            errorText.innerHTML = "Please Comment Add"
+            return false;
+        }
+
+        if (Comment.length < 3) {
+            errorText.innerHTML = "Mimum Comment Character 2"
+            return false;
+        }
+
+        if (UserName.length == 0) {
+            errorText.innerHTML = "Please Sign In Or Sign Up"
+            return false;
+        }
+        return true;
+    }
+</script>
+
+
 }

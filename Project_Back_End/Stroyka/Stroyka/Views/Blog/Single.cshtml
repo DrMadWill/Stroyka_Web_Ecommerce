@@ -142,8 +142,10 @@
                                     </div>
                                     @if (item.IsChild)
                                     {
-                                        <button class="btn float-right btn-primary">See More Answer</button>
-                                        <div class="clearfix"></div>
+                                        <div>
+                                            <button data-id="@item.Id" data-index="1" class="btn float-right btn_see_more_answer btn-primary">See More Answer</button>
+                                            <div class="clearfix"></div>
+                                        </div>
                                     }
                                 </li>
                             }
@@ -252,11 +254,11 @@
                let blogid = $("#blog_id").val()
                let parentId = $("#parent_id").val()
                let errorText = document.querySelector("#error_text_child")
-               
+
                if(!CommentValidation(Comment,UserName,errorText)){
                    return;
                }
-             
+
                let wait = Swal.fire({
                    title: 'Give me a second.',
                    text: '"',
@@ -309,17 +311,89 @@
 </script>
 
 @*See More Answer*@
+<script>
+    $(document).ready(function () {
+        $(document).on("click",".btn_see_more_answer",(e)=>{
+            let btn = e.currentTarget;
+            let parentId = $(btn).attr("data-id");
+            let index = $(btn).attr("data-index");
+            console.log(parentId,index)
+            $.ajax({
+                  url: '/BlogComment/GetChildComment',
+                  type: 'GET',
+                  data: { parentId:parentId,index:index },
+                  success: (response) => {
+                      if(response.hasOwnProperty('status') && response.status === 404) {
+                          // Comment Success
+
+                          Swal.fire(
+                              'Not Found More Comment',
+                              '',
+                              'error'
+                          );
+                      }else{
+
+                          GenerateChildComment(response,btn.parentElement)
+                      }
+                  }
+              });
+        });
+    });
+</script>
+@* Child Comment Genreate*@
+<script>
+    function GenerateChildComment(childCommentList,Container){
+        var options = { year: 'numeric', month: 'long', day: 'numeric' };
+
+        let ol = document.createElement("ol")
+        $(ol).attr("class","comments-list comments-list--level--1")
+
+        childCommentList.forEach(e=>{
+            let li = document.createElement("li")
+            $(li).attr("class","comments-list__item")
+            let date = e.date.toLocaleDateString("en-US", options))
+            let html = `
+                <div class="comment">
+                    <div class="comment__avatar"><a href="#">
+                        <img src="/images/avatars/${e.image}" alt=""></a>
+                     </div>
+                    <div class="comment__content">
+                        <div class="comment__header">
+                            <div class="comment__author">
+                                <a href="#">${e.userName}</a>
+                            </div>
+                            <div class="comment__reply">
+                                <button type="button" class="btn btn-xs btn-light">Reply</button>
+                            </div>
+                        </div>
+                        <div class="comment__text">
+                           ${e.description}
+                        </div>
+                        <div class="comment__date">${date}</div>
+                    </div>
+                </div>
+            `
+            $(li).html(html)
+            ol.appendChild(li);
+        });
+        let div = document.createElement("div")
+        $(div).attr("comment-list__children")
+        div.appendChild(ol)
+        insertAfter(div,Container)
+    };
+
+</script>
 
 @*Replay Click Event*@
 <script>
-     $(document).ready(function () {
-         $(document).on("click",".btn_replay",(e)=>{
-             let userName = $(e.currentTarget).attr("data-username");
-             let parentId = $(e.currentTarget).attr("data-id");
-             $("#parent_id").attr("value",parentId)
-             $(".modal-title").text(userName +" Replay")
-         });
-     });
+    $(document).ready(function () {
+        $(document).on("click",".btn_replay",(e)=>{
+            let userName = $(e.currentTarget).attr("data-username");
+            let parentId = $(e.currentTarget).attr("data-id");
+            $("#parent_id").attr("value",parentId)
+            $(".modal-title").text(userName +" Replay")
+        });
+    });
 </script>
 
 @*Comment Validation*@
@@ -343,5 +417,11 @@
     }
 </script>
 
+@*Before Insert*@
+<script>
+        function insertAfter(newNode, existingNode) {
+            existingNode.parentNode.insertBefore(newNode, existingNode.nextSibling);
+        }
+    </script>
 
 }

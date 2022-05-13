@@ -1,4 +1,13 @@
-﻿<!DOCTYPE html>
+﻿@inject Microsoft.AspNetCore.Identity.UserManager<User> _userManager;
+
+@{
+    User user = null;
+    if (User.Identity.IsAuthenticated)
+    {
+        user = await _userManager.FindByNameAsync(User.Identity.Name);
+    }
+}
+<!DOCTYPE html>
 <html lang="en" dir="ltr">
 
 <head>
@@ -21,7 +30,7 @@
     <script src="~/vendor/svg4everybody-2.1.9/svg4everybody.min.js"></script>
     <!--  -->
     <link href="//cdn.jsdelivr.net/npm/@("@sweetalert2")/theme-dark@4/dark.css" rel="stylesheet">
-    
+
     <script>
         svg4everybody();
     </script><!-- font - fontawesome -->
@@ -635,10 +644,21 @@
                                     <div class="topbar-dropdown__body">
                                         <!-- .menu -->
                                         <ul class="menu menu--layout--topbar">
-                                            <li><a href="account.html">Login</a></li>
-                                            <li><a href="account.html">Register</a></li>
-                                            <li><a href="#">Orders</a></li>
-                                            <li><a href="#">Addresses</a></li>
+                                            @if (user != null)
+                                            {
+                                               
+                                                <li><a href="#">Orders</a></li>
+                                                <li><a href="#">Addresses</a></li>
+                                                 <li><a asp-controller="Account" asp-action="LogOut">Logout </a></li>
+                                            }
+                                            else
+                                            {
+                                                <li><a asp-controller="Account" asp-action="Login">Login</a></li>
+                                                <li><a asp-controller="Account" asp-action="Register">Register</a></li>
+                                            }
+
+
+
                                         </ul><!-- .menu / end -->
                                     </div>
                                 </div>
@@ -764,8 +784,9 @@
                                         <li class="nav-links__item nav-links__item--with-submenu">
                                             <a href="index.html">
                                                 <span>
-                                                    Home <svg class="nav-links__arrow" width="9px"
-                                                              height="6px">
+                                                    Home
+                                                    <svg class="nav-links__arrow" width="9px"
+                                                         height="6px">
                                                         <use xlink:href="/images/sprite.svg#arrow-rounded-down-9x6">
                                                         </use>
                                                     </svg>
@@ -782,8 +803,9 @@
                                         <li class="nav-links__item nav-links__item--with-submenu">
                                             <a href="#">
                                                 <span>
-                                                    Megamenu <svg class="nav-links__arrow" width="9px"
-                                                                  height="6px">
+                                                    Megamenu
+                                                    <svg class="nav-links__arrow" width="9px"
+                                                         height="6px">
                                                         <use xlink:href="/images/sprite.svg#arrow-rounded-down-9x6">
                                                         </use>
                                                     </svg>
@@ -918,7 +940,8 @@
                                         <li class="nav-links__item nav-links__item--with-submenu">
                                             <a href="shop-grid-3-columns-sidebar.html">
                                                 <span>
-                                                    Shop <svg class="nav-links__arrow" width="9px" height="6px">
+                                                    Shop
+                                                    <svg class="nav-links__arrow" width="9px" height="6px">
                                                         <use xlink:href="/images/sprite.svg#arrow-rounded-down-9x6">
                                                         </use>
                                                     </svg>
@@ -929,7 +952,8 @@
                                                 <ul class="menu menu--layout--classic">
                                                     <li>
                                                         <a href="shop-grid-3-columns-sidebar.html">
-                                                            Shop Grid <svg class="menu__arrow" width="6px" height="9px">
+                                                            Shop Grid
+                                                            <svg class="menu__arrow" width="6px" height="9px">
                                                                 <use xlink:href="/images/sprite.svg#arrow-rounded-right-6x9">
                                                                 </use>
                                                             </svg>
@@ -962,8 +986,9 @@
                                                     <li><a href="shop-right-sidebar.html">Shop Right Sidebar</a></li>
                                                     <li>
                                                         <a href="product.html">
-                                                            Product <svg class="menu__arrow"
-                                                                         width="6px" height="9px">
+                                                            Product
+                                                            <svg class="menu__arrow"
+                                                                 width="6px" height="9px">
                                                                 <use xlink:href="/images/sprite.svg#arrow-rounded-right-6x9">
                                                                 </use>
                                                             </svg>
@@ -991,8 +1016,9 @@
                                         <li class="nav-links__item nav-links__item--with-submenu">
                                             <a href="/Blog/Index">
                                                 <span>
-                                                    Blog <svg class="nav-links__arrow"
-                                                              width="9px" height="6px">
+                                                    Blog
+                                                    <svg class="nav-links__arrow"
+                                                         width="9px" height="6px">
                                                         <use xlink:href="/images/sprite.svg#arrow-rounded-down-9x6">
                                                         </use>
                                                     </svg>
@@ -1015,8 +1041,9 @@
                                         <li class="nav-links__item nav-links__item--with-submenu">
                                             <a href="#">
                                                 <span>
-                                                    Pages <svg class="nav-links__arrow" width="9px"
-                                                               height="6px">
+                                                    Pages
+                                                    <svg class="nav-links__arrow" width="9px"
+                                                         height="6px">
                                                         <use xlink:href="/images/sprite.svg#arrow-rounded-down-9x6">
                                                         </use>
                                                     </svg>
@@ -1184,8 +1211,6 @@
                 </div>
             </div>
         </header><!-- desktop site__header / end -->
-
-
         @RenderBody()
 
         <footer class="site__footer">

@@ -66,6 +66,15 @@ namespace Stroyka.Controllers
             return View(signIn);
         }
 
+
+        // ======================== Logout ======================
+        public async Task<IActionResult> LogOut()
+        {
+            await _signInManager.SignOutAsync();
+            return Redirect("/");
+        }
+
+
         // ======================= Register ============
         // Register GET
         [HttpGet]
@@ -139,12 +148,7 @@ namespace Stroyka.Controllers
             return View(sign);
         }
 
-        // ======================== Logout ======================
-        public async Task<IActionResult> LogOut()
-        {
-            await _signInManager.SignOutAsync();
-            return Redirect("/");
-        }
+        
 
         [HttpGet]
         public IActionResult ForgetPassword()

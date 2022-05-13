@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Stroyka.Data;
+using Stroyka.Extensions;
 using Stroyka.Models;
 using Stroyka.Models.Users;
 using System;
@@ -47,6 +48,9 @@ namespace Stroyka
                 options.Password.RequireUppercase = false;
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
             });
+
+            services.AddScoped<IEmailService>(option => new EmailServices(Configuration.GetSection("EmailService")["Name"], Configuration.GetSection("EmailService")["Password"]));
+
 
         }
 

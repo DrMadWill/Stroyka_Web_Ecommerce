@@ -22,12 +22,6 @@ namespace Stroyka.Controllers
         }
 
         
-
-        
-
-
-        
-
         // Blog Subscribe  GET
         [HttpPost]
         //[ValidateAntiForgeryToken]

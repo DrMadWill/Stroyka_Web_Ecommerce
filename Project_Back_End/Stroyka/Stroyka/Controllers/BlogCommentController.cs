@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace Stroyka.Controllers
 {
-    public class CommentController : Controller
+    public class BlogCommentController : Controller
     {
         private readonly StroykaDbContext _dbContext;
         private readonly UserManager<User> userManager;
 
-        public CommentController(StroykaDbContext dbContext, UserManager<User> _userManager)
+        public BlogCommentController(StroykaDbContext dbContext, UserManager<User> _userManager)
         {
             _dbContext = dbContext;
             userManager = _userManager;

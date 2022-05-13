@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Mvc;
 using Stroyka.Models;
 
 namespace Stroyka.Controllers
@@ -8,7 +9,6 @@ namespace Stroyka.Controllers
         [Route("/Error/{status}")]
         public IActionResult HttpStatusCodeHandler(int status)
         {
-
             ErrorViewModel errorVM = new()
             {
                 Description = string.Empty,

@@ -317,7 +317,7 @@
             let btn = e.currentTarget;
             let parentId = $(btn).attr("data-id");
             let index = $(btn).attr("data-index");
-            console.log(parentId,index)
+
             $.ajax({
                   url: '/BlogComment/GetChildComment',
                   type: 'GET',
@@ -332,8 +332,18 @@
                               'error'
                           );
                       }else{
-
-                          GenerateChildComment(response,btn.parentElement)
+                         response
+                          let container = btn.parentElement
+                          if(response.length === 0){
+                              container.parentElement.removeChild(container)
+                              return;
+                          }
+                          GenerateChildComment(response,container)
+                          if(response.length < 5){
+                              container.parentElement.removeChild(container)
+                          }else{
+                              $(btn).attr("data-index",new Number(index)+1)
+                          }
                       }
                   }
               });
@@ -351,7 +361,7 @@
         childCommentList.forEach(e=>{
             let li = document.createElement("li")
             $(li).attr("class","comments-list__item")
-            let date = e.date.toLocaleDateString("en-US", options))
+            let date = new Date(e.date).toDateString()
             let html = `
                 <div class="comment">
                     <div class="comment__avatar"><a href="#">
@@ -419,9 +429,9 @@
 
 @*Before Insert*@
 <script>
-        function insertAfter(newNode, existingNode) {
-            existingNode.parentNode.insertBefore(newNode, existingNode.nextSibling);
-        }
-    </script>
+    function insertAfter(newNode, existingNode) {
+        existingNode.parentNode.insertBefore(newNode, existingNode.nextSibling);
+    }
+</script>
 
 }

@@ -1,5 +1,18 @@
 ﻿@model BlogVM
 
+@section header{
+<style>
+    .parent_comment {
+        background: #ffd333;
+        color: #3d464d;
+        outline: hidden;
+    }
+
+        .parent_comment:hover {
+        }
+</style>
+}
+
 <div id="child_comment_modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content">
@@ -12,6 +25,7 @@
             <div class="modal-body">
                 <form id="comment_child_send">
                     <div class="form-group">
+                        @Html.AntiForgeryToken()
                         <textarea placeholder="Comment *" class="form-control" id="comment_child_content" rows="6"></textarea>
                         <span id="error_text_child" class="d-block my-2 text-danger"></span>
                     </div>
@@ -143,18 +157,23 @@
                                     @if (item.IsChild)
                                     {
                                         <div>
-                                            <button data-id="@item.Id" data-index="1" class="btn float-right btn_see_more_answer btn-primary">See More Answer</button>
+                                            <button data-id="@item.Id" data-index="1" class="btn float-right btn_see_more_answer btn-primary">See Answers</button>
                                             <div class="clearfix"></div>
                                         </div>
                                     }
                                 </li>
                             }
                         </ol>
+                        @if (@Model.CommentCount > 5)
+                        {
+                            <button data-id="@Model.Blog.Id" data-index="2" class="btn btn-secondary parent_comment btn-block">See Comment</button>
+                        }
                     </section>
                     <section class="post__section">
                         <h4 class="post__section-title">Write A Comment</h4>
                         <form id="comment_send">
                             <div class="form-group">
+                                @Html.AntiForgeryToken()
                                 <textarea placeholder="Comment *" class="form-control" id="comment-content" rows="6"></textarea>
                                 <span id="error_text" class="d-block my-2 text-danger"></span>
                             </div>
@@ -179,8 +198,10 @@
 
 @section script{
 
-@*Leave Create Comment *@
+@*Leave Create Comment Ajax *@
 <script>
+
+
     $(document).ready(function () {
            $(document).on('submit', '#comment_send', (e) => {
                e.preventDefault();
@@ -205,8 +226,8 @@
                $.ajax({
                    url: '/BlogComment/Create',
                    headers: {
-                       "RequestVerificationToken": $('input[name="__RequestVerificationToken"]').val()
-                   },
+                        "RequestVerificationToken": $('input[name="__RequestVerificationToken"]').val()
+                    },
                    type: 'POST',
                    data: { UserId: UserName, Description: Comment, BlogId: blogid },
                    success: (response) => {
@@ -244,7 +265,7 @@
        })
 </script>
 
-@*Child Create Comment *@
+@*Child Create Comment Ajax *@
 <script>
     $(document).ready(function () {
            $(document).on('submit', '#child_comment_modal', (e) => {
@@ -310,7 +331,7 @@
        })
 </script>
 
-@*See More Answer*@
+@*See Answer Ajax*@
 <script>
     $(document).ready(function () {
         $(document).on("click",".btn_see_more_answer",(e)=>{
@@ -332,7 +353,7 @@
                               'error'
                           );
                       }else{
-                         response
+
                           let container = btn.parentElement
                           if(response.length === 0){
                               container.parentElement.removeChild(container)
@@ -350,11 +371,10 @@
         });
     });
 </script>
+
 @* Child Comment Genreate*@
 <script>
     function GenerateChildComment(childCommentList,Container){
-        var options = { year: 'numeric', month: 'long', day: 'numeric' };
-
         let ol = document.createElement("ol")
         $(ol).attr("class","comments-list comments-list--level--1")
 
@@ -370,10 +390,13 @@
                     <div class="comment__content">
                         <div class="comment__header">
                             <div class="comment__author">
-                                <a href="#">${e.userName}</a>
+                                <a href="#">${e.fullName}</a>
                             </div>
                             <div class="comment__reply">
-                                <button type="button" class="btn btn-xs btn-light">Reply</button>
+                                 <button type="button" class="btn btn_replay btn-xs btn-light"
+                                    data-id="${e.id}" data-username="${e.fullName}" data-toggle="modal" data-target="#child_comment_modal">
+                                    Reply
+                                </button>
                             </div>
                         </div>
                         <div class="comment__text">
@@ -383,14 +406,107 @@
                     </div>
                 </div>
             `
+            if(e.isChild){
+                html = html + `
+                    <div>
+                        <button data-id="${e.id}" data-index="1" class="btn float-right btn_see_more_answer btn-primary">See More Answer</button>
+                        <div class="clearfix"></div>
+                    </div>
+                `
+            }
+
             $(li).html(html)
             ol.appendChild(li);
         });
         let div = document.createElement("div")
         $(div).attr("comment-list__children")
         div.appendChild(ol)
-        insertAfter(div,Container)
+        Container.parentElement.appendChild(div)
     };
+</script>
+
+
+@*See Comment Btn*@
+<script>
+    $(document).ready(()=>{
+        $(document).on("click",".parent_comment",(e)=>{
+            let btn  = e.currentTarget
+            let blogId = $(btn).data("id")
+            let index = $(btn).data("index")
+           $.ajax({
+               url:"/BlogComment/GetMoreComment",
+               type:"GET",
+               data:{blogId:blogId,commentSectionIndex:index},
+               success:(response)=>{
+                   if (response.hasOwnProperty('status') && response.status === 404) {
+                         Swal.fire(
+                               'Not Found Comment',
+                               '',
+                               'error'
+                           )
+                   }else{
+                          let container = document.querySelector("#comment_header~ol")
+                          if(response.length === 0){
+                              btn.parentElement.removeChild(btn)
+                              return;
+                          }
+                          GenerateComment(response,container)
+                          if(response.length < 5){
+                              btn.parentElement.removeChild(btn)
+                          }else{
+                              $(btn).attr("data-index",new Number(index)+1)
+                          }
+                   }
+               }
+
+           })
+        })
+    });
+</script>
+
+@*Comment Generator*@
+<script>
+    function GenerateComment(response,container){
+         response.forEach(e=>{
+            let li = document.createElement("li")
+            $(li).attr("class","comments-list__item")
+            let date = new Date(e.date).toDateString()
+            let html = `
+                <div class="comment">
+                    <div class="comment__avatar"><a href="#">
+                        <img src="/images/avatars/${e.image}" alt=""></a>
+                     </div>
+                    <div class="comment__content">
+                        <div class="comment__header">
+                            <div class="comment__author">
+                                <a href="#">${e.fullName}</a>
+                            </div>
+                            <div class="comment__reply">
+                                 <button type="button" class="btn btn_replay btn-xs btn-light"
+                                    data-id="${e.id}" data-username="${e.fullName}" data-toggle="modal" data-target="#child_comment_modal">
+                                    Reply
+                                </button>
+                            </div>
+                        </div>
+                        <div class="comment__text">
+                           ${e.description}
+                        </div>
+                        <div class="comment__date">${date}</div>
+                    </div>
+                </div>
+            `
+            if(e.isChild){
+                html = html + `
+                    <div>
+                        <button data-id="${e.id}" data-index="1" class="btn float-right btn_see_more_answer btn-primary">See More Answer</button>
+                        <div class="clearfix"></div>
+                    </div>
+                `
+            }
+            $(li).html(html)
+            container.appendChild(li);
+        });
+    }
 
 </script>
 

@@ -22,19 +22,5 @@ namespace Stroyka.Controllers
             _dbContext = dbContext;
         }
 
-        [HttpGet]
-        public async Task<JsonResult> NewArrivals(int? id)
-        {
-            if (id == null) return Json(new { Status = 404 });
-            var date = DateTime.Now.AddMonths(-3);
-
-            var newArrivalsProduct =await  _dbContext.SubCategoryToProducts
-                .Where(dr=>dr.SubCategory.Category.MegaCategory.Id == id && dr.Product.Date > date)
-                .Include(x => x.Product)
-                .Select(dr => dr.Product)
-                .ToListAsync();
-            return Json(newArrivalsProduct.GenarateNewArrivals());
-        }
-
     }
 }

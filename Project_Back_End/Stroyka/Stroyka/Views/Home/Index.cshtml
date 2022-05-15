@@ -3614,7 +3614,7 @@
                     @foreach (var item in Model.MegaCategories)
                     {
                         <li><button type="button" data-id="@item.Id" class="block-header__group new-arrival-items">@item.Name</button></li>
-                    } 
+                    }
                 </ul>
                 <div class="block-header__arrows-list">
                     <button class="block-header__arrow block-header__arrow--left" type="button">
@@ -3632,81 +3632,80 @@
             </div>
             <div class="block-products-carousel__slider">
                 <div class="block-products-carousel__preloader"></div>
-                <div class="owl-carousel">
+                <div id="new_arrivals_product" class="owl-carousel">
                     @foreach (var item in Model.NewArrivals)
                     {
                         <div class="block-products-carousel__column">
+                        
                             @foreach (var child in item)
-                            {
-                                <div class="block-products-carousel__column">
-
-                                    <div class="block-products-carousel__cell">
-                                        <div class="product-card">
-                                            <button class="product-card__quickview" type="button">
-                                                <svg width="16px" height="16px">
-                                                    <use xlink:href="/images/sprite.svg#quickview-16"></use>
-                                                </svg><span class="fake-svg-icon"></span>
-                                            </button>
-                                            <div class="product-card__badges-list">
-                                                <div class="product-card__badge product-card__badge--@child.Status.Name.ToLower()">@child.Status.Name</div>
-                                            </div>
-                                            <div class="product-card__image">
-                                                <a href="product.html">
-                                                    <img src="images/products/@child.Image" alt="">
-                                                </a>
-                                            </div>
-                                            <div class="product-card__info">
-                                                <div class="product-card__name">
-                                                    <a href="product.html">
-                                                        @child.Name
-                                                    </a>
-                                                </div>
-                                                <div class="product-card__rating">
-                                                    <div class="rating">
-                                                        <div class="rating__body">
-                                                            @for (int i = 0; i < 5; i++)
-                                                            {
-                                                                <svg class="rating__star @(i<child.Stars ? "rating__star--active":"")" width="13px"
-                                                         height="12px">
-                                                                    <g class="rating__fill">
-                                                                        <use xlink:href="/images/sprite.svg#star-normal"></use>
-                                                                    </g>
-                                                                    <g class="rating__stroke">
-                                                                        <use xlink:href="/images/sprite.svg#star-normal-stroke">
-                                                                        </use>
-                                                                    </g>
-                                                                </svg>
-                                                                <div class="rating__star rating__star--only-edge @(i<child.Stars ? "rating__star--active":"")">
-                                                                    <div class="rating__fill">
-                                                                        <div class="fake-svg-icon"></div>
-                                                                    </div>
-                                                                    <div class="rating__stroke">
-                                                                        <div class="fake-svg-icon"></div>
-                                                                    </div>
-                                                                </div>
-                                                            }
+                           {
+                               <div class="block-products-carousel__cell">
+                                <div class="product-card">
+                                    <button class="product-card__quickview" type="button">
+                                        <svg width="16px" height="16px">
+                                            <use xlink:href="/images/sprite.svg#quickview-16"></use>
+                                        </svg><span class="fake-svg-icon"></span>
+                                    </button>
+                                    <div class="product-card__badges-list">
+                                        <div class="product-card__badge product-card__badge--@child.Status.Name.ToLower()">@child.Status.Name</div>
+                                    </div>
+                                    <div class="product-card__image">
+                                        <a href="product.html">
+                                            <img src="~/images/products/@child.Image" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="product-card__info">
+                                        <div class="product-card__name">
+                                            <a href="product.html">
+                                                @child.Name
+                                            </a>
+                                        </div>
+                                        <div class="product-card__rating">
+                                            <div class="rating">
+                                                <div class="rating__body">
+                                                    @for (int i = 0; i < 5; i++)
+                                                    {
+                                                        <svg class="rating__star @(i<child.Stars ? "rating__star--active":"")" width="13px"
+                                                     height="12px">
+                                                            <g class="rating__fill">
+                                                                <use xlink:href="/images/sprite.svg#star-normal"></use>
+                                                            </g>
+                                                            <g class="rating__stroke">
+                                                                <use xlink:href="/images/sprite.svg#star-normal-stroke">
+                                                                </use>
+                                                            </g>
+                                                        </svg>
+                                                        <div class="rating__star rating__star--only-edge @(i<child.Stars ? "rating__star--active":"")">
+                                                            <div class="rating__fill">
+                                                                <div class="fake-svg-icon"></div>
+                                                            </div>
+                                                            <div class="rating__stroke">
+                                                                <div class="fake-svg-icon"></div>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="product-card__rating-legend">@child.Reviews.Count</div>
-                                                </div>
-                                            </div>
-                                            <div class="product-card__actions">
-                                                <div class="product-card__prices">
-                                                    @if (child.OldPrice == null)
-                                                    {
-                                                        <span>$@child.CurrentPrice</span>
-                                                    }
-                                                    else
-                                                    {
-                                                        <span class="product-card__new-price">$@child.CurrentPrice</span> <span class="product-card__old-price">$@child.OldPrice</span>
                                                     }
                                                 </div>
                                             </div>
+                                            <div class="product-card__rating-legend">@child.Reviews.Count</div>
                                         </div>
                                     </div>
-
+                                    <div class="product-card__actions">
+                                        <div class="product-card__prices">
+                                            @if (child.OldPrice == null)
+                                            {
+                                                <span>$@child.CurrentPrice</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="product-card__new-price">$@child.CurrentPrice</span> <span class="product-card__old-price">$@child.OldPrice</span>
+                                            }
+                                        </div>
+                                    </div>
                                 </div>
-                            }
+                            </div>
+                           }
+                            
+                            
                         </div>
                     }
                 </div>
@@ -4748,29 +4747,130 @@
         </div>
     </div><!-- .block-product-columns / end -->
 </div><!-- site__body / end -->
-
-
 @section script{
-     <script>
-        $(document).ready(() => {
-            $(document).on('click', '.new-arrival-items', (e) => {
-                e.preventDefault();
-                let id = $(e.currentTarget).attr("data-id");
-                $.ajax({
-                    url: `/ProductAsistant/NewArrivals/${id}`,
-                    type: 'GET',
-                    success: (response) => {
-                        if (response.hasOwnProperty('status') && response.status === 404) {
-                           alert("Not Saved Image.Plase Again Send.");
-                        } else {
-                            console.log(response)
-                        }
+
+@*New Arrivals*@
+<script>
+    $(document).ready(() => {
+        $(document).on('click', '.new-arrival-items', (e) => {
+            e.preventDefault();
+            let id = $(e.currentTarget).attr("data-id");
+            $.ajax({
+                url: `/ProductFilter/NewArrivals/${id}`,
+                type: 'GET',
+                success: (response) => {
+                    if (response.hasOwnProperty('status') && response.status === 404) {
+                        Swal.fire(
+                            'Not Found New Arrivals',
+                            '',
+                            'error'
+                        )
+                    } else {
+                            //console.log(response)
+                             GenrateNewArrivalsHTML(response)
                     }
-                })
-            });
-
-
+                }
+            })
         });
 
-    </script>
+
+    });
+
+    function GenrateNewArrivalsHTML(ProductList){
+        let container = document.querySelector("#new_arrivals_product")
+        container.innerHTML="";
+        ProductList.forEach(e=>{
+                let divColumn = document.createElement("div")
+                $(divColumn).attr("class","block-products-carousel__column")
+                e.forEach(child=>{
+                    let div = document.createElement("div")
+                    $(div).attr("class","block-products-carousel__cell")
+                    let html = `
+
+                            <div class="product-card">
+                                <button class="product-card__quickview" type="button">
+                                    <svg width="16px" height="16px">
+                                        <use xlink:href="/images/sprite.svg#quickview-16"></use>
+                                    </svg><span class="fake-svg-icon"></span>
+                                </button>
+                                <div class="product-card__badges-list">
+                                    <div class="product-card__badge product-card__badge--${new String(child.status.name).toLowerCase()}">${child.status.name}</div>
+                                </div>
+                                <div class="product-card__image">
+                                    <a href="product.html">
+                                        <img src="/images/products/${child.image}" alt="">
+                                    </a>
+                                </div>
+                                <div class="product-card__info">
+                                    <div class="product-card__name">
+                                        <a href="product.html">
+                                            ${child.name}
+                                        </a>
+                                    </div>
+                                    <div class="product-card__rating">
+                                        <div class="rating">
+                                            <div class="rating__body">`
+
+
+                                    for (let i = 0; i < 5; i++)
+                                    {
+                                        html = html +  ` <svg class="rating__star`
+                                        if(i<child.stars){
+                                            html = html + `rating__star--active`
+                                        }
+                                        html = html + `" width="13px"
+                                        height="12px">
+                                                <g class="rating__fill">
+                                                    <use xlink:href="/images/sprite.svg#star-normal"></use>
+                                                </g>
+                                                <g class="rating__stroke">
+                                                    <use xlink:href="/images/sprite.svg#star-normal-stroke">
+                                                    </use>
+                                                </g>
+                                            </svg>
+                                            <div class="rating__star rating__star--only-edge `
+
+                                            if(i<child.stars){
+                                                html = html + `rating__star--active`
+                                            }
+
+                                            `">
+                                                <div class="rating__fill">
+                                                    <div class="fake-svg-icon"></div>
+                                                </div>
+                                                <div class="rating__stroke">
+                                                    <div class="fake-svg-icon"></div>
+                                                </div>
+                                            </div>`
+                                    }
+                                html = html + `</div>
+                                        </div>
+                                        <div class="product-card__rating-legend">child.Reviews.Count</div>
+                                    </div>
+                                </div>
+                                <div class="product-card__actions">
+                                    <div class="product-card__prices">
+                                        if (child.OldPrice == null)
+                                        {
+                                            <span>$child.CurrentPrice</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="product-card__new-price">$child.CurrentPrice</span> <span class="product-card__old-price">$child.OldPrice</span>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                    `
+                    $(div).html(html)
+                    divColumn.appendChild(div)
+                })
+                container.appendChild(divColumn)
+        });
+    }
+</script>
+
+<script>
+    
+</script>
 }

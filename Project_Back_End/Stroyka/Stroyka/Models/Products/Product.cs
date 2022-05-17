@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Stroyka.Models.Products
 {
@@ -31,5 +32,7 @@ namespace Stroyka.Models.Products
         public virtual ICollection<SubCategoryToProduct> SubCategoryToProducts { get; set; }
         public virtual ICollection<Review> Reviews { get; set; }
 
+        [NotMapped]
+        public int ReviewsCount { get; set; }
     }
 }

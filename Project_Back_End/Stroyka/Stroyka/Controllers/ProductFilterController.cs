@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Stroyka.Controllers
 {
-    
+
     public class ProductFilterController : Controller
     {
         private readonly StroykaDbContext _dbContext;
@@ -20,27 +20,21 @@ namespace Stroyka.Controllers
         {
             _dbContext = dbContext;
         }
+
+        // For Index New Arrivals Product Carusel | GET
+
         [HttpGet]
         public async Task<JsonResult> NewArrivals(int? id)
         {
-            if (id == null) return Json(new { Status = 422 });
-            List<Product> newArrivalsProduct = null;
             var date = DateTime.Now.AddMonths(-3);
-            if (id == 0)
+            List<Product> newArrivalsProduct = null;
+            if (id == null)
             {
-                newArrivalsProduct = await _dbContext.SubCategoryToProducts
-                .Where(dr =>dr.Product.Date > date)
+                 newArrivalsProduct = await _dbContext.SubCategoryToProducts
+                .Where(dr => dr.Product.Date > date)
                 .Include(x => x.Product)
-                .Select(dr => dr.Product)
-                .ToListAsync();
-            }
-            else
-            {
-                newArrivalsProduct = await _dbContext.SubCategoryToProducts
-                .Where(dr => dr.SubCategory.Category.MegaCategory.Id == id && dr.Product.Date > date)
-                .Include(x => x.Product)
-                .Select(dr => new Product 
-                { 
+                .Select(dr => new Product
+                {
                     Name = dr.Product.Name,
                     CurrentPrice = dr.Product.CurrentPrice,
                     Date = dr.Product.Date,
@@ -49,11 +43,81 @@ namespace Stroyka.Controllers
                     Image = dr.Product.Image,
                     IsInStock = dr.Product.IsInStock,
                     Stars = dr.Product.Stars,
-                    Status = new Status { Name = dr.Product.Status.Name},
+                    Status = new Status { Name = dr.Product.Status.Name },
+                    ReviewsCount = dr.Product.Reviews.Count
                 })
                 .ToListAsync();
+
+                return Json(newArrivalsProduct.GenarateNewArrivals());
             }
+          
+             newArrivalsProduct = await _dbContext.SubCategoryToProducts
+            .Where(dr => dr.SubCategory.Category.MegaCategory.Id == id && dr.Product.Date > date)
+            .Include(x => x.Product)
+            .Select(dr => new Product
+            {
+                Name = dr.Product.Name,
+                CurrentPrice = dr.Product.CurrentPrice,
+                Date = dr.Product.Date,
+                OldPrice = dr.Product.OldPrice,
+                Id = dr.Product.Id,
+                Image = dr.Product.Image,
+                IsInStock = dr.Product.IsInStock,
+                Stars = dr.Product.Stars,
+                Status = new Status { Name = dr.Product.Status.Name },
+                ReviewsCount = dr.Product.Reviews.Count
+            })
+            .ToListAsync();
+
             return Json(newArrivalsProduct.GenarateNewArrivals());
+        }
+
+        //For Index Featured Product Carusel | GET
+
+        [HttpGet]
+        public async Task<JsonResult> Featured(int? id)
+        {
+            List<Product> newArrivalsProduct = null;
+            if (id == null)
+            {
+                newArrivalsProduct = await _dbContext.SubCategoryToProducts
+               .Where(dr => dr.Product.Stars > 3)
+               .Include(x => x.Product)
+               .Select(dr => new Product
+               {
+                   Name = dr.Product.Name,
+                   CurrentPrice = dr.Product.CurrentPrice,
+                   Date = dr.Product.Date,
+                   OldPrice = dr.Product.OldPrice,
+                   Id = dr.Product.Id,
+                   Image = dr.Product.Image,
+                   IsInStock = dr.Product.IsInStock,
+                   Stars = dr.Product.Stars,
+                   Status = new Status { Name = dr.Product.Status.Name },
+                   ReviewsCount = dr.Product.Reviews.Count
+               })
+               .ToListAsync();
+                return Json(newArrivalsProduct);
+            }
+
+            newArrivalsProduct = await _dbContext.SubCategoryToProducts
+            .Where(dr => dr.SubCategory.Category.MegaCategory.Id == id && dr.Product.Stars > 3)
+            .Include(x => x.Product)
+            .Select(dr => new Product
+            {
+                Name = dr.Product.Name,
+                CurrentPrice = dr.Product.CurrentPrice,
+                Date = dr.Product.Date,
+                OldPrice = dr.Product.OldPrice,
+                Id = dr.Product.Id,
+                Image = dr.Product.Image,
+                IsInStock = dr.Product.IsInStock,
+                Stars = dr.Product.Stars,
+                Status = new Status { Name = dr.Product.Status.Name },
+                ReviewsCount = dr.Product.Reviews.Count
+            })
+           .ToListAsync();
+            return Json(newArrivalsProduct);
         }
     }
 }

@@ -449,6 +449,7 @@
     // products carousel
     */
     $(function () {
+
         function GenrateProductHTML(ProductList) {
             let items = new Array();
             ProductList.forEach(child => {
@@ -483,9 +484,11 @@
 
                 for (let i = 0; i < 5; i++) {
                     html = html + ` <svg class="rating__star`
+
                     if (i < child.stars) {
-                        html = html + `rating__star--active`
+                        html = html + ` rating__star--active`
                     }
+
                     html = html + `" width="13px"
                                         height="12px">
                                                 <g class="rating__fill">
@@ -499,10 +502,10 @@
                                             <div class="rating__star rating__star--only-edge `
 
                     if (i < child.stars) {
-                        html = html + `rating__star--active`
+                        html = html + ` rating__star--active`
                     }
 
-                    `">
+                    html = html +`">
                                                 <div class="rating__fill">
                                                     <div class="fake-svg-icon"></div>
                                                 </div>
@@ -515,19 +518,41 @@
 
                 html = html + `</div>
                                         </div>
-                                        <div class="product-card__rating-legend">child.Reviews.Count</div>
+                                        <div class="product-card__rating-legend">${child.reviewsCount}</div>
                                     </div>
                                 </div>
                                 <div class="product-card__actions">
-                                    <div class="product-card__prices">
-                                        if (child.OldPrice == null)
-                                        {
-                                            <span>$child.CurrentPrice</span>
-                                        }
-                                        else
-                                        {
-                                            <span class="product-card__new-price">$child.CurrentPrice</span> <span class="product-card__old-price">$child.OldPrice</span>
-                                        }
+                                    <div class="product-card__prices">`
+               
+                if (child.oldPrice == null)
+                {
+                    html = html + `<span>$${child.currentPrice}</span>`
+                }
+                else
+                {
+                    html = html + `<span class="product-card__new-price">$${child.currentPrice}</span> <span class="product-card__old-price">$${child.oldPrice}</span>`
+                }
+
+                html = html +      `</div>
+                                    <div class="product-card__buttons">
+                                        <button class="btn btn-primary product-card__addtocart" type="button">
+                                            Add To
+                                            Cart
+                                        </button> <button class="btn btn-secondary product-card__addtocart product-card__addtocart--list"
+                                                          type="button">
+                                            Add To Cart
+                                        </button> <button class="btn btn-light btn-svg-icon btn-svg-icon--fake-svg product-card__wishlist"
+                                                          type="button">
+                                            <svg width="16px" height="16px">
+                                                <use xlink:href="/images/sprite.svg#wishlist-16"></use>
+                                            </svg> <span class="fake-svg-icon fake-svg-icon--wishlist-16"></span>
+                                        </button>
+                                        <button class="btn btn-light btn-svg-icon btn-svg-icon--fake-svg product-card__compare"
+                                                type="button">
+                                            <svg width="16px" height="16px">
+                                                <use xlink:href="/images/sprite.svg#compare-16"></use>
+                                            </svg> <span class="fake-svg-icon fake-svg-icon--compare-16"></span>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -608,21 +633,22 @@
                     }
                     html = html + `</div>
                                         </div>
-                                        <div class="product-card__rating-legend">${child.reviewsCount}</div>
+                                        <div class="product-card__rating-legend">$${child.reviewsCount}</div>
                                     </div>
                                 </div>
                                 <div class="product-card__actions">
                                     <div class="product-card__prices">`
 
-                    if (child.OldPrice == null)
+                    if (child.oldPrice == null)
                     {
-                        html = html +  `<span>${child.CurrentPrice}</span>`
+                        html = html +  `<span>$${child.currentPrice}</span>`
                     }
                     else
                     {
-                        html = html +  ` <span class="product-card__new-price">${child.CurrentPrice}</span> <span class="product-card__old-price">${child.OldPrice}</span>`
+                        html = html +  ` <span class="product-card__new-price">$${child.currentPrice}</span> <span class="product-card__old-price">$${child.oldPrice}</span>`
                     }
                     html = html +  `</div>
+    
                                 </div>
                             </div>
                     `
@@ -728,8 +754,20 @@
                 if (id == undefined) { id = "" }
                 if (carusel_Type === "grid") {
                     let items = block.find('.owl-carousel .owl-item:not(".cloned") .block-products-carousel__column');
-                    console.log(items)
-                    fetchFeatured(id).then(dr => console.log(GenrateProductHTML(dr)))
+                    //console.log(items)
+                    fetchFeatured(id).then(dr => {
+                        let itemss = $(GenrateProductHTML(dr))
+                        block.find('.owl-carousel')
+                            .trigger('replace.owl.carousel', [itemss])
+                            .trigger('refresh.owl.carousel')
+                            .trigger('to.owl.carousel', [0, 0]);
+
+                        $('.product-card__quickview', block).on('click', function () {
+                            quickview.clickHandler.apply(this, arguments);
+                        });
+
+                        block.removeClass('block-products-carousel--loading');
+                    })
                 } else {
                     
                     fetchNewArrivals(id).then(res => {
@@ -748,8 +786,6 @@
 
                     });
                 }
-
-
                
             });
 

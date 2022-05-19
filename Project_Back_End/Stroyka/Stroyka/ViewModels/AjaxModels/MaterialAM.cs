@@ -1,7 +1,7 @@
 ﻿using Stroyka.Extensions;
 using System.Collections.Generic;
 
-namespace Stroyka.ViewModels.AjaxM
+namespace Stroyka.ViewModels.AjaxModels
 {
     public class MaterialAM: BaseEntity<int>
     {

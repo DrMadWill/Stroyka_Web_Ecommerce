@@ -5,7 +5,7 @@ using Stroyka.Extensions;
 using Stroyka.Models;
 using Stroyka.Models.Products;
 using Stroyka.ViewModels;
-using Stroyka.ViewModels.AjaxM;
+using Stroyka.ViewModels.AjaxModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,7 +42,6 @@ namespace Stroyka.Controllers
                     OldPrice = dr.Product.OldPrice,
                     Id = dr.Product.Id,
                     Image = dr.Product.Image,
-                    IsInStock = dr.Product.IsInStock,
                     Stars = dr.Product.Stars,
                     Status = new Status { Name = dr.Product.Status.Name },
                     ReviewsCount = dr.Product.Reviews.Count
@@ -63,7 +62,6 @@ namespace Stroyka.Controllers
                 OldPrice = dr.Product.OldPrice,
                 Id = dr.Product.Id,
                 Image = dr.Product.Image,
-                IsInStock = dr.Product.IsInStock,
                 Stars = dr.Product.Stars,
                 Status = new Status { Name = dr.Product.Status.Name },
                 ReviewsCount = dr.Product.Reviews.Count
@@ -78,13 +76,13 @@ namespace Stroyka.Controllers
         [HttpGet]
         public async Task<JsonResult> Featured(int? id)
         {
-            List<Product> newArrivalsProduct = null;
+           
             if (id == null)
             {
-                newArrivalsProduct = await _dbContext.SubCategoryToProducts
+               var newArrivalsProductDefault = await _dbContext.SubCategoryToProducts
                .Where(dr => dr.Product.Stars > 3)
                .Include(x => x.Product)
-               .Select(dr => new Product
+               .Select(dr => new ProductAM
                {
                    Name = dr.Product.Name,
                    CurrentPrice = dr.Product.CurrentPrice,
@@ -98,40 +96,40 @@ namespace Stroyka.Controllers
                    ReviewsCount = dr.Product.Reviews.Count
                })
                .ToListAsync();
-                return Json(newArrivalsProduct);
+                return Json(newArrivalsProductDefault);
             }
-
-            newArrivalsProduct = await _dbContext.SubCategoryToProducts
-            .Where(dr => dr.SubCategory.Category.MegaCategory.Id == id && dr.Product.Stars > 3)
-            .Include(x => x.Product)
-            .Select(dr => new Product
-            {
-                Name = dr.Product.Name,
-                CurrentPrice = dr.Product.CurrentPrice,
-                Date = dr.Product.Date,
-                OldPrice = dr.Product.OldPrice,
-                Id = dr.Product.Id,
-                Image = dr.Product.Image,
-                IsInStock = dr.Product.IsInStock,
-                Stars = dr.Product.Stars,
-                Status = dr.Product.Status,
-                ReviewsCount = dr.Product.Reviews.Count
-            })
-           .ToListAsync();
+            var newArrivalsProduct = await _dbContext.SubCategoryToProducts
+                   .Where(dr => dr.SubCategory.Category.MegaCategory.Id == id && dr.Product.Stars > 3)
+                   .Include(x => x.Product)
+                   .Select(dr => new ProductAM
+                   {
+                       Name = dr.Product.Name,
+                       CurrentPrice = dr.Product.CurrentPrice,
+                       Date = dr.Product.Date,
+                       OldPrice = dr.Product.OldPrice,
+                       Id = dr.Product.Id,
+                       Image = dr.Product.Image,
+                       IsInStock = dr.Product.IsInStock,
+                       Stars = dr.Product.Stars,
+                       Status = new Status { Name = dr.Product.Status.Name },
+                       ReviewsCount = dr.Product.Reviews.Count
+                   })
+                  .ToListAsync();
+           
             return Json(newArrivalsProduct);
         }
 
         [HttpGet]
         public async Task<IActionResult> Quickview(int? id)
         {
-            if(id == null) return Json(new { status = 422 });
+            if (id == null) return Json(new { status = 422 });
 
             var stock = _dbContext.ProductStock
                 .Where(dr => dr.ProductId == id)
                 .AsQueryable();
 
             var material = await stock
-               .Select(x=> new MaterialAM {Id = x.Material.Id, Name = x.Material.Name })
+               .Select(x => new MaterialAM { Id = x.Material.Id, Name = x.Material.Name })
                .ToListAsync();
             material = MyList<MaterialAM, int>.DublicateDelete(material);
 
@@ -177,13 +175,13 @@ namespace Stroyka.Controllers
             foreach (var item in materials)
             {
                 item.ColorAMs = await stocks.Where(dr => dr.MaterialId == item.Id)
-                    .Select(x => new ColorAM { Id = x.ColorId, Name = x.Color.Name,Code = x.Color.Code ,IsStock = x.Count > 0 })
+                    .Select(x => new ColorAM { Id = x.ColorId, Name = x.Color.Name, Code = x.Color.Code, IsStock = x.Count > 0 })
                     .ToListAsync();
             }
             return materials;
         }
 
-        
+
 
     }
 }

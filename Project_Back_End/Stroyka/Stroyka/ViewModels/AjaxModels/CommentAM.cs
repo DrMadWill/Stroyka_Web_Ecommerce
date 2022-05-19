@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Stroyka.ViewModels
+namespace Stroyka.ViewModels.AjaxModels
 {
-    public class CommentAjaxVM
+    public class CommentAM
     {
         public int Id { get; set; }
         public string Description { get; set; }

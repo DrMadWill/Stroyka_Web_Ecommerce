@@ -677,7 +677,6 @@
             }
 
             button.addClass('product-card__quickview--preload');
-            console.log($(e.currentTarget).data("id"))
             let id = $(e.currentTarget).data("id")
             let xhr = $.ajax({
                 url: `/ProductFilter/Quickview/${id}`,
@@ -747,10 +746,11 @@
             ProductList.forEach(child => {
                 let divColumn = document.createElement("div")
                 $(divColumn).attr("class", "block-products-carousel__column")
+                console.log(child, child.Id)
                 let html = `
                         <div class="block-products-carousel__cell">
                             <div class="product-card">
-                                <button class="product-card__quickview" data-id="${child.Id}" type="button">
+                                <button class="product-card__quickview" data-id="${child.id}" type="button">
                                     <svg width="16px" height="16px">
                                         <use xlink:href="/images/sprite.svg#quickview-16"></use>
                                     </svg><span class="fake-svg-icon"></span>
@@ -867,7 +867,7 @@
                     $(div).attr("class", "block-products-carousel__cell")
                     let html = `
                             <div class="product-card">
-                                <button class="product-card__quickview" data-id="${child.Id}" type="button">
+                                <button class="product-card__quickview" data-id="${child.id}" type="button">
                                     <svg width="16px" height="16px">
                                         <use xlink:href="/images/sprite.svg#quickview-16"></use>
                                     </svg><span class="fake-svg-icon"></span>
@@ -1044,15 +1044,13 @@
                 let id = $(event.currentTarget).data("id")
                 if (id == undefined) { id = "" }
                 if (carusel_Type === "grid") {
-                    let items = block.find('.owl-carousel .owl-item:not(".cloned") .block-products-carousel__column');
-                    //console.log(items)
                     fetchFeatured(id).then(dr => {
                         let itemss = $(GenrateProductHTML(dr))
                         block.find('.owl-carousel')
                             .trigger('replace.owl.carousel', [itemss])
                             .trigger('refresh.owl.carousel')
                             .trigger('to.owl.carousel', [0, 0]);
-
+                        
                         $('.product-card__quickview', block).on('click', function () {
                             quickview.clickHandler.apply(this, arguments);
                         });
@@ -1062,8 +1060,8 @@
                 } else {
                     
                     fetchNewArrivals(id).then(res => {
-                        let itemss= $(GenrateNewArrivalsHTML(res))
-
+                        let itemss = $(GenrateNewArrivalsHTML(res))
+                        
                         block.find('.owl-carousel')
                             .trigger('replace.owl.carousel', [itemss])
                             .trigger('refresh.owl.carousel')

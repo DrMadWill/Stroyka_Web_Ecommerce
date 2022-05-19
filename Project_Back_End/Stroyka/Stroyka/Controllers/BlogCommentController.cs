@@ -5,6 +5,7 @@ using Stroyka.Data;
 using Stroyka.Models.Blogs;
 using Stroyka.Models.Users;
 using Stroyka.ViewModels;
+using Stroyka.ViewModels.AjaxModels;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -143,7 +144,7 @@ namespace Stroyka.Controllers
 
             var comments = await _dbContext.BlogComments
                 .Where(dr => dr.ParentId == parentId && dr.IsBlocked == false)
-                .Select(x => new CommentAjaxVM
+                .Select(x => new CommentAM
                 {
                     Id = x.Id,
                     IsChild = x.IsChild,

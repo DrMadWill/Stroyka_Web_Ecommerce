@@ -1,4 +1,4 @@
-﻿namespace Stroyka.ViewModels.AjaxM
+﻿namespace Stroyka.ViewModels.AjaxModels
 {
     public class ColorAM
     {

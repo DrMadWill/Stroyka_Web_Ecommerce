@@ -18,19 +18,23 @@ namespace Stroyka.Models.Products
         public DateTime Date { get; set; }
         public string Image { get; set; }
         public byte Stars { get; set; }
-        public bool IsInStock { get; set; }
 
-
+        public int StockCount { get; set; }
+        [NotMapped]
+        public bool IsInStock
+        {
+            get { return StockCount > 0; }
+            set => IsInStock = value; 
+        }
 
         public virtual Status Status { get; set; }
         public virtual int StatusId { get; set; }
-        public virtual Material Material { get; set; }
-        public virtual int MaterialId { get; set; }
         public virtual ProductDetail ProductDetail { get; set; }
         public virtual Brand Brand { get; set; }
         public virtual int BrandId { get; set; }
         public virtual ICollection<SubCategoryToProduct> SubCategoryToProducts { get; set; }
         public virtual ICollection<Review> Reviews { get; set; }
+        public virtual ICollection<Stock> Stocks { get; set; }
 
         [NotMapped]
         public int ReviewsCount { get; set; }

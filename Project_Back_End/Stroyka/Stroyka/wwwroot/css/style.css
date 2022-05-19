@@ -8,6 +8,15 @@
     }
 }
 
+.btn_nl {
+    background: #ffd333;
+    color: #3d464d;
+    outline: hidden;
+}
+
+    .btn_nl:hover {
+    }
+
 body, html {
     height: 100%
 }

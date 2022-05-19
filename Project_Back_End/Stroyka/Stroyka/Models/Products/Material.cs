@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Stroyka.Models.Products
 {
@@ -11,6 +11,10 @@ namespace Stroyka.Models.Products
         [Required]
         [MaxLength(100)]
         public string Name { get; set; }
-        public virtual ICollection<Product> Products { get; set; }
+        public virtual ICollection<Stock> Stocks { get; set; }
+        [NotMapped]
+        public bool IsStock { get; set; }
+
+
     }
 }

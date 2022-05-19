@@ -12,14 +12,12 @@ namespace Stroyka.Models.Products
         public Product Product { get; set; }
         
         public string MiniDecription { get; set; }
-        public bool IsStock { get; set; }
         public string SKU { get; set; }
         [Column(TypeName = "ntext")]
         public string DescriptionFull { get; set; }
         [Column(TypeName = "ntext")]
         public string Specification { get; set; }
-       
-        public virtual ICollection<ColorToProductDetail> ColorToProductDetails { get; set; }
+        public virtual IList<ProductImage> ProductImages { get; set; }
 
     }
 }

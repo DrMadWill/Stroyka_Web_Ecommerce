@@ -307,6 +307,9 @@
             nav: false,
             dots: false,
             loop: true,
+            autoplay: true,
+            autoplayTimeout: 2000,
+            autoplayHoverPause: true,
             responsive: {
                 1200: { items: 6 },
                 992: { items: 5 },
@@ -375,12 +378,294 @@
         });
     });
 
+    
+
+    function Quickview(e) {
+            let html = `
+                            <div class="product__gallery">
+                                <div class="product-gallery">
+                                    <div class="product-gallery__featured">
+                                        <div class="owl-carousel" id="product-image">
+                                            <a href="/images/products/${e.image}" target="_blank">
+                                                 <img src="/images/products/${e.image}" alt="">
+                                            </a>
+                                        `
+            let galery = e.productDetail.galery;
+            for (let i = 0; i < galery.length; i++) {
+                html = html + `<a href="/images/products/${galery[i]}" target="_blank">
+                       <img src="/images/products/${galery[i]}" alt="">
+                 </a>`
+            }
+                                           
+
+            html = html +              `</div>
+                                    </div>
+                                    <div class="product-gallery__carousel">
+                                        <div class="owl-carousel" id="product-carousel">
+                                            <a href="#" class="product-gallery__carousel-item">
+                                                <img class="product-gallery__carousel-image"
+                                                      src="/images/products/${e.image}" alt="">
+                                            </a>
+                                            `
+
+            for (let i = 0; i < galery.length; i++) {
+
+                html = html +               `<a href="#" class="product-gallery__carousel-item">
+                                                <img class="product-gallery__carousel-image"
+                                                      src="/images/products/${galery[i]}" alt="">
+                                            </a>`
+            }
+            
+
+            html = html +              `</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="product__info">
+                                <div class="product__wishlist-compare">
+                                    <button type="button"
+                                                class="btn btn-sm btn-light btn-svg-icon" data-toggle="tooltip"
+                                                data-placement="right" title="Wishlist">
+                                        <svg width="16px" height="16px">
+                                            <use xlink:href="images/sprite.svg#wishlist-16"></use>
+                                        </svg>
+
+                                    </button> <button type="button" class="btn btn-sm btn-light btn-svg-icon"
+                                                                    data-toggle="tooltip" data-placement="right" title="Compare">
+
+                                        <svg width="16px"
+                                              height="16px">
+                                            <use xlink:href="images/sprite.svg#compare-16"></use>
+                                        </svg>
+
+                                    </button>
+
+                                </div>
+                                <h1 class="product__name">${e.name}</h1>
+                                <div class="product__rating">
+                                    <div class="product__rating-stars">
+                                        <div class="rating">
+                                            <div class="rating__body">`
+
+            for (let i = 0; i < 5; i++) {
+                html = html + ` <svg class="rating__star`
+
+                if (i < e.stars) {
+                    html = html + ` rating__star--active`
+                }
+
+                html = html + `" width="13px"
+                                        height="12px">
+                                                <g class="rating__fill">
+                                                    <use xlink:href="/images/sprite.svg#star-normal"></use>
+                                                </g>
+                                                <g class="rating__stroke">
+                                                    <use xlink:href="/images/sprite.svg#star-normal-stroke">
+                                                    </use>
+                                                </g>
+                                            </svg>
+                                            <div class="rating__star rating__star--only-edge `
+
+                if (i < e.stars) {
+                    html = html + ` rating__star--active`
+                }
+
+                html = html + `">
+                                                <div class="rating__fill">
+                                                    <div class="fake-svg-icon"></div>
+                                                </div>
+                                                <div class="rating__stroke">
+                                                    <div class="fake-svg-icon"></div>
+                                                </div>
+                                            </div>`
+            }
+                                               
+            html = html +                 `</div>
+                                        </div>
+                                    </div>
+                                    <div class="product__rating-legend">
+                                        <a href="#">${e.reviewsCount} Reviews</a><span>
+                                    </div>
+                                </div>
+                                <div class="product__description">
+                                        ${e.productDetail.miniDecription}
+                                </div>
+
+
+                                <ul class="product__meta">
+                                    <li class="product__meta-availability">
+
+                                        Availability:`
+            if (e.isInStock) {
+                html = html +           `<span class="text-success">
+
+                                            In
+                                            Stock
+
+                                        </span>`
+            } else {
+                html = html +           `<span class="text-danger">
+                                            Not Found Stock
+                                        </span>`
+        }
+     
+            html = html + `</li>
+                                    <li>Brand: <a href="#">${e.brand.name}</a></li>
+                                    <li>SKU:${e.productDetail.sku} </li>
+                                </ul>
+                            </div>
+                            <!-- .product__sidebar -->
+                            <div class="product__sidebar">
+                                <div class="product__prices">`
+                                
+            if (e.oldPrice == null) {
+                html = html + `<span>$${e.currentPrice}</span>`
+            }
+            else {
+                html = html + ` <span class="product-card__new-price">$${e.currentPrice}</span> <span class="product-card__old-price">$${e.oldPrice}</span>`
+            }
+            html = html +      `</div>
+                                <form class="product__options">
+                                    <div class="form-group product__option">
+                                        <label class="product__option-label">Color</label>
+                                        <div class="input-radio-color">
+                                            <div class="input-radio-color__list">`
+        
+            let colors = e.materials[0].colorAMs
+            for (let i = 0; i < colors.length; i++) {
+                html = html + ` <label class="input-radio-color__item " style="color:${colors[i].code};" data-toggle="tooltip" title="${colors[i].name}">
+                                    <input type="radio" value="color:${colors[i].code}" name="color"> <span></span>
+                                </label>`
+            }
+            
+                                               
+            html = html +                  `</div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group product__option">
+
+                                        <label class="product__option-label">Material</label>
+                                        <div class="input-radio-label">
+                                            <div class="input-radio-label__list">`
+            let materials = e.materials
+
+            html = html + `<label> <input type="radio" checked value="${materials[0].name}" name="material"> <span>${materials[0].name}</span> </label>`
+            for (let i = 1; i < materials.length; i++) {
+                html = html + `<label> <input type="radio" value="${materials[i].name}" name="material"> <span>${materials[i].name}</span> </label>`
+            }
+
+            html = html +                  `</div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group product__option">
+
+                                        <label class="product__option-label"
+                                                  for="product-quantity">Quantity</label>
+                                        <div class="product__actions">
+                                            <div class="product__actions-item">
+                                                <div class="input-number product__quantity">
+
+                                                    <input id="product-quantity"
+                                                              class="input-number__input form-control form-control-lg"
+                                                              type="number" min="1" value="1">
+                                                    <div class="input-number__add"></div>
+                                                    <div class="input-number__sub"></div>
+                                                </div>
+                                            </div>
+                                            <div class="product__actions-item product__actions-item--addtocart">
+
+                                                <button class="btn btn-primary btn-lg">
+
+                                                    Add to cart
+
+                                                </button>
+
+                                            </div>
+                                            <div class="product__actions-item product__actions-item--wishlist">
+
+                                                <button type="button" class="btn btn-secondary btn-svg-icon btn-lg"
+                                                            data-toggle="tooltip" title="Wishlist">
+
+                                                    <svg width="16px"
+                                                          height="16px">
+                                                        <use xlink:href="images/sprite.svg#wishlist-16"></use>
+                                                    </svg>
+
+                                                </button>
+
+                                            </div>
+                                            <div class="product__actions-item product__actions-item--compare">
+
+                                                <button type="button" class="btn btn-secondary btn-svg-icon btn-lg"
+                                                            data-toggle="tooltip" title="Compare">
+
+                                                    <svg width="16px"
+                                                          height="16px">
+                                                        <use xlink:href="images/sprite.svg#compare-16"></use>
+                                                    </svg>
+
+                                                </button>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="product__footer">
+                                <div class="product__tags tags">
+                                    <div class="tags__list">`
+            let subcat = e.subCategories
+            for (let i = 0; i < subcat.length; i++) {
+                html = html + `<a href="#">${subcat[i].name}</a>`
+            }
+        
+            let categories = e.categories
+            for (let i = 0; i < subcat.length; i++) {
+                html = html + `<a href="#">${categories[i].name}</a>`
+
+            }
+
+            html = html +          `</div>
+                                </div>
+                                <div class="product__share-links share-links">
+                                    <ul class="share-links__list">
+                                        <li class="share-links__item share-links__item--type--like">
+
+                                            <a href="#">Like</a>
+                                        </li>
+                                        <li class="share-links__item share-links__item--type--tweet">
+
+                                            <a href="#">Tweet</a>
+
+                                        </li>
+                                        <li class="share-links__item share-links__item--type--pin">
+
+                                            <a href="#">
+
+                                                Pin
+                                                It
+
+                                            </a>
+
+                                        </li>
+                                        <li class="share-links__item share-links__item--type--counter">
+
+                                            <a href="#">4K</a>
+
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+            `
+        return html
+    }
+
     /*
     // quickview
     */
     const quickview = {
         cancelPreviousModal: function () { },
-        clickHandler: function () {
+        clickHandler: function (e) {
             const modal = $('#quickview-modal');
             const button = $(this);
             const doubleClick = button.is('.product-card__quickview--preload');
@@ -392,24 +677,34 @@
             }
 
             button.addClass('product-card__quickview--preload');
+            console.log($(e.currentTarget).data("id"))
+            let id = $(e.currentTarget).data("id")
+            let xhr = $.ajax({
+                url: `/ProductFilter/Quickview/${id}`,
+                type:"GET",
+                success: function (data) {
 
-            let xhr = null;
-            // timeout ONLY_FOR_DEMO!
-            const timeout = setTimeout(function () {
-                xhr = $.ajax({
-                    url: 'quickview.html',
-                    success: function (data) {
-                        quickview.cancelPreviousModal = function () { };
+                    if (data.hasOwnProperty('status') && data.status === 404) {
+                        alert("Not Found")
                         button.removeClass('product-card__quickview--preload');
-
-                        modal.find('.modal-content').html(data);
-                        modal.find('.quickview__close').on('click', function () {
-                            modal.modal('hide');
-                        });
-                        modal.modal('show');
+                        return;
+                    } else if (data.hasOwnProperty('status') && data.status === 422) {
+                        alert("id property requerid")
+                        button.removeClass('product-card__quickview--preload');
+                        return;
                     }
-                });
-            }, 1000);
+
+                    let resault = Quickview(data);
+                    quickview.cancelPreviousModal = function () { };
+                    button.removeClass('product-card__quickview--preload');
+
+                    modal.find('.product__content').html(resault);
+                    modal.find('.quickview__close').on('click', function () {
+                        modal.modal('hide');
+                    });
+                    modal.modal('show');
+                }
+            });
 
             quickview.cancelPreviousModal = function () {
                 button.removeClass('product-card__quickview--preload');
@@ -417,9 +712,6 @@
                 if (xhr) {
                     xhr.abort();
                 }
-
-                // timeout ONLY_FOR_DEMO!
-                clearTimeout(timeout);
             };
         }
     };
@@ -439,8 +731,8 @@
             $('.input-number', modal).customNumber();
         });
 
-        $('.product-card__quickview').on('click', function () {
-            quickview.clickHandler.apply(this, arguments);
+        $('.product-card__quickview').on('click', function (e) {
+            quickview.clickHandler.apply(this, arguments,e);
         });
     });
 
@@ -458,7 +750,7 @@
                 let html = `
                         <div class="block-products-carousel__cell">
                             <div class="product-card">
-                                <button class="product-card__quickview" type="button">
+                                <button class="product-card__quickview" data-id="${child.Id}" type="button">
                                     <svg width="16px" height="16px">
                                         <use xlink:href="/images/sprite.svg#quickview-16"></use>
                                     </svg><span class="fake-svg-icon"></span>
@@ -516,7 +808,7 @@
                 }
 
 
-                html = html + `</div>
+                html = html +               `</div>
                                         </div>
                                         <div class="product-card__rating-legend">${child.reviewsCount}</div>
                                     </div>
@@ -574,9 +866,8 @@
                     let div = document.createElement("div")
                     $(div).attr("class", "block-products-carousel__cell")
                     let html = `
-
                             <div class="product-card">
-                                <button class="product-card__quickview" type="button">
+                                <button class="product-card__quickview" data-id="${child.Id}" type="button">
                                     <svg width="16px" height="16px">
                                         <use xlink:href="/images/sprite.svg#quickview-16"></use>
                                     </svg><span class="fake-svg-icon"></span>

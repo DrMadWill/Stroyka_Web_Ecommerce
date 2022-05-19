@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Stroyka.Data;
 
 namespace Stroyka.Migrations
 {
     [DbContext(typeof(StroykaDbContext))]
-    partial class StroykaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220518003754_AddColoumnStockCountTableProduct")]
+    partial class AddColoumnStockCountTableProduct
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -412,15 +414,10 @@ namespace Stroyka.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<string>("Code")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(7)
                         .HasColumnType("nvarchar(7)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(35)
-                        .HasColumnType("nvarchar(35)");
 
                     b.HasKey("Id");
 
@@ -428,6 +425,21 @@ namespace Stroyka.Migrations
                         .IsUnique();
 
                     b.ToTable("Colors");
+                });
+
+            modelBuilder.Entity("Stroyka.Models.Products.ColorToProductDetail", b =>
+                {
+                    b.Property<int>("ColorId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductDetailId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ColorId", "ProductDetailId");
+
+                    b.HasIndex("ProductDetailId");
+
+                    b.ToTable("ColorToProductDetails");
                 });
 
             modelBuilder.Entity("Stroyka.Models.Products.IndexSlider", b =>
@@ -523,6 +535,9 @@ namespace Stroyka.Migrations
                     b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("MaterialId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(400)
@@ -544,6 +559,8 @@ namespace Stroyka.Migrations
 
                     b.HasIndex("BrandId");
 
+                    b.HasIndex("MaterialId");
+
                     b.HasIndex("Name")
                         .IsUnique();
 
@@ -559,6 +576,9 @@ namespace Stroyka.Migrations
 
                     b.Property<string>("DescriptionFull")
                         .HasColumnType("ntext");
+
+                    b.Property<bool>("IsStock")
+                        .HasColumnType("bit");
 
                     b.Property<string>("MiniDecription")
                         .HasColumnType("nvarchar(max)");
@@ -651,29 +671,6 @@ namespace Stroyka.Migrations
                         .IsUnique();
 
                     b.ToTable("Statuses");
-                });
-
-            modelBuilder.Entity("Stroyka.Models.Products.Stock", b =>
-                {
-                    b.Property<int>("ColorId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MaterialId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Count")
-                        .HasColumnType("int");
-
-                    b.HasKey("ColorId", "ProductId", "MaterialId");
-
-                    b.HasIndex("MaterialId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("ProductStock");
                 });
 
             modelBuilder.Entity("Stroyka.Models.Products.SubCategory", b =>
@@ -955,11 +952,36 @@ namespace Stroyka.Migrations
                     b.Navigation("MegaCategory");
                 });
 
+            modelBuilder.Entity("Stroyka.Models.Products.ColorToProductDetail", b =>
+                {
+                    b.HasOne("Stroyka.Models.Products.Color", "Color")
+                        .WithMany("ColorToProductDetails")
+                        .HasForeignKey("ColorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Stroyka.Models.Products.ProductDetail", "ProductDetail")
+                        .WithMany("ColorToProductDetails")
+                        .HasForeignKey("ProductDetailId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Color");
+
+                    b.Navigation("ProductDetail");
+                });
+
             modelBuilder.Entity("Stroyka.Models.Products.Product", b =>
                 {
                     b.HasOne("Stroyka.Models.Products.Brand", "Brand")
                         .WithMany("Products")
                         .HasForeignKey("BrandId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Stroyka.Models.Products.Material", "Material")
+                        .WithMany("Products")
+                        .HasForeignKey("MaterialId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -970,6 +992,8 @@ namespace Stroyka.Migrations
                         .IsRequired();
 
                     b.Navigation("Brand");
+
+                    b.Navigation("Material");
 
                     b.Navigation("Status");
                 });
@@ -1019,33 +1043,6 @@ namespace Stroyka.Migrations
                     b.Navigation("Product");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Stroyka.Models.Products.Stock", b =>
-                {
-                    b.HasOne("Stroyka.Models.Products.Color", "Color")
-                        .WithMany("Stocks")
-                        .HasForeignKey("ColorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Stroyka.Models.Products.Material", "Material")
-                        .WithMany("Stocks")
-                        .HasForeignKey("MaterialId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Stroyka.Models.Products.Product", "Product")
-                        .WithMany("Stocks")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Color");
-
-                    b.Navigation("Material");
-
-                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Stroyka.Models.Products.SubCategory", b =>
@@ -1111,12 +1108,12 @@ namespace Stroyka.Migrations
 
             modelBuilder.Entity("Stroyka.Models.Products.Color", b =>
                 {
-                    b.Navigation("Stocks");
+                    b.Navigation("ColorToProductDetails");
                 });
 
             modelBuilder.Entity("Stroyka.Models.Products.Material", b =>
                 {
-                    b.Navigation("Stocks");
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("Stroyka.Models.Products.MegaCategory", b =>
@@ -1130,13 +1127,13 @@ namespace Stroyka.Migrations
 
                     b.Navigation("Reviews");
 
-                    b.Navigation("Stocks");
-
                     b.Navigation("SubCategoryToProducts");
                 });
 
             modelBuilder.Entity("Stroyka.Models.Products.ProductDetail", b =>
                 {
+                    b.Navigation("ColorToProductDetails");
+
                     b.Navigation("ProductImages");
                 });
 

@@ -22,11 +22,12 @@ namespace Stroyka.Data
         public DbSet<Models.Products.Category> Categories { get; set; }
         public DbSet<Models.Products.SubCategory> SubCategories { get; set; }
         public DbSet<SubCategoryToProduct> SubCategoryToProducts { get; set; }
-        public DbSet<ColorToProductDetail> ColorToProductDetails { get; set; }
+        //public DbSet<ColorToProductDetail> ColorToProductDetails { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<MegaCategory> MegaCategories { get; set; }
         public DbSet<ProductDetail> ProductDetails { get; set; }
         public DbSet<ProductImage> ProductImages { get; set; }
+        public DbSet<Stock> ProductStock { get; set; }
         #endregion
 
         // Using Blog Class
@@ -99,20 +100,25 @@ namespace Stroyka.Data
                .WithMany(x => x.SubCategoryToProducts)
                .HasForeignKey(x => x.SubCategoryId);
 
-            // Color To ProductDetail
-            modelBuilder.Entity<ColorToProductDetail>()
-                .HasKey(x => new { x.ColorId, x.ProductDetailId });
+            // Color Metrail Product Table
+            modelBuilder.Entity<Stock>()
+                .HasKey(x => new { x.ColorId, x.ProductId,x.MaterialId });
 
-            modelBuilder.Entity<ColorToProductDetail>()
+            modelBuilder.Entity<Stock>()
                 .HasOne(x => x.Color)
-                .WithMany(x => x.ColorToProductDetails)
+                .WithMany(x => x.Stocks)
                 .HasForeignKey(x => x.ColorId);
 
 
-            modelBuilder.Entity<ColorToProductDetail>()
-               .HasOne(x => x.ProductDetail)
-               .WithMany(x => x.ColorToProductDetails)
-               .HasForeignKey(x => x.ProductDetailId);
+            modelBuilder.Entity<Stock>()
+               .HasOne(x => x.Product)
+               .WithMany(x => x.Stocks)
+               .HasForeignKey(x => x.ProductId);
+
+            modelBuilder.Entity<Stock>()
+               .HasOne(x => x.Material)
+               .WithMany(x => x.Stocks)
+               .HasForeignKey(x => x.MaterialId);
 
             #endregion
 

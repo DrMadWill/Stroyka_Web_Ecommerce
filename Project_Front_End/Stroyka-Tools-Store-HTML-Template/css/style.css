@@ -25,7 +25,14 @@ body {
     backface-visibility: hidden;
     overflow-y: scroll
 }
+.btn_nl {
+    background: #ffd333!important;
+    color: #3d464d;
+    outline: hidden;
+}
 
+    .btn_nl:hover {
+    }
 a,
 a:hover {
     color: #1a66ff

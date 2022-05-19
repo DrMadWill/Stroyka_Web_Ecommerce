@@ -532,9 +532,18 @@
                                             <div class="input-radio-color__list">`
         
             let colors = e.materials[0].colorAMs
+        
             for (let i = 0; i < colors.length; i++) {
-                html = html + ` <label class="input-radio-color__item " style="color:${colors[i].code};" data-toggle="tooltip" title="${colors[i].name}">
-                                    <input type="radio" value="color:${colors[i].code}" name="color"> <span></span>
+                html = html + ` <label class="input-radio-color__item `
+                if (!colors[i].isStock) {
+                    html = html + ` input-radio-color__item--disabled `
+                }
+                html = html +                          `" style="color:${colors[i].code};" data-toggle="tooltip" title="${colors[i].name}">
+                                    <input type="radio" value="color:${colors[i].id}"`
+                if (!colors[i].isStock) {
+                    html = html + ` disabled="disabled" `
+                }
+                html = html +                          ` name="color"> <span></span>
                                 </label>`
             }
             
@@ -549,9 +558,9 @@
                                             <div class="input-radio-label__list">`
             let materials = e.materials
 
-            html = html + `<label> <input type="radio" checked value="${materials[0].name}" name="material"> <span>${materials[0].name}</span> </label>`
+            html = html + `<label > <input data-id="${materials[0].id}" class="quickview_matrial" type="radio" checked value="${materials[0].name}" name="material"> <span>${materials[0].name}</span> </label>`
             for (let i = 1; i < materials.length; i++) {
-                html = html + `<label> <input type="radio" value="${materials[i].name}" name="material"> <span>${materials[i].name}</span> </label>`
+                html = html + `<label> <input data-id="${materials[i].id}" class="quickview_matrial" type="radio" value="${materials[i].name}" name="material"> <span>${materials[i].name}</span> </label>`
             }
 
             html = html +                  `</div>
@@ -694,6 +703,10 @@
                     }
 
                     let resault = Quickview(data);
+                    // Session Storage Saved Matrials
+                    let matrialString = JSON.stringify(data.materials)
+                    sessionStorage.setItem("matrials", matrialString)
+
                     quickview.cancelPreviousModal = function () { };
                     button.removeClass('product-card__quickview--preload');
 
@@ -715,6 +728,7 @@
         }
     };
 
+    
     $(function () {
         const modal = $('#quickview-modal');
 
@@ -735,6 +749,34 @@
         });
     });
 
+    /*
+     // quckview matrial change
+    */
+
+    $(function () {
+        $(document).on("click", ".quickview_matrial", (e) => {
+            let btnMatrial = e.currentTarget
+            let id = $(btnMatrial).data("id")
+            let matrialSotrage = JSON.parse(sessionStorage.getItem("matrials"))
+            let colors = matrialSotrage.find(c => c.id === id).colorAMs
+            let html = "";
+            for (let i = 0; i < colors.length; i++) {
+                html = html + ` <label class="input-radio-color__item `
+                if (!colors[i].isStock) {
+                    html = html + ` input-radio-color__item--disabled `
+                }
+                html = html + `" style="color:${colors[i].code};" data-toggle="tooltip" title="${colors[i].name}">
+                                    <input type="radio" value="color:${colors[i].id}"`
+                if (!colors[i].isStock) {
+                    html = html + ` disabled="disabled" `
+                }
+                html = html + ` name="color"> <span></span>
+                                </label>`
+            }
+
+            $(".input-radio-color__list").html(html)
+        })
+    })
 
     /*
     // products carousel

@@ -12,9 +12,5 @@ namespace Stroyka.Models.Products
         [MaxLength(100)]
         public string Name { get; set; }
         public virtual ICollection<Stock> Stocks { get; set; }
-        [NotMapped]
-        public bool IsStock { get; set; }
-
-
     }
 }

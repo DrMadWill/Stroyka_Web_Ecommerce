@@ -19,9 +19,9 @@
                             {
                                 <a href="@item.BtnLink" class="block-slideshow__slide">
                                     <div class="block-slideshow__slide-image block-slideshow__slide-image--desktop"
-                                     style="background-image: url('images/slides/@item.Image')"></div>
+                                     style="background-image: url('/images/slides/@item.Image')"></div>
                                     <div class="block-slideshow__slide-image block-slideshow__slide-image--mobile"
-                                     style="background-image: url('images/slides/@item.Image')"></div>
+                                     style="background-image: url('/images/slides/@item.Image')"></div>
                                     <div class="block-slideshow__slide-content">
                                         <div class="block-slideshow__slide-title">
                                             @item.Title
@@ -129,100 +129,7 @@
             </div>
             <div class="block-products-carousel__slider">
                 <div class="block-products-carousel__preloader"></div>
-                <div class="owl-carousel">
-                    @foreach (var item in Model.RatedProducts)
-                    {
-                        <div class="block-products-carousel__column">
-                            <div class="block-products-carousel__cell">
-                                <div class="product-card">
-                                    <button class="product-card__quickview" data-id="@item.Id" type="button">
-                                        <svg width="16px" height="16px">
-                                            <use xlink:href="/images/sprite.svg#quickview-16"></use>
-                                        </svg> <span class="fake-svg-icon"></span>
-                                    </button>
-                                    <div class="product-card__badges-list">
-                                        <div class="product-card__badge product-card__badge--@item.Status.Name.ToLower()">@item.Status.Name</div>
-                                    </div>
-                                    <div class="product-card__image">
-                                        <a href="product.html">
-                                            <img src="~/images/products/@item.Image" alt="">
-                                        </a>
-                                    </div>
-                                    <div class="product-card__info">
-                                        <div class="product-card__name">
-                                            <a href="product.html">
-                                                @item.Name
-                                            </a>
-                                        </div>
-                                        <div class="product-card__rating">
-                                            <div class="rating">
-                                                <div class="rating">
-                                                    <div class="rating__body">
-                                                        @for (int i = 0; i < 5; i++)
-                                                        {
-                                                            <svg class="rating__star @(i<item.Stars ? "rating__star--active":"")" width="13px"
-                                                         height="12px">
-                                                                <g class="rating__fill">
-                                                                    <use xlink:href="/images/sprite.svg#star-normal"></use>
-                                                                </g>
-                                                                <g class="rating__stroke">
-                                                                    <use xlink:href="/images/sprite.svg#star-normal-stroke">
-                                                                    </use>
-                                                                </g>
-                                                            </svg>
-                                                            <div class="rating__star rating__star--only-edge @(i<item.Stars ? "rating__star--active":"")">
-                                                                <div class="rating__fill">
-                                                                    <div class="fake-svg-icon"></div>
-                                                                </div>
-                                                                <div class="rating__stroke">
-                                                                    <div class="fake-svg-icon"></div>
-                                                                </div>
-                                                            </div>
-                                                        }
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="product-card__rating-legend">@item.Reviews.Count Reviews</div>
-                                        </div>
-
-                                    </div>
-                                    <div class="product-card__actions">
-                                        <div class="product-card__prices">
-                                            @if (item.OldPrice == null)
-                                            {
-                                                <span>$@item.CurrentPrice</span>
-                                            }
-                                            else
-                                            {
-                                                <span class="product-card__new-price">$@item.CurrentPrice</span> <span class="product-card__old-price">$@item.OldPrice</span>
-                                            }
-                                        </div>
-                                        <div class="product-card__buttons">
-                                            <button class="btn btn-primary product-card__addtocart" type="button">
-                                                Add To
-                                                Cart
-                                            </button> <button class="btn btn-secondary product-card__addtocart product-card__addtocart--list"
-                                                          type="button">
-                                                Add To Cart
-                                            </button> <button class="btn btn-light btn-svg-icon btn-svg-icon--fake-svg product-card__wishlist"
-                                                          type="button">
-                                                <svg width="16px" height="16px">
-                                                    <use xlink:href="/images/sprite.svg#wishlist-16"></use>
-                                                </svg> <span class="fake-svg-icon fake-svg-icon--wishlist-16"></span>
-                                            </button>
-                                            <button class="btn btn-light btn-svg-icon btn-svg-icon--fake-svg product-card__compare"
-                                                type="button">
-                                                <svg width="16px" height="16px">
-                                                    <use xlink:href="/images/sprite.svg#compare-16"></use>
-                                                </svg> <span class="fake-svg-icon fake-svg-icon--compare-16"></span>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    }
-                </div>
+                <partial name="_OwlCarouselBigProductPartial" model="@Model.FeaturedProducts" />
             </div>
         </div>
     </div><!-- .block-products-carousel / end -->
@@ -1337,7 +1244,10 @@
                     </li>
                     @foreach (var item in Model.MegaCategories)
                     {
-                        <li><button type="button" data-carusel-type="horizontal" data-id="@item.Id" class="block-header__group new-arrival-items">@item.Name</button></li>
+                        <li>
+                            <button type="button" data-carusel-type="horizontal"
+                            data-id="@item.Id" class="block-header__group new-arrival-items">@item.Name</button>
+                        </li>
                     }
                 </ul>
                 <div class="block-header__arrows-list">

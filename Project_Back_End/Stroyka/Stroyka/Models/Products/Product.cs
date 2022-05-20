@@ -18,7 +18,7 @@ namespace Stroyka.Models.Products
         public DateTime Date { get; set; }
         public string Image { get; set; }
         public byte Stars { get; set; }
-
+        public string MiniDecription { get; set; }
         public int StockCount { get; set; }
         [NotMapped]
         public bool IsInStock

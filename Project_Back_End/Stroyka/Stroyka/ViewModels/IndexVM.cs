@@ -13,7 +13,6 @@ namespace Stroyka.ViewModels
         public List<List<Product>> NewArrivals { get; set; }
         public List<Brand> Brands { get; set; }
         public List<Product> SpecialOffers { get; set; }
-
-
+        public List<Product> FeaturedProducts { get; set; }
     }
 }

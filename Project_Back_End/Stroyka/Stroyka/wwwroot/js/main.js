@@ -378,7 +378,6 @@
         });
     });
 
-    
 
     function Quickview(e) {
             let html = `
@@ -505,7 +504,7 @@
                                         </span>`
             } else {
                 html = html +           `<span class="text-danger">
-                                            Not Found Stock
+                                            Not In Stock
                                         </span>`
         }
      

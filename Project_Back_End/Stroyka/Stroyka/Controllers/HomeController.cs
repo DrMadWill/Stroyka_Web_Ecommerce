@@ -39,8 +39,16 @@ namespace Stroyka.Controllers
                 // Popular Algorithm Using Seals Tables But now not added
                 PopularCategories = await _dbContext.ProductCategories
                 .Include(x => x.SubCategories).Take(6).ToListAsync(),
-                
-               
+
+
+                // Featured Product
+                FeaturedProducts = await _dbContext.Products
+                   .Where(dr => dr.Stars > 2) // Mumum Star : 3 
+                   .OrderByDescending(x => x.Stars)
+                   .Include(x => x.Reviews)
+                   .Include(x => x.Status)
+                   .ToListAsync(),
+
                 // New Arrivals Product
                 NewArrivals = (await _dbContext.Products
                 .Include(x => x.Reviews)
@@ -74,6 +82,37 @@ namespace Stroyka.Controllers
             };
             return View(index);
         }
+
+        public async Task<IActionResult> Single(int? id)
+        {
+            if (id == null) return ValidationProblem();
+
+            var product = await _dbContext.Products
+                .Include(x=>x.Brand)
+                .Include(x=>x.ProductDetail).ThenInclude(x=>x.ProductImages)
+                .Include(x=>x.Reviews)
+                
+                .FirstOrDefaultAsync(dr => dr.Id == id);
+            if(product == null) return NotFound();
+
+            SingleVM single = new()
+            {
+                Product = product,
+                Stocks = await _dbContext.ProductStock.Where(dr => dr.ProductId == id)
+                .Include(x => x.Material).Include(x => x.Color).ToListAsync(),
+                SubCategories = await _dbContext.SubCategoryToProducts
+                .Include(x => x.SubCategory)
+                .Where(x => x.ProductId == id).Select(x => x.SubCategory)
+                .ToListAsync(),
+                Categories = await _dbContext.SubCategoryToProducts
+                .Include(x=>x.SubCategory.Category)
+                .Where(x=>x.ProductId == id).Select(x=>x.SubCategory.Category)
+                .ToListAsync()
+            };
+
+            return View(product);
+        }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

@@ -79,26 +79,27 @@ namespace Stroyka.Controllers
            
             if (id == null)
             {
-               var newArrivalsProductDefault = await _dbContext.SubCategoryToProducts
-               .Where(dr => dr.Product.Stars > 3)
-               .Include(x => x.Product)
+               var newArrivalsProductDefault = await _dbContext.Products
+               .Where(dr => dr.Stars > 2)
+               .OrderByDescending(x => x.Stars)
                .Select(dr => new ProductAM
                {
-                   Name = dr.Product.Name,
-                   CurrentPrice = dr.Product.CurrentPrice,
-                   Date = dr.Product.Date,
-                   OldPrice = dr.Product.OldPrice,
-                   Id = dr.Product.Id,
-                   Image = dr.Product.Image,
-                   Stars = dr.Product.Stars,
-                   Status = new Status { Name = dr.Product.Status.Name },
-                   ReviewsCount = dr.Product.Reviews.Count
+                   Name = dr.Name,
+                   CurrentPrice = dr.CurrentPrice,
+                   Date = dr.Date,
+                   OldPrice = dr.OldPrice,
+                   Id = dr.Id,
+                   Image = dr.Image,
+                   Stars = dr.Stars,
+                   Status = new Status { Name = dr.Status.Name },
+                   ReviewsCount = dr.Reviews.Count
                })
                .ToListAsync();
                 return Json(newArrivalsProductDefault);
             }
             var newArrivalsProduct = await _dbContext.SubCategoryToProducts
-                   .Where(dr => dr.SubCategory.Category.MegaCategory.Id == id && dr.Product.Stars > 3)
+                   .Where(dr => dr.SubCategory.Category.MegaCategory.Id == id && dr.Product.Stars > 2)
+                   .OrderByDescending(x => x.Product.Stars)
                    .Include(x => x.Product)
                    .Select(dr => new ProductAM
                    {
@@ -156,7 +157,7 @@ namespace Stroyka.Controllers
                     ProductDetail = new
                     {
                         dr.ProductDetail.SKU,
-                        dr.ProductDetail.MiniDecription,
+                        dr.MiniDecription,
                         Colors = dr.Stocks.Select(x => new { x.Color.Id, x.Color.Name, IsStock = x.Count > 0 }),
                         Galery = dr.ProductDetail.ProductImages.Select(x => x.Name)
                     },

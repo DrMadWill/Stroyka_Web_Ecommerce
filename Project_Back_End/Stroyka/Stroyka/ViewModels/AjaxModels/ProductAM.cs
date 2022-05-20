@@ -13,13 +13,8 @@ namespace Stroyka.ViewModels.AjaxModels
         public DateTime Date { get; set; }
         public string Image { get; set; }
         public byte Stars { get; set; }
-
         public int StockCount { get; set; }
-        public bool IsInStock
-        {
-            get { return StockCount > 0; }
-            set => IsInStock = value;
-        }
+        public bool IsInStock { get; set; }
         public virtual Status Status { get; set; }
         public virtual int StatusId { get; set; }
         public virtual ProductDetail ProductDetail { get; set; }

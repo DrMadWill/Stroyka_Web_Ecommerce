@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Stroyka.Models.Products
+namespace Stroyka.Models.Commoun
 {
     public class IndexSlider
     {

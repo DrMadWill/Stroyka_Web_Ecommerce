@@ -90,7 +90,6 @@ namespace Stroyka.Controllers
                    OldPrice = dr.Product.OldPrice,
                    Id = dr.Product.Id,
                    Image = dr.Product.Image,
-                   IsInStock = dr.Product.IsInStock,
                    Stars = dr.Product.Stars,
                    Status = new Status { Name = dr.Product.Status.Name },
                    ReviewsCount = dr.Product.Reviews.Count
@@ -109,18 +108,19 @@ namespace Stroyka.Controllers
                        OldPrice = dr.Product.OldPrice,
                        Id = dr.Product.Id,
                        Image = dr.Product.Image,
-                       IsInStock = dr.Product.IsInStock,
                        Stars = dr.Product.Stars,
                        Status = new Status { Name = dr.Product.Status.Name },
                        ReviewsCount = dr.Product.Reviews.Count
                    })
+                   
                   .ToListAsync();
            
             return Json(newArrivalsProduct);
         }
 
+        // Qucik View | GET
         [HttpGet]
-        public async Task<IActionResult> Quickview(int? id)
+        public async Task<JsonResult> Quickview(int? id)
         {
             if (id == null) return Json(new { status = 422 });
 
@@ -180,8 +180,6 @@ namespace Stroyka.Controllers
             }
             return materials;
         }
-
-
 
     }
 }

@@ -56,20 +56,27 @@ using Stroyka.Models.Blogs;
 #nullable disable
 #nullable restore
 #line 7 "C:\Users\nofel\OneDrive\Desktop\Stroyka_Web_Ecommerce\Project_Back_End\Stroyka\Stroyka\Views\_ViewImports.cshtml"
-using Stroyka.Models.Products;
+using Stroyka.Models.Commoun;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
 #line 8 "C:\Users\nofel\OneDrive\Desktop\Stroyka_Web_Ecommerce\Project_Back_End\Stroyka\Stroyka\Views\_ViewImports.cshtml"
+using Stroyka.Models.Products;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 9 "C:\Users\nofel\OneDrive\Desktop\Stroyka_Web_Ecommerce\Project_Back_End\Stroyka\Stroyka\Views\_ViewImports.cshtml"
 using Stroyka.Models.Users;
 
 #line default
 #line hidden
 #nullable disable
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"73684e614387df510ea43b259c4a9aca920edf92", @"/Views/Blog/Single.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"365e3b62364b3499d51da633ee451e4767c5db40", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"5b09a3051950d72242719712a2fdd6e3b2ffc8ad", @"/Views/_ViewImports.cshtml")]
     #nullable restore
     public class Views_Blog_Single : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<BlogVM>
     #nullable disable
@@ -126,7 +133,7 @@ using Stroyka.Models.Users;
             </div>
             <div class=""modal-body"">
                 ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "73684e614387df510ea43b259c4a9aca920edf928485", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "73684e614387df510ea43b259c4a9aca920edf928709", async() => {
                 WriteLiteral("\r\n                    <div class=\"form-group\">\r\n                        ");
 #nullable restore
 #line 28 "C:\Users\nofel\OneDrive\Desktop\Stroyka_Web_Ecommerce\Project_Back_End\Stroyka\Stroyka\Views\Blog\Single.cshtml"
@@ -174,7 +181,7 @@ using Stroyka.Models.Users;
                     <ol class=""breadcrumb"">
                         <li class=""breadcrumb-item"">
                             ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "73684e614387df510ea43b259c4a9aca920edf9211196", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "73684e614387df510ea43b259c4a9aca920edf9211420", async() => {
                 WriteLiteral("Home");
             }
             );
@@ -199,7 +206,7 @@ using Stroyka.Models.Users;
                         </li>
                         <li class=""breadcrumb-item"">
                             ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "73684e614387df510ea43b259c4a9aca920edf9212934", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "73684e614387df510ea43b259c4a9aca920edf9213158", async() => {
                 WriteLiteral("Blog");
             }
             );
@@ -301,8 +308,8 @@ WriteAttributeValue("", 3226, Model.Blog.Category.Id, 3226, 23, false);
 #line hidden
 #nullable disable
             WriteLiteral(" Comments</a></div>\r\n                        </div>\r\n                    </div>\r\n                    <div class=\"post__featured\">");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "73684e614387df510ea43b259c4a9aca920edf9218538", async() => {
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagOnly, "73684e614387df510ea43b259c4a9aca920edf9218755", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "73684e614387df510ea43b259c4a9aca920edf9218762", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagOnly, "73684e614387df510ea43b259c4a9aca920edf9218979", async() => {
                 }
                 );
                 __Microsoft_AspNetCore_Mvc_Razor_TagHelpers_UrlResolutionTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.Razor.TagHelpers.UrlResolutionTagHelper>();
@@ -370,7 +377,7 @@ AddHtmlAttributeValue("", 3983, Model.Blog.Image, 3983, 17, false);
 #line hidden
 #nullable disable
             WriteLiteral("                                        ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "73684e614387df510ea43b259c4a9aca920edf9222732", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "73684e614387df510ea43b259c4a9aca920edf9222956", async() => {
 #nullable restore
 #line 95 "C:\Users\nofel\OneDrive\Desktop\Stroyka_Web_Ecommerce\Project_Back_End\Stroyka\Stroyka\Views\Blog\Single.cshtml"
                                                                                                                      Write(item.Name);
@@ -424,7 +431,7 @@ AddHtmlAttributeValue("", 3983, Model.Blog.Image, 3983, 17, false);
                             <div class=""post-author__avatar"">
                                 <a href=""#"">
                                     ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagOnly, "73684e614387df510ea43b259c4a9aca920edf9226298", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagOnly, "73684e614387df510ea43b259c4a9aca920edf9226522", async() => {
             }
             );
             __Microsoft_AspNetCore_Mvc_Razor_TagHelpers_UrlResolutionTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.Razor.TagHelpers.UrlResolutionTagHelper>();
@@ -493,7 +500,7 @@ AddHtmlAttributeValue("", 5952, Model.Blog.User.Image, 5952, 22, false);
                                         <div class=""comment__avatar"">
                                             <a href=""#"">
                                                 ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagOnly, "73684e614387df510ea43b259c4a9aca920edf9230625", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagOnly, "73684e614387df510ea43b259c4a9aca920edf9230849", async() => {
             }
             );
             __Microsoft_AspNetCore_Mvc_Razor_TagHelpers_UrlResolutionTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.Razor.TagHelpers.UrlResolutionTagHelper>();
@@ -637,7 +644,7 @@ AddHtmlAttributeValue("", 7317, item.User.Image, 7317, 16, false);
 #line hidden
 #nullable disable
             WriteLiteral("                    </section>\r\n                    <section class=\"post__section\">\r\n                        <h4 class=\"post__section-title\">Write A Comment</h4>\r\n                        ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "73684e614387df510ea43b259c4a9aca920edf9238211", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "73684e614387df510ea43b259c4a9aca920edf9238435", async() => {
                 WriteLiteral("\r\n                            <div class=\"form-group\">\r\n                                ");
 #nullable restore
 #line 176 "C:\Users\nofel\OneDrive\Desktop\Stroyka_Web_Ecommerce\Project_Back_End\Stroyka\Stroyka\Views\Blog\Single.cshtml"

@@ -29,20 +29,22 @@ namespace Stroyka.Controllers
                 // Index Silder Data
                 IndexSliders = await _dbContext.IndexSliders.ToListAsync(),
                 // Popular Algorithm Using Seals Tables But now not added
-                PopularCategories = await _dbContext.Categories.Include(x=>x.SubCategories).Take(6).ToListAsync(),
+                PopularCategories = await _dbContext.ProductCategories.Include(x=>x.SubCategories).Take(6).ToListAsync(),
                 // Top Rated Product 
                 RatedProducts = await _dbContext.Products
                 .Include(x=>x.Reviews)
                 .Include(x=>x.Status)
                 .Where(dr=>dr.Stars > 3).Take(3).ToListAsync(),
                 //Full MegaCategories
-                MegaCategories = await _dbContext.MegaCategories.ToListAsync(),
+                MegaCategories = await _dbContext.ProductMegaCategories.ToListAsync(),
                 // New Arrivals Product
                 NewArrivals = (await _dbContext.Products
                 .Include(x => x.Reviews)
                 .Include(x => x.Status)
                 .Where(dr => dr.Date > DateTime.Now.AddMonths(-3))
-                .ToListAsync()).GenarateNewArrivals()
+                .ToListAsync()).GenarateNewArrivals(),
+                // Brands
+                Brands = await _dbContext.ProductBrands.ToListAsync()
             };
             return View(index);
         }

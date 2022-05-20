@@ -56,20 +56,27 @@ using Stroyka.Models.Blogs;
 #nullable disable
 #nullable restore
 #line 7 "C:\Users\nofel\OneDrive\Desktop\Stroyka_Web_Ecommerce\Project_Back_End\Stroyka\Stroyka\Views\_ViewImports.cshtml"
-using Stroyka.Models.Products;
+using Stroyka.Models.Commoun;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
 #line 8 "C:\Users\nofel\OneDrive\Desktop\Stroyka_Web_Ecommerce\Project_Back_End\Stroyka\Stroyka\Views\_ViewImports.cshtml"
+using Stroyka.Models.Products;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 9 "C:\Users\nofel\OneDrive\Desktop\Stroyka_Web_Ecommerce\Project_Back_End\Stroyka\Stroyka\Views\_ViewImports.cshtml"
 using Stroyka.Models.Users;
 
 #line default
 #line hidden
 #nullable disable
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"60220bf5baf08cbb5763bbc02acd166c64297d74", @"/Views/Blog/Index.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"365e3b62364b3499d51da633ee451e4767c5db40", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"5b09a3051950d72242719712a2fdd6e3b2ffc8ad", @"/Views/_ViewImports.cshtml")]
     #nullable restore
     public class Views_Blog_Index : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<PaginationList<Blog>>
     #nullable disable
@@ -152,7 +159,7 @@ using Stroyka.Models.Users;
                         </li>
                         <li class=""breadcrumb-item"">
                             ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "60220bf5baf08cbb5763bbc02acd166c64297d749018", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "60220bf5baf08cbb5763bbc02acd166c64297d749242", async() => {
                 WriteLiteral("Blogs");
             }
             );
@@ -204,9 +211,9 @@ using Stroyka.Models.Users;
                                         <div class=""post-card post-card--layout--grid post-card--size--nl"">
                                             <div class=""post-card__image"">
                                                 ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "60220bf5baf08cbb5763bbc02acd166c64297d7411959", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "60220bf5baf08cbb5763bbc02acd166c64297d7412183", async() => {
                 WriteLiteral("\r\n                                                    ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagOnly, "60220bf5baf08cbb5763bbc02acd166c64297d7412267", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagOnly, "60220bf5baf08cbb5763bbc02acd166c64297d7412491", async() => {
                 }
                 );
                 __Microsoft_AspNetCore_Mvc_Razor_TagHelpers_UrlResolutionTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.Razor.TagHelpers.UrlResolutionTagHelper>();
@@ -265,7 +272,7 @@ AddHtmlAttributeValue("", 2685, item.Image, 2685, 11, false);
                                             <div class=""post-card__info"">
                                                 <div class=""post-card__name"">
                                                     ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "60220bf5baf08cbb5763bbc02acd166c64297d7416431", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "60220bf5baf08cbb5763bbc02acd166c64297d7416655", async() => {
 #nullable restore
 #line 74 "C:\Users\nofel\OneDrive\Desktop\Stroyka_Web_Ecommerce\Project_Back_End\Stroyka\Stroyka\Views\Blog\Index.cshtml"
                                                                                                                     Write(item.Title);
@@ -304,7 +311,7 @@ AddHtmlAttributeValue("", 2685, item.Image, 2685, 11, false);
             Write(__tagHelperExecutionContext.Output);
             __tagHelperExecutionContext = __tagHelperScopeManager.End();
             WriteLiteral("\r\n                                                </div>\r\n                                                <div class=\"post-card__date\">\r\n                                                    ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "60220bf5baf08cbb5763bbc02acd166c64297d7419358", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "60220bf5baf08cbb5763bbc02acd166c64297d7419582", async() => {
 #nullable restore
 #line 77 "C:\Users\nofel\OneDrive\Desktop\Stroyka_Web_Ecommerce\Project_Back_End\Stroyka\Stroyka\Views\Blog\Index.cshtml"
                                                                                                                                                                  Write(item.Category.Name);
@@ -368,7 +375,7 @@ AddHtmlAttributeValue("", 2685, item.Image, 2685, 11, false);
 #line hidden
 #nullable disable
             WriteLiteral("</div>\r\n                                                <div class=\"post-card__read-more\">\r\n                                                    ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "60220bf5baf08cbb5763bbc02acd166c64297d7423639", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "60220bf5baf08cbb5763bbc02acd166c64297d7423863", async() => {
                 WriteLiteral("Read More");
             }
             );
@@ -410,7 +417,7 @@ AddHtmlAttributeValue("", 2685, item.Image, 2685, 11, false);
 #line hidden
 #nullable disable
             WriteLiteral("                            </div>\r\n                        </div>\r\n                        ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("partial", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "60220bf5baf08cbb5763bbc02acd166c64297d7426734", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("partial", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "60220bf5baf08cbb5763bbc02acd166c64297d7426958", async() => {
             }
             );
             __Microsoft_AspNetCore_Mvc_TagHelpers_PartialTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.TagHelpers.PartialTagHelper>();

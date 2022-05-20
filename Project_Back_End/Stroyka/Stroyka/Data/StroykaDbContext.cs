@@ -13,18 +13,16 @@ namespace Stroyka.Data
         public StroykaDbContext(DbContextOptions<StroykaDbContext> options):base(options){}
         // Using Praduct Class
         #region Product
-        public DbSet<Status> Statuses { get; set; }
-        public DbSet<Brand> Brands { get; set; }
-        public DbSet<Material> Materials { get; set; }
+        public DbSet<Status> ProductStatuses { get; set; }
+        public DbSet<Brand> ProductBrands { get; set; }
+        public DbSet<Material> ProductMaterials { get; set; }
         public DbSet<Product> Products { get; set; }
-        public DbSet<IndexSlider> IndexSliders { get; set; }
-        public DbSet<Color> Colors { get; set; }
-        public DbSet<Models.Products.Category> Categories { get; set; }
-        public DbSet<Models.Products.SubCategory> SubCategories { get; set; }
+        public DbSet<Color> ProductColors { get; set; }
+        public DbSet<Models.Products.Category> ProductCategories { get; set; }
+        public DbSet<Models.Products.SubCategory> ProductSubCategories { get; set; }
         public DbSet<SubCategoryToProduct> SubCategoryToProducts { get; set; }
-        //public DbSet<ColorToProductDetail> ColorToProductDetails { get; set; }
-        public DbSet<Review> Reviews { get; set; }
-        public DbSet<MegaCategory> MegaCategories { get; set; }
+        public DbSet<Review> ProductReviews { get; set; }
+        public DbSet<MegaCategory> ProductMegaCategories { get; set; }
         public DbSet<ProductDetail> ProductDetails { get; set; }
         public DbSet<ProductImage> ProductImages { get; set; }
         public DbSet<Stock> ProductStock { get; set; }
@@ -44,8 +42,9 @@ namespace Stroyka.Data
         // Using Commoun Class
         #region Commoun
         public DbSet<EmailForSubscribe> EmailForSubscribes { get; set; }
-
+        public DbSet<IndexSlider> IndexSliders { get; set; }
         #endregion
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

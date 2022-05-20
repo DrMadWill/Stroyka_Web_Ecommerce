@@ -692,12 +692,8 @@
                 type:"GET",
                 success: function (data) {
 
-                    if (data.hasOwnProperty('status') && data.status === 404) {
-                        alert("Not Found")
-                        button.removeClass('product-card__quickview--preload');
-                        return;
-                    } else if (data.hasOwnProperty('status') && data.status === 422) {
-                        alert("id property requerid")
+                    // Error Handling
+                    if (IsAjaxError(data)) {
                         button.removeClass('product-card__quickview--preload');
                         return;
                     }
@@ -728,7 +724,20 @@
         }
     };
 
-    
+    // Ajax Response Error Status Code Handler
+    function IsAjaxError(response) {
+        if (response.hasOwnProperty('status') && response.status === 404) {
+            alert("Not Found")
+            return true;
+        } else if (response.hasOwnProperty('status') && response.status === 422) {
+            alert("id property requerid")
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
     $(function () {
         const modal = $('#quickview-modal');
 
@@ -852,7 +861,7 @@
 
                 html = html +               `</div>
                                         </div>
-                                        <div class="product-card__rating-legend">${child.reviewsCount}</div>
+                                        <div class="product-card__rating-legend">${child.reviewsCount} Reviews</div>
                                     </div>
                                 </div>
                                 <div class="product-card__actions">
@@ -966,7 +975,7 @@
                     }
                     html = html + `</div>
                                         </div>
-                                        <div class="product-card__rating-legend">$${child.reviewsCount}</div>
+                                        <div class="product-card__rating-legend">${child.reviewsCount} Reviews</div>
                                     </div>
                                 </div>
                                 <div class="product-card__actions">
@@ -994,18 +1003,7 @@
             return items;
         }
 
-        async function fetchNewArrivals(id) {
-            return await fetch(`/ProductFilter/NewArrivals/${id}`).then(res => res.json()).then(respon => {
-                return respon;
-            })
-        }
-
-        async function fetchFeatured(id) {
-            return await fetch(`/ProductFilter/Featured/${id}`).then(res => res.json()).then(respon => {
-                return respon;
-            })
-        }
-
+        
        
         $('.block-products-carousel').each(function () {
             const layout = $(this).data('layout');
@@ -1086,36 +1084,57 @@
                 let id = $(event.currentTarget).data("id")
                 if (id == undefined) { id = "" }
                 if (carusel_Type === "grid") {
-                    fetchFeatured(id).then(dr => {
-                        let itemss = $(GenrateProductHTML(dr))
-                        block.find('.owl-carousel')
-                            .trigger('replace.owl.carousel', [itemss])
-                            .trigger('refresh.owl.carousel')
-                            .trigger('to.owl.carousel', [0, 0]);
-                        
-                        $('.product-card__quickview', block).on('click', function () {
-                            quickview.clickHandler.apply(this, arguments);
-                        });
 
-                        block.removeClass('block-products-carousel--loading');
+                    $.ajax({
+                        url: `/ProductFilter/Featured/${id}`,
+                        type: "GET",
+                        success: (response) => {
+
+                            // Error Handling
+                            if (IsAjaxError(response)) {
+                                return;
+                            }
+
+                            let itemss = $(GenrateProductHTML(response))
+                            block.find('.owl-carousel')
+                                .trigger('replace.owl.carousel', [itemss])
+                                .trigger('refresh.owl.carousel')
+                                .trigger('to.owl.carousel', [0, 0]);
+
+                            $('.product-card__quickview', block).on('click', function () {
+                                quickview.clickHandler.apply(this, arguments);
+                            });
+
+                            block.removeClass('block-products-carousel--loading');
+                        }
                     })
+
+                   
                 } else {
-                    
-                    fetchNewArrivals(id).then(res => {
-                        let itemss = $(GenrateNewArrivalsHTML(res))
-                        
-                        block.find('.owl-carousel')
-                            .trigger('replace.owl.carousel', [itemss])
-                            .trigger('refresh.owl.carousel')
-                            .trigger('to.owl.carousel', [0, 0]);
 
-                        $('.product-card__quickview', block).on('click', function () {
-                            quickview.clickHandler.apply(this, arguments);
-                        });
+                    $.ajax({
+                        url: `/ProductFilter/NewArrivals/${id}`,
+                        type: "GET",
+                        success: (response) => {
+                            // Error Handling
+                            if (IsAjaxError(response)) {
+                                return;
+                            }
 
-                        block.removeClass('block-products-carousel--loading');
+                            let itemss = $(GenrateNewArrivalsHTML(response))
 
-                    });
+                            block.find('.owl-carousel')
+                                .trigger('replace.owl.carousel', [itemss])
+                                .trigger('refresh.owl.carousel')
+                                .trigger('to.owl.carousel', [0, 0]);
+
+                            $('.product-card__quickview', block).on('click', function () {
+                                quickview.clickHandler.apply(this, arguments);
+                            });
+
+                            block.removeClass('block-products-carousel--loading');
+                        }
+                    })
                 }
                
             });

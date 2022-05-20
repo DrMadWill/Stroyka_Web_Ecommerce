@@ -22,10 +22,10 @@ namespace Stroyka.ViewComponents
         public async Task<IViewComponentResult> InvokeAsync()
         {
 
-            var megaCategory = await _dbContext.MegaCategories
+            var megaCategory = await _dbContext.ProductMegaCategories
                 .ToListAsync();
 
-            var category = await _dbContext.Categories
+            var category = await _dbContext.ProductCategories
                .Include(c => c.SubCategories)
                .ToListAsync();
 

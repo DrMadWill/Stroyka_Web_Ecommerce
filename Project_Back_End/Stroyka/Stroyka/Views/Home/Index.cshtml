@@ -161,7 +161,7 @@
                                                         @for (int i = 0; i < 5; i++)
                                                         {
                                                             <svg class="rating__star @(i<item.Stars ? "rating__star--active":"")" width="13px"
-                                                             height="12px">
+                                                         height="12px">
                                                                 <g class="rating__fill">
                                                                     <use xlink:href="/images/sprite.svg#star-normal"></use>
                                                                 </g>
@@ -1463,27 +1463,12 @@
         <div class="container">
             <div class="block-brands__slider">
                 <div class="owl-carousel">
-                    <div class="block-brands__item">
-                        <a href="#"><img src="images/logos/logo-1.png" alt=""></a>
-                    </div>
-                    <div class="block-brands__item">
-                        <a href="#"><img src="images/logos/logo-2.png" alt=""></a>
-                    </div>
-                    <div class="block-brands__item">
-                        <a href="#"><img src="images/logos/logo-3.png" alt=""></a>
-                    </div>
-                    <div class="block-brands__item">
-                        <a href="#"><img src="images/logos/logo-4.png" alt=""></a>
-                    </div>
-                    <div class="block-brands__item">
-                        <a href="#"><img src="images/logos/logo-5.png" alt=""></a>
-                    </div>
-                    <div class="block-brands__item">
-                        <a href="#"><img src="images/logos/logo-6.png" alt=""></a>
-                    </div>
-                    <div class="block-brands__item">
-                        <a href="#"><img src="images/logos/logo-7.png" alt=""></a>
-                    </div>
+                    @foreach (var item in Model.Brands)
+                    {
+                        <div class="block-brands__item">
+                            <a href="#@item.Id"><img src="~/images/logos/@item.Image" alt="@item.Name"></a>
+                        </div>
+                    }
                 </div>
             </div>
         </div>

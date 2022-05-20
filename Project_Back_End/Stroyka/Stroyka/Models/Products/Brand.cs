@@ -10,5 +10,9 @@ namespace Stroyka.Models.Products
         public string Name { get; set; }
         public virtual ICollection<Product> Products { get; set; }
 
+      
+        [MaxLength(300)]
+        public string Image { get; set; }
+
     }
 }

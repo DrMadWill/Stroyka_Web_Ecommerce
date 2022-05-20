@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Stroyka.Data;
 
 namespace Stroyka.Migrations
 {
     [DbContext(typeof(StroykaDbContext))]
-    partial class StroykaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220520072944_ChangeTableNames")]
+    partial class ChangeTableNames
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -406,7 +408,7 @@ namespace Stroyka.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("ProductCategories");
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("Stroyka.Models.Products.Color", b =>
@@ -431,7 +433,7 @@ namespace Stroyka.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("ProductColors");
+                    b.ToTable("Colors");
                 });
 
             modelBuilder.Entity("Stroyka.Models.Products.IndexSlider", b =>
@@ -504,7 +506,7 @@ namespace Stroyka.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("ProductMegaCategories");
+                    b.ToTable("MegaCategories");
                 });
 
             modelBuilder.Entity("Stroyka.Models.Products.Product", b =>
@@ -634,7 +636,7 @@ namespace Stroyka.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("ProductReviews");
+                    b.ToTable("Reviews");
                 });
 
             modelBuilder.Entity("Stroyka.Models.Products.Status", b =>
@@ -702,7 +704,7 @@ namespace Stroyka.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("ProductSubCategories");
+                    b.ToTable("SubCategories");
                 });
 
             modelBuilder.Entity("Stroyka.Models.Products.SubCategoryToProduct", b =>

@@ -1,4 +1,5 @@
-﻿using Stroyka.Models.Products;
+﻿using Stroyka.Models.Commoun;
+using Stroyka.Models.Products;
 using System.Collections.Generic;
 
 namespace Stroyka.ViewModels
@@ -10,7 +11,7 @@ namespace Stroyka.ViewModels
         public List<Product> RatedProducts { get; set; }
         public List<MegaCategory> MegaCategories { get; set; }
         public List<List<Product>> NewArrivals { get; set; }
+        public List<Brand> Brands { get; set; }
 
-       
     }
 }

@@ -10,7 +10,7 @@ namespace Stroyka.Models.Products
         [ForeignKey("Product"),Key]
         public virtual int Id { get; set; }
         public Product Product { get; set; }
-        
+        public bool IsSpecial { get; set; }
         public string MiniDecription { get; set; }
         public string SKU { get; set; }
         [Column(TypeName = "ntext")]

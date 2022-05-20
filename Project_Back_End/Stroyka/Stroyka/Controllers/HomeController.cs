@@ -55,6 +55,8 @@ namespace Stroyka.Controllers
 
                 // Special Offers
                 SpecialOffers = await _dbContext.Products
+                .Where(dr=>dr.ProductDetail.IsSpecial) // Specail And Lastest
+                .OrderByDescending(p=>p.Date)
                 .Include(x => x.Reviews)
                 .Include(x => x.Status)
                 .Take(3)
@@ -64,7 +66,8 @@ namespace Stroyka.Controllers
                 RatedProducts = await _dbContext.Products
                 .Include(x => x.Reviews)
                 .Include(x => x.Status)
-                .Where(dr => dr.Stars > 3).Take(3).ToListAsync(),
+                .Where(dr => dr.Stars > 3)// Mimum Star : 4
+                .Take(3).ToListAsync(),
 
                
                 

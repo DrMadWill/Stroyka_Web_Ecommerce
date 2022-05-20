@@ -12,6 +12,8 @@ namespace Stroyka.ViewModels
         public List<MegaCategory> MegaCategories { get; set; }
         public List<List<Product>> NewArrivals { get; set; }
         public List<Brand> Brands { get; set; }
+        public List<Product> SpecialOffers { get; set; }
+
 
     }
 }

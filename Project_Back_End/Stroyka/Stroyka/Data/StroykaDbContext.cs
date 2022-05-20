@@ -23,8 +23,8 @@ namespace Stroyka.Data
         public DbSet<SubCategoryToProduct> SubCategoryToProducts { get; set; }
         public DbSet<Review> ProductReviews { get; set; }
         public DbSet<MegaCategory> ProductMegaCategories { get; set; }
-        public DbSet<ProductDetail> ProductDetails { get; set; }
-        public DbSet<ProductImage> ProductImages { get; set; }
+        public DbSet<Models.Products.Detail> ProductDetails { get; set; }
+        public DbSet<Image> ProductImages { get; set; }
         public DbSet<Stock> ProductStock { get; set; }
         #endregion
 
@@ -34,7 +34,7 @@ namespace Stroyka.Data
         public DbSet<Models.Blogs.Category> BlogCategories { get; set; }
         public DbSet<Models.Blogs.SubCategory> BlogSubCategories { get; set; }
         public DbSet<BlogToTag> BlogToTags { get; set; }
-        public DbSet<Detail> BlogDetails { get; set; }
+        public DbSet<Models.Blogs.Detail> BlogDetails { get; set; }
         public DbSet<Comment> BlogComments { get; set; }
         public DbSet<Tag> BlogTags { get; set; }
         #endregion

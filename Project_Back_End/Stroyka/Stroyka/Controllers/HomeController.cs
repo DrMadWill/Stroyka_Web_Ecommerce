@@ -26,25 +26,48 @@ namespace Stroyka.Controllers
         {
             IndexVM index = new()
             {
-                // Index Silder Data
-                IndexSliders = await _dbContext.IndexSliders.ToListAsync(),
-                // Popular Algorithm Using Seals Tables But now not added
-                PopularCategories = await _dbContext.ProductCategories.Include(x=>x.SubCategories).Take(6).ToListAsync(),
-                // Top Rated Product 
-                RatedProducts = await _dbContext.Products
-                .Include(x=>x.Reviews)
-                .Include(x=>x.Status)
-                .Where(dr=>dr.Stars > 3).Take(3).ToListAsync(),
+                // ========================== Header ===================
+
                 //Full MegaCategories
                 MegaCategories = await _dbContext.ProductMegaCategories.ToListAsync(),
+
+                // Index Silder Data
+                IndexSliders = await _dbContext.IndexSliders.ToListAsync(),
+
+                // ============================ Content ================
+
+                // Popular Algorithm Using Seals Tables But now not added
+                PopularCategories = await _dbContext.ProductCategories
+                .Include(x => x.SubCategories).Take(6).ToListAsync(),
+                
+               
                 // New Arrivals Product
                 NewArrivals = (await _dbContext.Products
                 .Include(x => x.Reviews)
                 .Include(x => x.Status)
                 .Where(dr => dr.Date > DateTime.Now.AddMonths(-3))
                 .ToListAsync()).GenarateNewArrivals(),
+
+                // ============================== Footer ===============
+
                 // Brands
-                Brands = await _dbContext.ProductBrands.ToListAsync()
+                Brands = await _dbContext.ProductBrands.ToListAsync(),
+
+                // Special Offers
+                SpecialOffers = await _dbContext.Products
+                .Include(x => x.Reviews)
+                .Include(x => x.Status)
+                .Take(3)
+                .ToListAsync(),
+
+                // Top Rated Product 
+                RatedProducts = await _dbContext.Products
+                .Include(x => x.Reviews)
+                .Include(x => x.Status)
+                .Where(dr => dr.Stars > 3).Take(3).ToListAsync(),
+
+               
+                
             };
             return View(index);
         }

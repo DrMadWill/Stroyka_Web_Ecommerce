@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Stroyka.Models.Products
 {
-    public class ProductImage
+    public class Image
     {
         public virtual int Id { get; set; }
 
@@ -13,7 +13,7 @@ namespace Stroyka.Models.Products
         [NotMapped]
         public IFormFile Photo { get; set; }
 
-        public virtual ProductDetail ProductDetail { get; set; }
+        public virtual Detail ProductDetail { get; set; }
         public virtual int ProductDetailId { get; set; }
 
     }

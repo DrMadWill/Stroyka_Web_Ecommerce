@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Stroyka.Models.Products
 {
-    public class ProductDetail
+    public class Detail
     {
         [ForeignKey("Product"),Key]
         public virtual int Id { get; set; }
@@ -17,7 +17,7 @@ namespace Stroyka.Models.Products
         public string DescriptionFull { get; set; }
         [Column(TypeName = "ntext")]
         public string Specification { get; set; }
-        public virtual IList<ProductImage> ProductImages { get; set; }
+        public virtual IList<Image> ProductImages { get; set; }
 
     }
 }

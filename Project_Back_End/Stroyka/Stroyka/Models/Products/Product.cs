@@ -29,7 +29,7 @@ namespace Stroyka.Models.Products
 
         public virtual Status Status { get; set; }
         public virtual int StatusId { get; set; }
-        public virtual ProductDetail ProductDetail { get; set; }
+        public virtual Detail ProductDetail { get; set; }
         public virtual Brand Brand { get; set; }
         public virtual int BrandId { get; set; }
         public virtual ICollection<SubCategoryToProduct> SubCategoryToProducts { get; set; }

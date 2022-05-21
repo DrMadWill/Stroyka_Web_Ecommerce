@@ -63,7 +63,7 @@
                                     @foreach (var item in Model.Product.ProductDetail.ProductImages)
                                     {
                                         <a href="#" class="product-gallery__carousel-item">
-                                            <img class="product-gallery__carousel-image" src="images/products/@item" alt="">
+                                            <img class="product-gallery__carousel-image" src="~/images/products/@item.Name" alt="">
                                         </a>
                                     }
                                 </div>
@@ -211,8 +211,8 @@
 
                                         @foreach (var item in Model.Stocks.Where(dr => dr.MaterialId == materialId))
                                         {
-                                            <label class="input-radio-color__item @(item.Count > 0 ? "input-radio-color__item--disabled":"")" style="color:@item.Color.Code;" data-toggle="tooltip" title="@item.Color.Name">
-                                                <input type="radio" @(item.Count > 0 ? "disabled='disabled'":"") name="color"> <span></span>
+                                            <label class="input-radio-color__item @(item.Count > 0 ? "":"input-radio-color__item--disabled")" style="color:@item.Color.Code;" data-toggle="tooltip" title="@item.Color.Name">
+                                                <input type="radio" @(item.Count > 0 ? "":"disabled='disabled'") name="color"> <span></span>
                                             </label>
                                         }
                                     </div>
@@ -225,20 +225,22 @@
                                     <div class="input-radio-label__list">
 
                                         @{
-                                            var arr = @Model.Stocks.Select(x => x.Material).ToArray();
+                                            var arr = @Model.Stocks
+                                            .GroupBy(x=>x.Material)
+                                            .Select(x=>x.First())
+                                            .Select(x => x.Material).ToArray();
                                         }
 
                                         <label>
-                                            <input type="radio" checked name="material"> <span>@arr[0].Name</span>
+                                            <input type="radio" data-id="@arr[0].Id" class="detail_material_change" checked name="material"> <span>@arr[0].Name</span>
                                         </label>
 
                                         @for (var i = 1; i < arr.Length; i++)
                                         {
                                             <label>
-                                                <input type="radio" name="material"> <span>@arr[i].Name</span>
+                                                <input type="radio" data-id="@arr[i].Id" class="detail_material_change" name="material"> <span>@arr[i].Name</span>
                                             </label>
                                         }
-
                                     </div>
                                 </div>
                             </div>
@@ -350,14 +352,14 @@
                 <div class="product-tabs__content">
                     <div class="product-tabs__pane product-tabs__pane--active" id="tab-description">
                         <div class="typography">
-                            @Model.Product.ProductDetail.DescriptionFull
+                            @Html.Raw(Model.Product.ProductDetail.DescriptionFull)
                         </div>
                     </div>
                     <div class="product-tabs__pane" id="tab-specification">
                         <div class="spec">
                             <h3 class="spec__header">Specification</h3>
                             <div class="spec__section">
-                                 @Model.Product.ProductDetail.Specification
+                                 @Html.Raw(Model.Product.ProductDetail.Specification)
                             </div>
                         </div>
                     </div>
@@ -371,7 +373,7 @@
                                             <div class="review">
                                                 <div class="review__avatar">
 
-                                                    <img src="images/avatars/avatar-1.jpg" alt="">
+                                                    <img src="~/images/avatars/avatar-1.jpg" alt="">
 
                                                 </div>
                                                 <div class="review__content">
@@ -489,7 +491,7 @@
                                             <div class="review">
                                                 <div class="review__avatar">
 
-                                                    <img src="images/avatars/avatar-2.jpg" alt="">
+                                                    <img src="~/images/avatars/avatar-2.jpg" alt="">
 
                                                 </div>
                                                 <div class="review__content">
@@ -610,7 +612,7 @@
                                             <div class="review">
                                                 <div class="review__avatar">
 
-                                                    <img src="images/avatars/avatar-3.jpg" alt="">
+                                                    <img src="~/images/avatars/avatar-3.jpg" alt="">
 
                                                 </div>
                                                 <div class="review__content">
@@ -839,6 +841,45 @@
             </div>
         </div>
     </div><!-- .block-products-carousel -->
-
+    @await Component.InvokeAsync("SinglePoductCarousel",Model.Categories.First())
     
+    <input type="hidden" id="sessionData" value="@ViewBag.SessionStrig" />
 </div>
+
+@section script{
+    <script>
+        $(document).ready(()=>{
+           let sessionData = $("#sessionData").val();
+           if(sessionData != null && sessionData != undefined ){
+               sessionStorage.setItem("DetailMatrial",sessionData)
+           }
+        })
+    </script>
+     <script>
+        $(document).ready(()=>{
+          $(document).on("click",".detail_material_change",(e)=>{
+             let id = $(e.currentTarget).attr("data-id");
+             
+             let data = JSON.parse(sessionStorage.getItem("DetailMatrial"))
+             let colors = data.filter(x=>x.MaterialId == id)
+             let html = "";
+                 for (let i = 0; i < colors.length; i++) {
+                    html = html + ` <label class="input-radio-color__item `
+                    
+                    if (!colors[i].IsStock) {
+                        html = html + ` input-radio-color__item--disabled `
+                    }
+                    html = html +                          `" style="color:${colors[i].Code};" data-toggle="tooltip" title="${colors[i].Name}">
+                                        <input type="radio" value="color:${colors[i].id}"`
+                    if (!colors[i].IsStock) {
+                        html = html + ` disabled="disabled" `
+                    }
+                    html = html +                          ` name="color"> <span></span>
+                                    </label>`
+                 }
+             $(".input-radio-color__list").html(html)
+          })
+        })
+    </script>
+
+}

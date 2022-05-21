@@ -14,13 +14,13 @@
                         <div class="product-card__badge product-card__badge--@item.Status.Name.ToLower()">@item.Status.Name</div>
                     </div>
                     <div class="product-card__image">
-                        <a href="product.html">
+                        <a asp-controller="Home" asp-action="Single" asp-route-id="@item.Id">
                             <img src="~/images/products/@item.Image" alt="">
                         </a>
                     </div>
                     <div class="product-card__info">
                         <div class="product-card__name">
-                            <a href="product.html">
+                            <a asp-controller="Home" asp-action="Single" asp-route-id="@item.Id">
                                 @item.Name
                             </a>
                         </div>

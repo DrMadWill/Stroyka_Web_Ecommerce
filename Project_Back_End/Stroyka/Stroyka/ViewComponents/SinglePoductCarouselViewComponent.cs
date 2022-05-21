@@ -23,8 +23,9 @@ namespace Stroyka.ViewComponents
         public async Task<IViewComponentResult> InvokeAsync(int id)
         {
            var data = await _dbContext.SubCategoryToProducts
-                .Where(dr=>dr.SubCategoryId == id)
+                .Where(dr=>dr.SubCategory.CategoryId == id)
                 .Include(x=>x.Product.Status)
+                .Include(x=>x.Product.Reviews)
                 .Select(x=>x.Product)
                 .ToListAsync();
             return View(data);

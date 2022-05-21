@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using Stroyka.Data;
 using Stroyka.Extensions;
 using Stroyka.Models;
@@ -95,11 +97,23 @@ namespace Stroyka.Controllers
                 .FirstOrDefaultAsync(dr => dr.Id == id);
             if(product == null) return NotFound();
 
+            var stocks = await _dbContext.ProductStock.Where(dr => dr.ProductId == id)
+                .Include(x => x.Material).Include(x => x.Color)
+                .ToListAsync();
+            var stockMatrailAndColor = stocks.
+                Select(x => new 
+                    { x.MaterialId, MaterialName = x.Material.Name, Name = x.Color.Name,Id = x.ColorId ,Code= x.Color.Code,IsStock = x.Count >0 }
+                );
+
+            
+
+            ViewBag.SessionStrig = JsonConvert.SerializeObject(stockMatrailAndColor);
+            
+
             SingleVM single = new()
             {
                 Product = product,
-                Stocks = await _dbContext.ProductStock.Where(dr => dr.ProductId == id)
-                .Include(x => x.Material).Include(x => x.Color).ToListAsync(),
+                Stocks = stocks,
                 SubCategories = await _dbContext.SubCategoryToProducts
                 .Include(x => x.SubCategory)
                 .Where(x => x.ProductId == id).Select(x => x.SubCategory)
@@ -110,7 +124,7 @@ namespace Stroyka.Controllers
                 .ToListAsync()
             };
 
-            return View(product);
+            return View(single);
         }
 
 

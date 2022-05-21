@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Session;
 
 namespace Stroyka
 {
@@ -38,6 +39,19 @@ namespace Stroyka
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<StroykaDbContext>()
                 .AddTokenProvider<DataProtectorTokenProvider<User>>(TokenOptions.DefaultProvider);
+
+
+            // Session 
+
+            services.AddDistributedMemoryCache();
+            services.AddSession();
+                
+            //    (options =>
+            //{
+            //    options.Cookie.Name = ".AdventureWorks.Session";
+            //    options.IdleTimeout = TimeSpan.FromHours(3);
+            //    options.Cookie.IsEssential = true;
+            //});
 
             services.Configure<IdentityOptions>(options =>
             {
@@ -69,8 +83,10 @@ namespace Stroyka
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 //app.UseHsts();
             }
+
             app.UseHttpsRedirection();
             app.UseAuthentication();
+            app.UseSession();   
             app.UseStaticFiles();
             app.UseRouting();
             app.UseAuthorization();

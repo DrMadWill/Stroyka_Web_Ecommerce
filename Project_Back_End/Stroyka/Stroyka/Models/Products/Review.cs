@@ -10,17 +10,17 @@ namespace Stroyka.Models.Products
     {
         [Key]
         public virtual int Id { get; set; }
-        
-        [Required]
-        [MaxLength(700)]
+
         public byte Stars { get; set; }
         [Column(TypeName = "ntext")]
+        [Required]
         public string Content { get; set; }
+        [NotMapped]
+        public int Starss { get; set; }
+
         public DateTime Date { get; set; }
         public virtual Product Product { get; set; }
         public virtual int ProductId { get; set; }
-        public virtual Review Parent { get; set; }
-        public virtual int? ParentId { get; set; }
         public virtual User User { get; set; }
         [Required]
         public virtual string UserId { get; set; }

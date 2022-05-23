@@ -92,8 +92,6 @@ namespace Stroyka.Controllers
             var product = await _dbContext.Products
                 .Include(x=>x.Brand)
                 .Include(x=>x.ProductDetail).ThenInclude(x=>x.ProductImages)
-                .Include(x=>x.Reviews)
-                
                 .FirstOrDefaultAsync(dr => dr.Id == id);
             if(product == null) return NotFound();
 
@@ -104,8 +102,6 @@ namespace Stroyka.Controllers
                 Select(x => new 
                     { x.MaterialId, MaterialName = x.Material.Name, Name = x.Color.Name,Id = x.ColorId ,Code= x.Color.Code,IsStock = x.Count >0 }
                 );
-
-            
 
             ViewBag.SessionStrig = JsonConvert.SerializeObject(stockMatrailAndColor);
             
@@ -118,6 +114,9 @@ namespace Stroyka.Controllers
                 .Include(x => x.SubCategory)
                 .Where(x => x.ProductId == id).Select(x => x.SubCategory)
                 .ToListAsync(),
+                Reviews = await _dbContext.ProductReviews.Where(x => x.ProductId == id).Include(x=>x.User)
+                .Take(5).ToListAsync(),
+                ReviewCount =await _dbContext.ProductReviews.CountAsync(x=>x.ProductId == id),
                 Categories = await _dbContext.SubCategoryToProducts
                 .Include(x=>x.SubCategory.Category)
                 .Where(x=>x.ProductId == id).Select(x=>x.SubCategory.Category)

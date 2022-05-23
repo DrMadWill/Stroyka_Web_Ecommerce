@@ -183,7 +183,10 @@ namespace Stroyka.Controllers
             return materials;
         }
 
-        
+        public  async Task<IActionResult> ProductList(int id)
+        {
+            return View();
+        }
 
 
     }

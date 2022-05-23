@@ -45,5 +45,28 @@ namespace Stroyka.Controllers
         }
 
 
+        [HttpGet]
+        public async Task<JsonResult> LoadMore(int? id,int page)
+        {
+            if (id == null) return Json(new { status = 422 });
+
+            var reviews = await _dbContext.ProductReviews
+                .Where(x => x.ProductId == id)
+                .Skip(Math.Abs(page - 1) * 5)
+                .Take(5)
+                .Select(x=>new
+                {
+                    x.Stars,
+                    x.Content,
+                    x.Date,
+                    x.User.UserName,
+                    x.User.Image
+                })
+                .ToListAsync();
+            
+            return Json(reviews);
+        }
+
+
     }
 }

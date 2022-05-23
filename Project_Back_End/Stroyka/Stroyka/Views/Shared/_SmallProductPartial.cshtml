@@ -1,0 +1,63 @@
+﻿@model Product
+
+
+<button class="product-card__quickview" data-id="@Model.Id" type="button">
+    <svg width="16px" height="16px">
+        <use xlink:href="/images/sprite.svg#quickview-16"></use>
+    </svg><span class="fake-svg-icon"></span>
+</button>
+<div class="product-card__badges-list">
+    <div class="product-card__badge product-card__badge--@Model.Status.Name.ToLower()">@Model.Status.Name</div>
+</div>
+<div class="product-card__image">
+    <a href="product.html">
+        <img src="~/images/products/@Model.Image" alt="">
+    </a>
+</div>
+<div class="product-card__info">
+    <div class="product-card__name">
+        <a href="product.html">
+            @Model.Name
+        </a>
+    </div>
+    <div class="product-card__rating">
+        <div class="rating">
+            <div class="rating__body">
+                @for (int i = 0; i < 5; i++)
+                {
+                    <svg class="rating__star @(i<Model.Stars ? "rating__star--active":"")" width="13px"
+                     height="12px">
+                        <g class="rating__fill">
+                            <use xlink:href="/images/sprite.svg#star-normal"></use>
+                        </g>
+                        <g class="rating__stroke">
+                            <use xlink:href="/images/sprite.svg#star-normal-stroke">
+                            </use>
+                        </g>
+                    </svg>
+                    <div class="rating__star rating__star--only-edge @(i<Model.Stars ? "rating__star--active":"")">
+                        <div class="rating__fill">
+                            <div class="fake-svg-icon"></div>
+                        </div>
+                        <div class="rating__stroke">
+                            <div class="fake-svg-icon"></div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="product-card__rating-legend">@Model.Reviews.Count</div>
+    </div>
+</div>
+<div class="product-card__actions">
+    <div class="product-card__prices">
+        @if (Model.OldPrice == null)
+        {
+            <span>$@Model.CurrentPrice</span>
+        }
+        else
+        {
+            <span class="product-card__new-price">$@Model.CurrentPrice</span> <span class="product-card__old-price">$@Model.OldPrice</span>
+        }
+    </div>
+</div>

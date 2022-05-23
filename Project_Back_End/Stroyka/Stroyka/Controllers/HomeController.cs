@@ -24,6 +24,9 @@ namespace Stroyka.Controllers
             _logger = logger;
             _dbContext = dbContext;
         }
+
+        // Product Index | GET
+
         public async Task<IActionResult> Index()
         {
             IndexVM index = new()
@@ -85,6 +88,8 @@ namespace Stroyka.Controllers
             return View(index);
         }
 
+        // Product Single | GET
+
         public async Task<IActionResult> Single(int? id)
         {
             if (id == null) return ValidationProblem();
@@ -98,6 +103,7 @@ namespace Stroyka.Controllers
             var stocks = await _dbContext.ProductStock.Where(dr => dr.ProductId == id)
                 .Include(x => x.Material).Include(x => x.Color)
                 .ToListAsync();
+
             var stockMatrailAndColor = stocks.
                 Select(x => new 
                     { x.MaterialId, MaterialName = x.Material.Name, Name = x.Color.Name,Id = x.ColorId ,Code= x.Color.Code,IsStock = x.Count >0 }
@@ -105,7 +111,6 @@ namespace Stroyka.Controllers
 
             ViewBag.SessionStrig = JsonConvert.SerializeObject(stockMatrailAndColor);
             
-
             SingleVM single = new()
             {
                 Product = product,

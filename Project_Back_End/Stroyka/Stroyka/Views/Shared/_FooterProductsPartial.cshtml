@@ -7,68 +7,7 @@
     {
         <div class="block-product-columns__item">
             <div class="product-card product-card--layout--horizontal">
-                <button class="product-card__quickview" data-id="@item.Id" type="button">
-                    <svg width="16px"
-                     height="16px">
-                        <use xlink:href="/images/sprite.svg#quickview-16"></use>
-                    </svg> <span class="fake-svg-icon"></span>
-                </button>
-
-                <div class="product-card__badges-list">
-                    <div class="product-card__badge product-card__badge--@item.Status.Name.ToLower()">@item.Status.Name</div>
-                </div>
-                <div class="product-card__image">
-                    <a href="product.html">
-                        <img src="~/images/products/@item.Image" alt="">
-                    </a>
-                </div>
-                <div class="product-card__info">
-                    <div class="product-card__name">
-                        <a href="product.html">
-                            @item.Name
-                        </a>
-                    </div>
-                    <div class="product-card__rating">
-                        <div class="rating">
-                            <div class="rating__body">
-                                @for (int i = 0; i < 5; i++)
-                                {
-                                    <svg class="rating__star @(i<item.Stars ? "rating__star--active":"")" width="13px"
-                                 height="12px">
-                                        <g class="rating__fill">
-                                            <use xlink:href="/images/sprite.svg#star-normal"></use>
-                                        </g>
-                                        <g class="rating__stroke">
-                                            <use xlink:href="/images/sprite.svg#star-normal-stroke">
-                                            </use>
-                                        </g>
-                                    </svg>
-                                    <div class="rating__star rating__star--only-edge @(i<item.Stars ? "rating__star--active":"")">
-                                        <div class="rating__fill">
-                                            <div class="fake-svg-icon"></div>
-                                        </div>
-                                        <div class="rating__stroke">
-                                            <div class="fake-svg-icon"></div>
-                                        </div>
-                                    </div>
-                                }
-                            </div>
-                        </div>
-                        <div class="product-card__rating-legend">@item.Reviews.Count Reviews</div>
-                    </div>
-                </div>
-                <div class="product-card__actions">
-                    <div class="product-card__prices">
-                        @if (item.OldPrice == null)
-                        {
-                            <span>$@item.CurrentPrice</span>
-                        }
-                        else
-                        {
-                            <span class="product-card__new-price">$@item.CurrentPrice</span> <span class="product-card__old-price">$@item.OldPrice</span>
-                        }
-                    </div>
-                </div>
+                <partial name="_SmallProductPartial" model="@item" />
             </div>
         </div>
     }

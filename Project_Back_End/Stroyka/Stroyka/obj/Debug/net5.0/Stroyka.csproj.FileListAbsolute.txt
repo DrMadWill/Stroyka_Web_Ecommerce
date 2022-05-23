@@ -90,3 +90,4 @@ C:\Users\nofel\OneDrive\Desktop\Stroyka_Web_Ecommerce\Project_Back_End\Stroyka\S
 C:\Users\nofel\OneDrive\Desktop\Stroyka_Web_Ecommerce\Project_Back_End\Stroyka\Stroyka\obj\Debug\net5.0\Razor\Views\Home\Single.cshtml.g.cs
 C:\Users\nofel\OneDrive\Desktop\Stroyka_Web_Ecommerce\Project_Back_End\Stroyka\Stroyka\obj\Debug\net5.0\Razor\Views\Shared\Components\SinglePoductCarousel\Default.cshtml.g.cs
 C:\Users\nofel\OneDrive\Desktop\Stroyka_Web_Ecommerce\Project_Back_End\Stroyka\Stroyka\obj\Debug\net5.0\Razor\Views\Shared\_OwlCarouselBigProductPartial.cshtml.g.cs
+C:\Users\nofel\OneDrive\Desktop\Stroyka_Web_Ecommerce\Project_Back_End\Stroyka\Stroyka\obj\Debug\net5.0\Razor\Views\Shared\_SmallProductPartial.cshtml.g.cs

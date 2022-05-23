@@ -163,7 +163,7 @@
                                 </div>
                             </div>
                             <div class="product__rating-legend">
-                                <a href="#">@Model.ReviewCount Reviews</a><span>/</span><a href="#">Write A Review</a>
+                                <a  >@Model.ReviewCount Reviews</a><span>/</span><a>Write A Review</a>
                             </div>
                         </div>
                         <div class="product__description">
@@ -366,7 +366,7 @@
                     <div class="product-tabs__pane" id="tab-reviews">
                         <div class="reviews-view">
                             <div class="reviews-view__list">
-                                <h3 class="reviews-view__header">Customer Reviews</h3>
+                                <h3 class="reviews-view__header">@(Model.ReviewCount == 0 ?"No":"") Customer Reviews </h3>
                                 <div class="reviews-list">
                                     <ol class="reviews-list__content">
 
@@ -417,47 +417,52 @@
                                             </li>
                                         }
                                     </ol>
-                                    <div class="reviews-list__pagination">
-                                        <ul class="pagination justify-content-center">
-                                            <li class="page-item disabled">
 
-                                                <a class="page-link page-link--with-arrow" href="#"
+                                    @if (Model.ReviewCount != 0)
+                                    {
+                                        <div class="reviews-list__pagination">
+                                            <ul class="pagination justify-content-center">
+
+                                                <li class="page-item disabled">
+
+                                                    <a class="page-link page-link--with-arrow"
                                                    aria-label="Previous">
 
-                                                    <svg class="page-link__arrow page-link__arrow--left"
+                                                        <svg class="page-link__arrow page-link__arrow--left"
                                                          aria-hidden="true" width="8px" height="13px">
-                                                        <use xlink:href="/images/sprite.svg#arrow-rounded-left-8x13">
-                                                        </use>
-                                                    </svg>
+                                                            <use xlink:href="/images/sprite.svg#arrow-rounded-left-8x13">
+                                                            </use>
+                                                        </svg>
 
-                                                </a>
-                                            </li>
-                                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                            <li class="page-item active">
+                                                    </a>
+                                                </li>
+                                                <li class="page-item active"><a class="page-link">1</a></li>
+                                                @{
+                                                    int totalPage = (int)Math.Ceiling(Model.ReviewCount / ((double)5));
+                                                }
+                                                @for (var i = 2; i <= totalPage; i++)
+                                                {
+                                                    <li class="page-item"><a data-index="@i" class="page-link">@i</a></li>
+                                                }
 
-                                                <a class="page-link" href="#">
+                                                <li class="page-item @(totalPage > 1? "":"disabled")">
 
-                                                    2 <span class="sr-only">(current)</span>
+                                                    <a data-index="2" class="page-link page-link--with-arrow"
+                                                   aria-label="Next">
 
-                                                </a>
-                                            </li>
-                                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                            <li class="page-item">
-
-                                                <a class="page-link page-link--with-arrow"
-                                                   href="#" aria-label="Next">
-
-                                                    <svg class="page-link__arrow page-link__arrow--right"
+                                                        <svg class="page-link__arrow page-link__arrow--right"
                                                          aria-hidden="true" width="8px" height="13px">
-                                                        <use xlink:href="/images/sprite.svg#arrow-rounded-right-8x13">
-                                                        </use>
-                                                    </svg>
+                                                            <use xlink:href="/images/sprite.svg#arrow-rounded-right-8x13">
+                                                            </use>
+                                                        </svg>
+                                                    </a>
 
-                                                </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    }
 
-                                            </li>
-                                        </ul>
-                                    </div>
+
                                 </div>
                             </div>
                             <form id="review_form_single" class="reviews-view__form">
@@ -513,6 +518,8 @@
 </div>
 
 @section script{
+
+@*Session Save*@
 <script>
     $(document).ready(()=>{
        let sessionData = $("#sessionData").val();
@@ -521,6 +528,8 @@
        }
     })
 </script>
+
+@*Matrial Change Prosses*@
 <script>
     $(document).ready(()=>{
       $(document).on("click",".detail_material_change",(e)=>{
@@ -548,6 +557,8 @@
     })
 </script>
 
+
+@*Send User Review*@
 <script>
     $(document).ready(()=>{
         $(document).on("submit","#review_form_single",(e)=>{
@@ -574,6 +585,14 @@
             }
 
             errorElement.text("")
+            let wait = Swal.fire({
+                   title: 'Give me a second.',
+                   text: '"',
+                   imageUrl: 'https://media.giphy.com/media/xTkcEQACH24SMPxIQg/giphy.gif',
+                   imageWidth: 400,
+                   imageHeight: 350,
+                   imageAlt: 'Loading',
+               })
 
 
             $.ajax({
@@ -582,56 +601,256 @@
                         "RequestVerificationToken": $('input[name="__RequestVerificationToken"]').val()
                     },
                    type: 'POST',
-                   data: { UserId: userId, Content: comment, ProductId: productId,Starss:star },
+                   data: { UserId: userId, Content: comment, ProductId: productId,Stars:star },
                    success: (response) => {
                        if (response.hasOwnProperty('status') && response.status === 201) {
                            // Comment Success
-                           //wait.close()
-                           //Swal.fire(
-                           //    'Comment Accept',
-                           //    '',
-                           //    'success'
-                           //)
+                           wait.close()
+                           Swal.fire(
+                               'Comment Accept',
+                               '',
+                               'success'
+                           )
                            // Reload
                            setTimeout(() => {
                                location.reload();
                            }, 2000)
 
                        } else if (response.status == 403) {
-                           //wait.close()
-                           //Swal.fire(
-                           //    'Plase Sign In',
-                           //    '',
-                           //    'error'
-                           //)
+                           wait.close()
+                           Swal.fire(
+                               'Plase Sign In',
+                               '',
+                               'error'
+                           )
                        } else {
-                           //wait.close()
-                           //Swal.fire(
-                           //    'Not Added',
-                           //    '',
-                           //    'error'
-                           //)
+                           wait.close()
+                           Swal.fire(
+                               'Not Added',
+                               '',
+                               'error'
+                           )
                        }
                    }
                })
 
-            //$.ajax({
-            //    url:"/ProductReview/CreateReview",
-            //    type:"POST",
-            //    headers: {
-            //        "RequestVerificationToken": $('input[name="__RequestVerificationToken"]').val()
-            //    },
-            //    data: { UserId: userId, Content: comment, ProductId: productId , Stars: star},
-               
-            //})
 
 
         })
 
 
     })
-
 </script>
+
+
+@*Validate Loading Pagination*@
+<script>
+    function IsActivElemtn(btn){
+        let resault = false;
+
+        let classList = $(btn).parent().attr('class').split(" ")
+        for(let i = 0; i < classList.length; i++){
+            if(classList[i] == "active" || classList[i] == "disabled"){
+                resault = true;
+                return resault;
+            }
+        }
+        return resault;
+    }
+</script>
+
+
+@*Genarate Review HTML*@
+<script>
+    function GenrateReviewHTML(response){
+        $(".reviews-list__content").html("")
+        response.forEach(e=>{
+            let date = new Date(e.date).toDateString()
+            let html =`
+                 <li class="reviews-list__item">
+                    <div class="review">
+                        <div class="review__avatar">
+
+                            <img src="/images/avatars/${e.image}" alt="">
+
+                        </div>
+                        <div class="review__content">
+                            <div class="review__author">${e.userName}</div>
+                            <div class="review__rating">
+                                <div class="rating">
+                                    <div class="rating__body">`
+
+
+                    for (let i = 0; i < 5; i++) {
+                            html = html + ` <svg class="rating__star`
+
+                            if (i < e.stars) {
+                                html = html + ` rating__star--active`
+                            }
+
+                            html = html + `" width="13px"
+                                                height="12px">
+                                                        <g class="rating__fill">
+                                                            <use xlink:href="/images/sprite.svg#star-normal"></use>
+                                                        </g>
+                                                        <g class="rating__stroke">
+                                                            <use xlink:href="/images/sprite.svg#star-normal-stroke">
+                                                            </use>
+                                                        </g>
+                                                    </svg>
+                                                    <div class="rating__star rating__star--only-edge `
+
+                            if (i < e.stars) {
+                                html = html + ` rating__star--active`
+                            }
+                    
+                            html = html +`">
+                                                <div class="rating__fill">
+                                                    <div class="fake-svg-icon"></div>
+                                                </div>
+                                                <div class="rating__stroke">
+                                                    <div class="fake-svg-icon"></div>
+                                                </div>
+                                            </div>`
+                    }
+           
+                    
+                    
+                    html = html  +          ` </div>
+                                </div>
+                            </div>
+                            <div class="review__text">
+                                ${e.content}
+                            </div>
+                            <div class="review__date">${date.substring(3,date.length)}</div>
+                        </div>
+                    </div>
+                </li>
+            `
+            $(".reviews-list__content").append(html)
+
+        })
+    }
+</script>
+
+
+@*Genrate Pagination*@
+<script>
+    function GeneratePagination(pageIndex,TotalPage){
+        pageIndex = new Number(pageIndex)
+        TotalPage = new Number(TotalPage)
+        let html = `
+                    <div class="posts-view__pagination">
+                    <ul class="pagination justify-content-center">
+                     <li class="page-item `
+
+            if(pageIndex == 1 ){
+                html = html + ` disabled `
+            }
+
+        
+        
+            html = html +    `">
+                <a data-index="${pageIndex - 1}" class="page-link page-link--with-arrow" aria-label="Previous">
+                    <svg class="page-link__arrow page-link__arrow--left" aria-hidden="true"
+                         width="8px" height="13px">
+                        <use xlink:href="/images/sprite.svg#arrow-rounded-left-8x13"></use>
+                    </svg>
+                </a>
+            </li>`
+        
+
+            for (let i = 1; i <= TotalPage; i++)
+            {
+
+              html =  html +   `<li class="page-item `
+          
+               if(i == pageIndex){
+                    html = html + `active`
+                }
+          
+                  html = html +             `">
+                                    <a class="page-link"  data-index="${i}">
+                                        ${i}
+                                    </a>
+                                </li>`
+            }
+        
+
+            html = html + `<li class="page-item `
+        
+             if(!(pageIndex < TotalPage)){
+                html = html + `disabled`
+            }
+        
+           html = html + `">
+                    <a class="page-link page-link--with-arrow"  data-index="${pageIndex + 1}"
+                       aria-label="Next">
+                        <svg class="page-link__arrow page-link__arrow--right"
+                             aria-hidden="true" width="8px" height="13px">
+                            <use xlink:href="/images/sprite.svg#arrow-rounded-right-8x13"></use>
+                        </svg>
+                    </a>
+                    </li>
+                        </ul>
+                    </div>
+                            `
+        
+            $(".pagination").html(html)
+    }
+</script>
+
+
+@*Load Pagination*@
+<script>
+    $(document).ready(()=>{
+         $(document).on("click",".page-link",(e)=>{
+             if(IsActivElemtn(e.currentTarget) ){
+                 return;
+             }
+
+            let productId = $("#product_id").val()
+            let index = $(e.currentTarget).data("index")
+
+
+             let wait = Swal.fire({
+                   title: 'Give me a second.',
+                   text: '"',
+                   imageUrl: 'https://media.giphy.com/media/xTkcEQACH24SMPxIQg/giphy.gif',
+                   imageWidth: 400,
+                   imageHeight: 350,
+                   imageAlt: 'Loading',
+               })
+
+
+             $.ajax({
+                 url:`/ProductReview/LoadMore/${productId}/${index}`,
+                 type:"GET",
+                 success:(ressponse)=>{
+                     if(ressponse.hasOwnProperty("status") && ressponse.status == 422){
+                          wait.close()
+                           Swal.fire(
+                               'We have Some Problem.',
+                               '',
+                               'error'
+                           )
+
+                     }else{
+                        wait.close();
+                        GenrateReviewHTML(ressponse);
+                        let count = $(".page-item").length - 2;
+                        GeneratePagination(index,count)
+                     }
+                 }
+
+             })
+
+
+         })
+    })
+</script>
+
+
 
 
 }

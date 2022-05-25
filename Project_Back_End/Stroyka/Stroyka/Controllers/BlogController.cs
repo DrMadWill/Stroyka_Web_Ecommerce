@@ -39,7 +39,7 @@ namespace Stroyka.Controllers
                 OrderByDescending(x => x.Date)
                 .Include(x => x.Category)
                 .AsNoTracking().AsQueryable();
-            var blogs = await PaginationList<Blog>.CreateAsync(blogsQuery, id ?? 1, 10, "/Blog/Index");
+            var blogs = await PaginationList<Blog>.CreateAsync(blogsQuery, id ?? 1, 10, "/Blog/Index/page");
             return View(blogs);
         }
 

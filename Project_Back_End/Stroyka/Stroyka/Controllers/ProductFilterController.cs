@@ -121,6 +121,7 @@ namespace Stroyka.Controllers
         }
 
         // Qucik View | GET
+
         [HttpGet]
         public async Task<JsonResult> Quickview(int? id)
         {
@@ -183,10 +184,70 @@ namespace Stroyka.Controllers
             return materials;
         }
 
-        public  async Task<IActionResult> ProductList(int id)
+
+
+        [HttpGet]
+        public  async Task<IActionResult> ProductListBySubCategory(int? id,int? page,string key)
         {
-            return View();
+            if(id == null) return NotFound();
+
+            var subcategory = await _dbContext.ProductSubCategories.FirstOrDefaultAsync(dr => dr.Id == id);
+
+            if(subcategory == null) return NotFound();
+
+
+            IQueryable<Product> productIQeryable;
+            ProductListVM productList = new()
+            {
+                
+                SearchKey = subcategory.Name,
+                SearchId = subcategory.Id
+            };
+            
+            switch (key ?? "Default")
+            {
+                case "Default":
+                default:
+                    productIQeryable = _dbContext.SubCategoryToProducts
+                    .Where(x => x.SubCategoryId == id)
+                    .Include(x => x.Product.Status)
+                    .Include(x => x.Product.Reviews)
+                    .Select(x => x.Product)
+                    .AsQueryable();
+                    productList.Products = await PaginationList<Product>
+                       .CreateAsync(productIQeryable, page ?? 1, 12, "/ProductFilter/ProductListBySubCategory/" + id + "/page");
+                    break;
+
+                case "A-Z":
+                    productIQeryable = _dbContext.SubCategoryToProducts
+                    .Where(x => x.SubCategoryId == id)
+                    .Include(x => x.Product.Status)
+                    .Include(x => x.Product.Reviews)
+                    .Select(x => x.Product)
+                    .OrderBy(x=>x.Name)
+                    .AsQueryable();
+                    productList.Products = await PaginationList<Product>
+                        .CreateAsync(productIQeryable, page ?? 1, 12, "/ProductFilter/ProductListBySubCategory/" + id + "/page?key=A-Z");
+                    break;
+
+                case "Z-A":
+                    productIQeryable = _dbContext.SubCategoryToProducts
+                    .Where(x => x.SubCategoryId == id)
+                    .Include(x => x.Product.Status)
+                    .Include(x => x.Product.Reviews)
+                    .Select(x => x.Product)
+                    .OrderByDescending(x => x.Name)
+                    .AsQueryable();
+                    productList.Products = await PaginationList<Product>
+                        .CreateAsync(productIQeryable, page ?? 1, 12, "/ProductFilter/ProductListBySubCategory/" + id + "/page?0key=Z-A");
+                    break;
+               
+            }
+            return View(productList);
         }
+
+       
+       
 
 
     }

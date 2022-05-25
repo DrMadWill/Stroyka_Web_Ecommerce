@@ -31,7 +31,7 @@
                                                         @foreach (var subcategory in category.SubCategories)
                                                         {
                                                             <li class="megamenu__item">
-                                                                <a href="#">@subcategory.Name</a>
+                                                                <a asp-controller="ProductFilter" asp-action="ProductListBySubCategory" asp-route-id="@subcategory.Id"> @subcategory.Name</a>
                                                             </li>
                                                         }
                                                     </ul>

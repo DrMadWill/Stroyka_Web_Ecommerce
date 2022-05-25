@@ -33,7 +33,7 @@ namespace Stroyka.Controllers
                 .Include(x => x.Category)
                 .AsNoTracking().AsQueryable();
 
-            var blogs = await PaginationList<Blog>.CreateAsync(blogsQuery, page ?? 1, 15, "/BlogAsistant/BlogListByCategory/" + id.ToString());
+            var blogs = await PaginationList<Blog>.CreateAsync(blogsQuery, page ?? 1, 15, "/BlogFilter/BlogListByCategory/" + id.ToString() + "/page");
             BlogListByCategoryVM blogListByCategory = new()
             {
                 Category = category,
@@ -58,7 +58,7 @@ namespace Stroyka.Controllers
                 .OrderByDescending(x => x.Date)
                 .Include(x => x.Category)
                 .AsNoTracking().AsQueryable();
-            var blogs = await PaginationList<Blog>.CreateAsync(blogsQuery, page ?? 1, 15, "/BlogAsistant/BlogListBySubCategory/" + id.ToString());
+            var blogs = await PaginationList<Blog>.CreateAsync(blogsQuery, page ?? 1, 15, "/BlogFilter/BlogListBySubCategory/" + id.ToString() + "/page");
             BlogListBySubCategoryVM blogListBySubCategory = new()
             {
                 SubCategory = subCategory,
@@ -81,7 +81,7 @@ namespace Stroyka.Controllers
                 .OrderByDescending(x => x.Date)
                 .AsNoTracking().AsQueryable();
 
-            var blogs = await PaginationList<Blog>.CreateAsync(blogsQuery, page ?? 1, 15, "/BlogAsistant/BlogListByKeyword/" + id.ToString());
+            var blogs = await PaginationList<Blog>.CreateAsync(blogsQuery, page ?? 1, 15, "/BlogFilter/BlogListByKeyword/" + id.ToString() + "/page");
 
             BlogListByKeywordVM blogListByKeyword = new()
             {
@@ -115,7 +115,7 @@ namespace Stroyka.Controllers
                 .OrderByDescending(x => x.Date)
                 .AsNoTracking().AsQueryable();
 
-            var blogs = await PaginationList<Blog>.CreateAsync(blogsQuery, page ?? 1, 15, "/BlogAsistant/BlogListBySubCategory/" + id.ToString());
+            var blogs = await PaginationList<Blog>.CreateAsync(blogsQuery, page ?? 1, 15, "/BlogFilter/BlogListBySubCategory/" + id.ToString() + "/page");
             BlogListByTagVM blogListByTag = new()
             {
                 Tag = tag,

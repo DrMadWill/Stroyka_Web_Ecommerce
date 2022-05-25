@@ -184,7 +184,7 @@ namespace Stroyka.Controllers
             return materials;
         }
 
-
+        // Search By SubCategory | GET
 
         [HttpGet]
         public  async Task<IActionResult> ProductListBySubCategory(int? id,int? page,string key)
@@ -227,7 +227,7 @@ namespace Stroyka.Controllers
                     .OrderBy(x=>x.Name)
                     .AsQueryable();
                     productList.Products = await PaginationList<Product>
-                        .CreateAsync(productIQeryable, page ?? 1, 12, "/ProductFilter/ProductListBySubCategory/" + id + "/page?key=A-Z");
+                        .CreateAsync(productIQeryable, page ?? 1, 12, "/ProductFilter/ProductListBySubCategory/" + id + "/page?key=" + key);
                     break;
 
                 case "Z-A":
@@ -239,16 +239,136 @@ namespace Stroyka.Controllers
                     .OrderByDescending(x => x.Name)
                     .AsQueryable();
                     productList.Products = await PaginationList<Product>
-                        .CreateAsync(productIQeryable, page ?? 1, 12, "/ProductFilter/ProductListBySubCategory/" + id + "/page?0key=Z-A");
+                        .CreateAsync(productIQeryable, page ?? 1, 12, "/ProductFilter/ProductListBySubCategory/" + id + "/page?key=" + key);
                     break;
                
             }
-            return View(productList);
+            return View("ProductList", productList);
         }
 
-       
-       
+        // Search By Category | GET
 
+        [HttpGet]
+        public async Task<IActionResult> ProductListByCategory(int? id, int? page, string key)
+        {
+            if (id == null) return NotFound();
+
+            var category = await _dbContext.ProductCategories.FirstOrDefaultAsync(dr => dr.Id == id);
+
+            if (category == null) return NotFound();
+
+
+            IQueryable<Product> productIQeryable;
+            ProductListVM productList = new()
+            {
+
+                SearchKey = category.Name,
+                SearchId = category.Id
+            };
+
+            switch (key ?? "Default")
+            {
+                case "Default":
+                default:
+                    productIQeryable = _dbContext.SubCategoryToProducts
+                    .Where(x => x.SubCategory.CategoryId == id)
+                    .Include(x => x.Product.Status)
+                    .Include(x => x.Product.Reviews)
+                    .Select(x => x.Product)
+                    .AsQueryable();
+                    productList.Products = await PaginationList<Product>
+                       .CreateAsync(productIQeryable, page ?? 1, 12, "/ProductFilter/ProductListByCategory/" + id + "/page");
+                    break;
+
+                case "A-Z":
+                    productIQeryable = _dbContext.SubCategoryToProducts
+                    .Where(x => x.SubCategory.CategoryId == id)
+                    .Include(x => x.Product.Status)
+                    .Include(x => x.Product.Reviews)
+                    .Select(x => x.Product)
+                    .OrderBy(x => x.Name)
+                    .AsQueryable();
+                    productList.Products = await PaginationList<Product>
+                        .CreateAsync(productIQeryable, page ?? 1, 12, "/ProductFilter/ProductListByCategory/" + id + "/page?key=" + key);
+                    break;
+
+                case "Z-A":
+                    productIQeryable = _dbContext.SubCategoryToProducts
+                    .Where(x => x.SubCategory.CategoryId == id)
+                    .Include(x => x.Product.Status)
+                    .Include(x => x.Product.Reviews)
+                    .Select(x => x.Product)
+                    .OrderByDescending(x => x.Name)
+                    .AsQueryable();
+                    productList.Products = await PaginationList<Product>
+                        .CreateAsync(productIQeryable, page ?? 1, 12, "/ProductFilter/ProductListByCategory/" + id + "/page?key=" + key);
+                    break;
+
+            }
+            return View("ProductList", productList);
+        }
+
+        // Search By MegaCategory | GET
+
+        [HttpGet]
+        public async Task<IActionResult> ProductListByMegaCategory(int? id, int? page, string key)
+        {
+            if (id == null) return NotFound();
+
+            var megaCategory = await _dbContext.ProductMegaCategories.FirstOrDefaultAsync(dr => dr.Id == id);
+
+            if (megaCategory == null) return NotFound();
+
+
+            IQueryable<Product> productIQeryable;
+            ProductListVM productList = new()
+            {
+
+                SearchKey = megaCategory.Name,
+                SearchId = megaCategory.Id
+            };
+
+            switch (key ?? "Default")
+            {
+                case "Default":
+                default:
+                    productIQeryable = _dbContext.SubCategoryToProducts
+                    .Where(x => x.SubCategory.Category.MegaCategoryId == id)
+                    .Include(x => x.Product.Status)
+                    .Include(x => x.Product.Reviews)
+                    .Select(x => x.Product)
+                    .AsQueryable();
+                    productList.Products = await PaginationList<Product>
+                       .CreateAsync(productIQeryable, page ?? 1, 3, "/ProductFilter/ProductListByMegaCategory/" + id + "/page");
+                    break;
+
+                case "A-Z":
+                    productIQeryable = _dbContext.SubCategoryToProducts
+                    .Where(x => x.SubCategory.Category.MegaCategoryId == id)
+                    .Include(x => x.Product.Status)
+                    .Include(x => x.Product.Reviews)
+                    .Select(x => x.Product)
+                    .OrderBy(x => x.Name)
+                    .AsQueryable();
+                    productList.Products = await PaginationList<Product>
+                        .CreateAsync(productIQeryable, page ?? 1, 3, "/ProductFilter/ProductListByMegaCategory/" + id + "/page?key=" + key);
+                    break;
+
+                case "Z-A":
+                    productIQeryable = _dbContext.SubCategoryToProducts
+                    .Where(x => x.SubCategory.Category.MegaCategoryId == id)
+                    .Include(x => x.Product.Status)
+                    .Include(x => x.Product.Reviews)
+                    .Select(x => x.Product)
+                    .OrderByDescending(x => x.Name)
+                    .AsQueryable();
+                    productList.Products = await PaginationList<Product>
+                        .CreateAsync(productIQeryable, page ?? 1, 3, "/ProductFilter/ProductListByMegaCategory/" + id + "/page?key=" + key);
+                    break;
+
+            }
+            return View("ProductList", productList);
+        }
 
     }
 }

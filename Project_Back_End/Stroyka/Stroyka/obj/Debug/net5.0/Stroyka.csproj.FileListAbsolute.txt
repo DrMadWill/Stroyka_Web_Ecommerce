@@ -66,7 +66,6 @@ C:\Users\nofel\OneDrive\Desktop\Stroyka_Web_Ecommerce\Project_Back_End\Stroyka\S
 C:\Users\nofel\OneDrive\Desktop\Stroyka_Web_Ecommerce\Project_Back_End\Stroyka\Stroyka\obj\Debug\net5.0\Razor\Views\Error\HttpStatusCodeHandler.cshtml.g.cs
 C:\Users\nofel\OneDrive\Desktop\Stroyka_Web_Ecommerce\Project_Back_End\Stroyka\Stroyka\obj\Debug\net5.0\Razor\Views\Home\Index.cshtml.g.cs
 C:\Users\nofel\OneDrive\Desktop\Stroyka_Web_Ecommerce\Project_Back_End\Stroyka\Stroyka\obj\Debug\net5.0\Razor\Views\Home\Single.cshtml.g.cs
-C:\Users\nofel\OneDrive\Desktop\Stroyka_Web_Ecommerce\Project_Back_End\Stroyka\Stroyka\obj\Debug\net5.0\Razor\Views\ProductFilter\ProductListBySubCategory.cshtml.g.cs
 C:\Users\nofel\OneDrive\Desktop\Stroyka_Web_Ecommerce\Project_Back_End\Stroyka\Stroyka\obj\Debug\net5.0\Razor\Views\Shared\Components\BlogCarouselByCategory\Default.cshtml.g.cs
 C:\Users\nofel\OneDrive\Desktop\Stroyka_Web_Ecommerce\Project_Back_End\Stroyka\Stroyka\obj\Debug\net5.0\Razor\Views\Shared\Components\BlogRightSideBar\Default.cshtml.g.cs
 C:\Users\nofel\OneDrive\Desktop\Stroyka_Web_Ecommerce\Project_Back_End\Stroyka\Stroyka\obj\Debug\net5.0\Razor\Views\Shared\Components\RelatedBlog\Default.cshtml.g.cs
@@ -94,3 +93,4 @@ C:\Users\nofel\OneDrive\Desktop\Stroyka_Web_Ecommerce\Project_Back_End\Stroyka\S
 C:\Users\nofel\OneDrive\Desktop\Stroyka_Web_Ecommerce\Project_Back_End\Stroyka\Stroyka\obj\Debug\net5.0\Stroyka.pdb
 C:\Users\nofel\OneDrive\Desktop\Stroyka_Web_Ecommerce\Project_Back_End\Stroyka\Stroyka\obj\Debug\net5.0\Stroyka.genruntimeconfig.cache
 C:\Users\nofel\OneDrive\Desktop\Stroyka_Web_Ecommerce\Project_Back_End\Stroyka\Stroyka\obj\Debug\net5.0\ref\Stroyka.dll
+C:\Users\nofel\OneDrive\Desktop\Stroyka_Web_Ecommerce\Project_Back_End\Stroyka\Stroyka\obj\Debug\net5.0\Razor\Views\ProductFilter\ProductList.cshtml.g.cs

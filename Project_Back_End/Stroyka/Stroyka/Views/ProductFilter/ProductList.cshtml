@@ -8,25 +8,25 @@
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
-                            <a href="index.html">Home</a>
+                            <a href="/">Home</a>
                             <svg class="breadcrumb-arrow"
                                  width="6px" height="9px">
                                 <use xlink:href="/images/sprite.svg#arrow-rounded-right-6x9"></use>
                             </svg>
                         </li>
-                        <li class="breadcrumb-item">
-                            <a href="#">Breadcrumb</a>
+                        <li class="breadcrumb-item active">
+                            <a href="#"> Search Product </a>
                             <svg class="breadcrumb-arrow"
                                  width="6px" height="9px">
                                 <use xlink:href="/images/sprite.svg#arrow-rounded-right-6x9"></use>
                             </svg>
                         </li>
-                        <li class="breadcrumb-item active" aria-current="page">Screwdrivers</li>
+                        <li class="breadcrumb-item active" aria-current="page">@Model.SearchKey</li>
                     </ol>
                 </nav>
             </div>
             <div class="page-header__title">
-                <h1>Screwdrivers</h1>
+                <h1>@Model.SearchKey</h1>
             </div>
         </div>
     </div>
@@ -717,9 +717,6 @@
             <div class="shop-layout__content">
                 <div class="block">
                     <div class="products-view">
-
-
-
                         <div class="products-view__options">
                             <div class="view-options">
                                 <div class="view-options__layout">
@@ -751,20 +748,20 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="view-options__legend">Showing @Model.Products.PageIndex of @Model.Products.TotalPages products</div>
+                                <div class="view-options__legend">Showing @Model.Products.Count of @Model.Products.TotalElement products</div>
                                 <div class="view-options__divider"></div>
                                 <div class="view-options__control">
                                     <div class="dropdown">
                                         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                           Sort By
+                                            Sort By
                                         </button>
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                             <a class="dropdown-item" asp-controller="ProductFilter" asp-action="ProductListBySubCategory"
-                                                   asp-route-id="@Model.SearchId">Default</a>
+                                               asp-route-id="@Model.SearchId">Default</a>
                                             <a class="dropdown-item" asp-controller="ProductFilter" asp-action="ProductListBySubCategory"
-                                                   asp-route-id="@Model.SearchId" asp-route-key="A-Z">Name (A-Z)</a>
+                                               asp-route-id="@Model.SearchId" asp-route-key="A-Z">Name (A-Z)</a>
                                             <a class="dropdown-item" asp-controller="ProductFilter" asp-action="ProductListBySubCategory"
-                                                   asp-route-id="@Model.SearchId" asp-route-key="Z-A">Name (Z-A)</a>
+                                               asp-route-id="@Model.SearchId" asp-route-key="Z-A">Name (Z-A)</a>
                                         </div>
                                     </div>
                                 </div>
@@ -777,7 +774,10 @@
                         </div>
 
                         <div class="products-view__pagination">
-                            <partial name="_PaginationList" model="@Model.Products.PaginationLinkModel" />
+                            @if (Model.Products.Count > 0)
+                            {
+                                <partial name="_PaginationList" model="@Model.Products.PaginationLinkModel" />
+                            }
                         </div>
                     </div>
                 </div>

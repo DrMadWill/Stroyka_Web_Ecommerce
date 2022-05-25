@@ -13,6 +13,8 @@ namespace Stroyka.Extensions
         public int PageIndex { get; set; }
         public int TotalPages { get; set; }
 
+        public int TotalElement { get; set; }
+
         // Link Model Create 
 
         private PaginationLinkModel _PaginationLinkModel;
@@ -23,6 +25,8 @@ namespace Stroyka.Extensions
             PageIndex = pageIndex;
             TotalPages = (int)Math.Ceiling(count / (double)pageSize);
             this.AddRange(items);
+
+            TotalElement = count;
             _PaginationLinkModel = new PaginationLinkModel
             {
                 PageIndex = pageIndex,

@@ -163,7 +163,7 @@
                                 </div>
                             </div>
                             <div class="product__rating-legend">
-                                <a  >@Model.ReviewCount Reviews</a><span>/</span><a>Write A Review</a>
+                                <a>@Model.ReviewCount Reviews</a>@*<span>/</span><a>Write A Review</a>*@
                             </div>
                         </div>
                         <div class="product__description">
@@ -703,7 +703,7 @@
                             if (i < e.stars) {
                                 html = html + ` rating__star--active`
                             }
-                    
+
                             html = html +`">
                                                 <div class="rating__fill">
                                                     <div class="fake-svg-icon"></div>
@@ -713,9 +713,9 @@
                                                 </div>
                                             </div>`
                     }
-           
-                    
-                    
+
+
+
                     html = html  +          ` </div>
                                 </div>
                             </div>
@@ -748,8 +748,8 @@
                 html = html + ` disabled `
             }
 
-        
-        
+
+
             html = html +    `">
                 <a data-index="${pageIndex - 1}" class="page-link page-link--with-arrow" aria-label="Previous">
                     <svg class="page-link__arrow page-link__arrow--left" aria-hidden="true"
@@ -758,31 +758,31 @@
                     </svg>
                 </a>
             </li>`
-        
+
 
             for (let i = 1; i <= TotalPage; i++)
             {
 
               html =  html +   `<li class="page-item `
-          
+
                if(i == pageIndex){
                     html = html + `active`
                 }
-          
+
                   html = html +             `">
                                     <a class="page-link"  data-index="${i}">
                                         ${i}
                                     </a>
                                 </li>`
             }
-        
+
 
             html = html + `<li class="page-item `
-        
+
              if(!(pageIndex < TotalPage)){
                 html = html + `disabled`
             }
-        
+
            html = html + `">
                     <a class="page-link page-link--with-arrow"  data-index="${pageIndex + 1}"
                        aria-label="Next">
@@ -795,7 +795,7 @@
                         </ul>
                     </div>
                             `
-        
+
             $(".pagination").html(html)
     }
 </script>

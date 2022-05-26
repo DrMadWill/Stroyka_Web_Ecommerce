@@ -184,6 +184,7 @@ namespace Stroyka.Controllers
             return materials;
         }
 
+
         // Search By SubCategory | GET
 
         [HttpGet]
@@ -201,7 +202,8 @@ namespace Stroyka.Controllers
             {
                 
                 SearchKey = subcategory.Name,
-                SearchId = subcategory.Id
+                SearchId = subcategory.Id,
+                Action = RouteData.Values["action"].ToString()
             };
             
             switch (key ?? "Default")
@@ -261,9 +263,9 @@ namespace Stroyka.Controllers
             IQueryable<Product> productIQeryable;
             ProductListVM productList = new()
             {
-
                 SearchKey = category.Name,
-                SearchId = category.Id
+                SearchId = category.Id,
+                Action = RouteData.Values["action"].ToString()
             };
 
             switch (key ?? "Default")
@@ -325,7 +327,8 @@ namespace Stroyka.Controllers
             {
 
                 SearchKey = megaCategory.Name,
-                SearchId = megaCategory.Id
+                SearchId = megaCategory.Id,
+                Action = RouteData.Values["action"].ToString()
             };
 
             switch (key ?? "Default")

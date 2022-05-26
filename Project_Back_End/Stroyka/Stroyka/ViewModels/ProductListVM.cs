@@ -9,6 +9,7 @@ namespace Stroyka.ViewModels
         public PaginationList<Product> Products { get; set; }
 
         public string SearchKey { get; set; }
+        public string Action { get; set; }
 
         public int SearchId { get; set; }
 

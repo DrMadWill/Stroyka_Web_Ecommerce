@@ -27,8 +27,9 @@ namespace Stroyka.ViewComponents
                 .Where(x=>x.MegaCategoryId == id).Include(_ => _.SubCategories).ToListAsync();
             megaCategory.Categories = categoies;
 
-            var colors = await _dbContext.ProductColors.ToListAsync();
-                
+            var colors = await _dbContext.ProductColors
+                .FromSqlRaw("EXECUTE  us_ColorForMegaCategory @id=" + id)
+                .ToListAsync();
                 
                 
                 
@@ -39,7 +40,7 @@ namespace Stroyka.ViewComponents
             {
                 MegaCategory = megaCategory,
                 Products = await _dbContext.Products.Where(dr => dr.Date > date).Take(5).ToListAsync(),
-                Colors = new(),
+                Colors = colors,
 
             };
             return View(sideBar);

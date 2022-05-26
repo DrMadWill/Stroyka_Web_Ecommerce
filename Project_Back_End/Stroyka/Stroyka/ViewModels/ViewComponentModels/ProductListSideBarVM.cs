@@ -6,7 +6,6 @@ namespace Stroyka.ViewModels.ViewComponentModels
     public class ProductListSideBarVM
     {
         public MegaCategory MegaCategory { get; set; }
-      
         public List<Brand> Brands { get; set; }
         public List<Color> Colors { get; set; }
         public List<Material> Materials { get; set; }

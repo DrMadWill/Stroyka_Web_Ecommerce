@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
-
+using System;
 namespace Stroyka.Migrations
 {
     public partial class AddColumnOldPriceToTableProuct : Migration
@@ -16,6 +16,7 @@ namespace Stroyka.Migrations
                 table: "Products",
                 type: "real",
                 nullable: true);
+            
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

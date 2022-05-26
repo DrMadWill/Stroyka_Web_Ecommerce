@@ -13,5 +13,7 @@ namespace Stroyka.ViewModels
 
         public int SearchId { get; set; }
 
+        public int MegaCategoryId { get; set; }
+
     }
 }

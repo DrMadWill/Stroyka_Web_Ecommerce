@@ -32,7 +32,7 @@
     </div>
     <div class="container">
         <div class="shop-layout shop-layout--sidebar--start">
-            @await Component.InvokeAsync("SearchSideBar")
+            @await Component.InvokeAsync("SearchSideBar",@Model.MegaCategoryId)
             <div class="shop-layout__content">
                 <div class="block">
                     <div class="products-view">

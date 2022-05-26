@@ -192,7 +192,9 @@ namespace Stroyka.Controllers
         {
             if(id == null) return NotFound();
 
-            var subcategory = await _dbContext.ProductSubCategories.FirstOrDefaultAsync(dr => dr.Id == id);
+            var subcategory = await _dbContext.ProductSubCategories
+                .Include(x=>x.Category)
+                .FirstOrDefaultAsync(dr => dr.Id == id);
 
             if(subcategory == null) return NotFound();
 
@@ -200,9 +202,9 @@ namespace Stroyka.Controllers
             IQueryable<Product> productIQeryable;
             ProductListVM productList = new()
             {
-                
                 SearchKey = subcategory.Name,
                 SearchId = subcategory.Id,
+                MegaCategoryId = subcategory.Category.MegaCategoryId,
                 Action = RouteData.Values["action"].ToString()
             };
             
@@ -265,6 +267,7 @@ namespace Stroyka.Controllers
             {
                 SearchKey = category.Name,
                 SearchId = category.Id,
+                MegaCategoryId = category.MegaCategoryId,
                 Action = RouteData.Values["action"].ToString()
             };
 
@@ -328,6 +331,7 @@ namespace Stroyka.Controllers
 
                 SearchKey = megaCategory.Name,
                 SearchId = megaCategory.Id,
+                MegaCategoryId = megaCategory.Id,
                 Action = RouteData.Values["action"].ToString()
             };
 

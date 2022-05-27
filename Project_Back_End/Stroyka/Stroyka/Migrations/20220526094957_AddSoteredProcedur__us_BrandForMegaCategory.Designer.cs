@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Stroyka.Data;
 
 namespace Stroyka.Migrations
 {
     [DbContext(typeof(StroykaDbContext))]
-    partial class StroykaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220526094957_AddSoteredProcedur__us_BrandForMegaCategory")]
+    partial class AddSoteredProcedur__us_BrandForMegaCategory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -802,29 +804,6 @@ namespace Stroyka.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
-                });
-
-            modelBuilder.Entity("Stroyka.Models.ViewModels.Products.BrandStock", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<string>("Image")
-                        .HasMaxLength(300)
-                        .HasColumnType("nvarchar(300)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(300)
-                        .HasColumnType("nvarchar(300)");
-
-                    b.Property<int>("StockCount")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToView("BrandStock");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

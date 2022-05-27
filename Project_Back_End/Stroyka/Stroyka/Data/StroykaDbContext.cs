@@ -4,6 +4,7 @@ using Stroyka.Models.Blogs;
 using Stroyka.Models.Commoun;
 using Stroyka.Models.Products;
 using Stroyka.Models.Users;
+using Stroyka.Models.ViewModels.Products;
 
 namespace Stroyka.Data
 {
@@ -11,6 +12,7 @@ namespace Stroyka.Data
     {
 
         public StroykaDbContext(DbContextOptions<StroykaDbContext> options):base(options){}
+
         // Using Praduct Class
         #region Product
         public DbSet<Status> ProductStatuses { get; set; }
@@ -43,6 +45,17 @@ namespace Stroyka.Data
         #region Commoun
         public DbSet<EmailForSubscribe> EmailForSubscribes { get; set; }
         public DbSet<IndexSlider> IndexSliders { get; set; }
+        #endregion
+
+        // =============== Sql Views
+        #region SqlViews
+
+        // ============= Product ======
+        #region Product
+            public DbSet<BrandStock> BrandStocks { get; set; }
+
+        #endregion
+
         #endregion
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -161,7 +174,22 @@ namespace Stroyka.Data
                 .IsUnique();
             #endregion
 
-        }
+            // =============== Sql Views
+
+            #region SqlViews
+
+            #region Product
+            modelBuilder.Entity<BrandStock>(dr =>
+            {
+                dr.HasKey("Id");
+                dr.ToView("BrandStock");
+
+            });
+            #endregion
+
+            #endregion
 
     }
+
+}
 }

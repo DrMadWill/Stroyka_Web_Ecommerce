@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Stroyka.Models.ViewModels.Products
+namespace Stroyka.Models.SqlViews.Products
 {
     public class BrandStock
     {

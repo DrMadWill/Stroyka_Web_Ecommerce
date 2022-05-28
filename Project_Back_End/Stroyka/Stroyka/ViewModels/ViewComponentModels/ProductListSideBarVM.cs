@@ -1,5 +1,5 @@
 ﻿using Stroyka.Models.Products;
-using Stroyka.Models.ViewModels.Products;
+using Stroyka.Models.SqlViews.Products;
 using System.Collections.Generic;
 
 namespace Stroyka.ViewModels.ViewComponentModels

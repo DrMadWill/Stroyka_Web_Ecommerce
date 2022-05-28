@@ -26,7 +26,7 @@ namespace Stroyka.Models.Products
             get { return StockCount > 0; }
             set => IsInStock = value; 
         }
-
+        public int ReviewCount { get; set; }
         public virtual Status Status { get; set; }
         public virtual int StatusId { get; set; }
         public virtual Detail ProductDetail { get; set; }

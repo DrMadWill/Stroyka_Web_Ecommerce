@@ -4,7 +4,9 @@ using Stroyka.Models.Blogs;
 using Stroyka.Models.Commoun;
 using Stroyka.Models.Products;
 using Stroyka.Models.Users;
-using Stroyka.Models.ViewModels.Products;
+using Stroyka.Models.SqlViews.Products;
+using Stroyka.Models.SqlFuncion;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Stroyka.Data
 {
@@ -50,13 +52,21 @@ namespace Stroyka.Data
         // =============== Sql Views
         #region SqlViews
 
-        // ============= Product ======
-        #region Product
-            public DbSet<BrandStock> BrandStocks { get; set; }
+        
+        public DbSet<BrandStock> BrandStocks { get; set; }
+
+        public DbSet<CategoryProductCount> CategoryProductCounts { get; set; }
 
         #endregion
 
+
+        // =============== Sql Funcition
+        #region Sql Funcition
+        [NotMapped]
+        public DbSet<MaxMinPriceByMegaCategory> MaxMinPriceByMegaCategories { get; set; }
+
         #endregion
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -174,22 +184,35 @@ namespace Stroyka.Data
                 .IsUnique();
             #endregion
 
-            // =============== Sql Views
 
             #region SqlViews
 
-            #region Product
+          
             modelBuilder.Entity<BrandStock>(dr =>
             {
                 dr.HasKey("Id");
                 dr.ToView("BrandStock");
+            });
 
+            modelBuilder.Entity<CategoryProductCount>(dr =>
+            {
+                dr.HasKey("Id");
+                dr.ToView("CategoryProductCount");
             });
             #endregion
 
+            #region Sql Function 
+
+            modelBuilder.Entity<MaxMinPriceByMegaCategory>(dr =>
+            {
+                dr.HasKey("Id");
+                dr.ToView("udfMinMaxPriceByMegaCategory");
+            });
+                
+                
+
             #endregion
+        }
 
     }
-
-}
 }

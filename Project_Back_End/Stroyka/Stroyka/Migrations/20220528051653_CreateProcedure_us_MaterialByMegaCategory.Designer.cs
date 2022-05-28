@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Stroyka.Data;
 
 namespace Stroyka.Migrations
 {
     [DbContext(typeof(StroykaDbContext))]
-    partial class StroykaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220528051653_CreateProcedure_us_MaterialByMegaCategory")]
+    partial class CreateProcedure_us_MaterialByMegaCategory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -580,9 +582,6 @@ namespace Stroyka.Migrations
 
                     b.Property<float?>("OldPrice")
                         .HasColumnType("real");
-
-                    b.Property<int>("ReviewCount")
-                        .HasColumnType("int");
 
                     b.Property<byte>("Stars")
                         .HasColumnType("tinyint");

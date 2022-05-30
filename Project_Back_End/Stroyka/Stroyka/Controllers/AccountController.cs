@@ -81,7 +81,7 @@ namespace Stroyka.Controllers
         public IActionResult Register()
         {
             ViewBag.IsShowing = false;
-            SignUpVM sign = new SignUpVM();
+            SignUpVM sign = new();
             return View(sign);
         }
 
@@ -152,7 +152,7 @@ namespace Stroyka.Controllers
         [HttpGet]
         public IActionResult ForgetPassword()
         {
-            ForgetPasswordVM forgetPassword = new ForgetPasswordVM();
+            ForgetPasswordVM forgetPassword = new();
             return View(forgetPassword);
         }
 

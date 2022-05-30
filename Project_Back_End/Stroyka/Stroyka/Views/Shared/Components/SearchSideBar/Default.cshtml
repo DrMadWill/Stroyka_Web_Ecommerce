@@ -28,18 +28,18 @@
                                                      height="9px">
                                                     <use xlink:href="/images/sprite.svg#arrow-rounded-left-6x9">
                                                     </use>
-                                                </svg> <a href="#">@Model.MegaCategory.Name</a>
+                                                </svg> <a asp-controller="ProductFilter" asp-action="ProductListByMegaCategory" asp-route-id="@Model.MegaCategory.Id">@Model.MegaCategory.Name</a>
                                             </li>
 
                                             @foreach (var item in Model.MegaCategory.Categories)
                                             {
                                                 <li class="filter-categories__item filter-categories__item--current">
-                                                    <a href="#">@item.Name</a>
+                                                    <a asp-controller="ProductFilter" asp-action="ProductListByCategory" asp-route-id="@item.Id">@item.Name</a>
                                                 </li>
                                                 @foreach (var child in item.SubCategories)
                                                 {
                                                     <li class="filter-categories__item filter-categories__item--child">
-                                                        <a href="#">@child.Name</a>
+                                                        <a asp-controller="ProductFilter" asp-action="ProductListBySubCategory" asp-route-id="@child.Id">@child.Name</a>
                                                     </li>
                                                 }
 
@@ -50,6 +50,7 @@
                             </div>
                         </div>
                     </div>
+
                     @*Price Section*@
                     <div class="widget-filters__item">
                         <div class="filter filter--opened" data-collapse-item>
@@ -67,6 +68,7 @@
                                         <div class="filter-price__title">
                                             Price: $<span class="filter-price__min-value"></span> – $<span class="filter-price__max-value"></span>
                                         </div>
+                                       
                                     </div>
                                 </div>
                             </div>
@@ -91,9 +93,9 @@
                                             @foreach (var item in Model.Brands)
                                             {
                                                 <label class="filter-list__item">
-                                                    <span class="filter-list__input input-check">
+                                                    <span class="filter-list__input  input-check">
                                                         <span class="input-check__body">
-                                                            <input class="input-check__input"
+                                                            <input class="input-check__input brands" value="@item.Id"
                                                                type="checkbox"> <span class="input-check__box"></span>
                                                             <svg class="input-check__icon" width="9px"
                                                              height="7px">
@@ -131,8 +133,8 @@
                                                 <label class="filter-list__item">
                                                     <span class="filter-list__input input-check">
                                                         <span class="input-check__body">
-                                                            <input class="input-check__input"
-                                                               type="checkbox"> <span class="input-check__box"></span>
+                                                            <input class="input-check__input materials"
+                                                               type="checkbox" value="@item.Id"> <span class="input-check__box"></span>
                                                             <svg class="input-check__icon" width="9px"
                                                              height="7px">
                                                                 <use xlink:href="/images/sprite.svg#check-9x7">
@@ -170,7 +172,7 @@
                                                       style="color: @item.Code;">
                                                         <label class="input-check-color__body">
                                                             <input class="input-check-color__input"
-                                                               type="checkbox"> <span class="input-check-color__box"></span>
+                                                               type="checkbox" value="@item.Id"> <span class="input-check-color__box"></span>
                                                             <svg class="input-check-color__icon"
                                                              width="12px" height="9px">
                                                                 <use xlink:href="/images/sprite.svg#check-12x9">
@@ -186,14 +188,58 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
-                <div class="widget-filters__actions d-flex">
-                    <button class="btn btn-primary btn-sm">
+                <form class="widget-filters__actions d-flex">
+                    <button type="submit" class="btn btn-primary btn-sm">
                         Filter
                     </button> <button class="btn btn-secondary btn-sm ml-2">
                         Reset
                     </button>
-                </div>
+                </form>
+                <script>
+                $(document).ready(()=>{
+                    $(document).on("click",".widget-filters__actions",(e)=>{
+                        e.preventDefault();
+
+                        let colors = new Array();
+                        $(".input-check-color__input").each(function(e){
+                             if( $(this).is(':checked')){
+                                 colors.push(new Number($(this).val()))
+                             }
+                        })
+
+                        let materials = new Array()
+                        $(".materials").each(function(e){
+                             if( $(this).is(':checked')){
+                                 materials.push(new Number($(this).val()))
+                             }
+                        })
+                       
+                        let brands = new Array()
+                        $(".brands").each(function(e){
+                            if( $(this).is(':checked')){
+                                 brands.push(new Number($(this).val()))
+                             }
+                        })
+
+                        let maxPrice =new Number( $(".filter-price__min-value").text());
+                        let minPrice = new Number( $(".filter-price__max-value").text());
+                        
+                        let searchInfo = {
+                            ColorIds:colors,
+                            MaterialIds:materials,
+                            BrandIds:brands,
+                            MaxPrice:maxPrice,
+                            MinPrice:minPrice
+                        } 
+                        let searchText =JSON.stringify(searchInfo);
+                        location.href = `/ProductFilter/ProductListByFilterInfo/${searchText}`
+
+                    })
+                });
+                </script>
+
             </div>
         </div>
         <div class="block-sidebar__item d-none d-lg-block">

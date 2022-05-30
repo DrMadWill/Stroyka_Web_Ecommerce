@@ -1,0 +1,110 @@
+﻿@model ProductListByKeyWordVM
+
+<div class="site__body">
+    <div class="page-header">
+        <div class="page-header__container container">
+            <div class="page-header__breadcrumb">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="/">Home</a>
+                            <svg class="breadcrumb-arrow"
+                                 width="6px" height="9px">
+                                <use xlink:href="/images/sprite.svg#arrow-rounded-right-6x9"></use>
+                            </svg>
+                        </li>
+                        <li class="breadcrumb-item active">
+                            <a> Search Product </a>
+                            <svg class="breadcrumb-arrow"
+                                 width="6px" height="9px">
+                                <use xlink:href="/images/sprite.svg#arrow-rounded-right-6x9"></use>
+                            </svg>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">@Model.SearchKey</li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="page-header__title">
+                <h1>@Model.SearchKey</h1>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="shop-layout shop-layout--sidebar--start">
+            @await Component.InvokeAsync("SearchSideBar",@Model.MegaCategoryId)
+            <div class="shop-layout__content">
+                <div class="block">
+                    <div class="products-view">
+
+                        <div class="products-view__options">
+                            <div class="view-options">
+
+                                <div class="view-options__layout">
+                                    <div class="layout-switcher">
+                                        <div class="layout-switcher__list">
+                                            <button data-layout="grid-3-sidebar" data-with-features="false" title="Grid" type="button"
+                                                    class="layout-switcher__button layout-switcher__button--active">
+                                                <svg width="16px" height="16px">
+                                                    <use xlink:href="/images/sprite.svg#layout-grid-16x16"></use>
+                                                </svg>
+                                            </button>
+
+                                            <button data-layout="grid-3-sidebar" data-with-features="true" title="Grid With Features"
+                                                    type="button" class="layout-switcher__button">
+                                                <svg width="16px"
+                                                     height="16px">
+                                                    <use xlink:href="/images/sprite.svg#layout-grid-with-details-16x16">
+                                                    </use>
+                                                </svg>
+                                            </button>
+
+                                            <button data-layout="list"
+                                                    data-with-features="false" title="List" type="button"
+                                                    class="layout-switcher__button">
+                                                <svg width="16px" height="16px">
+                                                    <use xlink:href="/images/sprite.svg#layout-list-16x16"></use>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="view-options__legend">Showing @Model.Products.Count of @Model.Products.TotalElement products</div>
+                                <div class="view-options__divider"></div>
+                                <div class="view-options__control">
+                                    <label for="">Sort By</label>
+                                    <form class="sort_list_key_form"  action="/ProductFilter/ProductListByKeyWord">
+                                        <input type="hidden" name="id" value="@Model.SearchKey"/>
+                                        <select class="form-control sort_list_select form-control-sm"  value="@Model.SortedKey" name="key" >
+                                            <option value="ad">Default</option>
+                                            <option value="A-Z">Name (A-Z)</option>
+                                            <option value="Z-A">Name (Z-A)</option>
+                                        </select>
+                                    </form>
+                               </div>
+                            </div>
+                        </div>
+
+                        <div class="products-view__list products-list" data-layout="grid-3-sidebar" data-with-features="false">
+                            <partial name="_ProductListPartial" model="@Model.Products" />
+                        </div>
+
+                        <div class="products-view__pagination">
+                            @if (Model.Products.Count > 0)
+                            {
+                                <partial name="_PaginationList" model="@Model.Products.PaginationLinkModel" />
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section script{
+    <script>
+        $(".sort_list_select").change(function(){
+
+            document.querySelector(".sort_list_key_form").submit();
+        })
+    </script>
+}

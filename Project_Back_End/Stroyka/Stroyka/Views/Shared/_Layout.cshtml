@@ -914,7 +914,7 @@
                                      height="14px">
                                     <use xlink:href="/images/sprite.svg#menu-18x14"></use>
                                 </svg>
-                            </button> <a class="mobile-header__logo" href="index.html">
+                            </button> <a class="mobile-header__logo" href="/">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="120px" height="20px">
                                     <path d="M118.5,20h-1.1c-0.6,0-1.2-0.4-1.4-1l-1.5-4h-6.1l-1.5,4c-0.2,0.6-0.8,1-1.4,1h-1.1c-1,0-1.8-1-1.4-2l1.1-3
                                  l1.5-4l3.6-10c0.2-0.6,0.8-1,1.4-1h1.6c0.6,0,1.2,0.4,1.4,1l3.6,10l1.5,4l1.1,3C120.3,19,119.5,20,118.5,20z M111.5,6.6l-1.6,4.4
@@ -936,9 +936,8 @@
                                 </svg>
                             </a>
                             <div class="mobile-header__search">
-                                <form class="mobile-header__search-form" action="#">
-                                    <input class="mobile-header__search-input" name="search"
-                                           placeholder="Search over 10,000 products" aria-label="Site search" type="text"
+                                <form  class="mobile-header__search-form">
+                                    <input name="id" class="mobile-header__search-input"  placeholder="Search over 10,000 products" aria-label="Site search" type="text"
                                            autocomplete="off"> <button class="mobile-header__search-button mobile-header__search-button--submit"
                                                                        type="submit">
                                         <svg width="20px" height="20px">
@@ -1141,8 +1140,8 @@
                     </div>
                     <div class="site-header__search">
                         <div class="search">
-                            <form class="search__form" action="#">
-                                <input class="search__input" name="search"
+                            <form method="GET" asp-controller="ProductFilter" asp-action="ProductListByKeyWord" class="search__form">
+                                <input class="search__input" name="id"
                                        placeholder="Search over 10,000 products" aria-label="Site search" type="text"
                                        autocomplete="off"> <button class="search__button" type="submit">
                                     <svg width="20px"
@@ -1782,6 +1781,9 @@
     </div><!-- site / end -->
     @RenderSection("script", false)
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+    <script>
+        
+    </script>
 
 </body>
 

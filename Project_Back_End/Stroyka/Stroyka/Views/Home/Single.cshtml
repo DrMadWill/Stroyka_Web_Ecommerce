@@ -163,7 +163,7 @@
                                 </div>
                             </div>
                             <div class="product__rating-legend">
-                                <a>@Model.ReviewCount Reviews</a>@*<span>/</span><a>Write A Review</a>*@
+                                <a>@Model.Product.ReviewCount Reviews</a>@*<span>/</span><a>Write A Review</a>*@
                             </div>
                         </div>
                         <div class="product__description">
@@ -366,7 +366,7 @@
                     <div class="product-tabs__pane" id="tab-reviews">
                         <div class="reviews-view">
                             <div class="reviews-view__list">
-                                <h3 class="reviews-view__header">@(Model.ReviewCount == 0 ?"No":"") Customer Reviews </h3>
+                                <h3 class="reviews-view__header">@(Model.Product.ReviewCount == 0 ?"No":"") Customer Reviews </h3>
                                 <div class="reviews-list">
                                     <ol class="reviews-list__content">
 
@@ -418,7 +418,7 @@
                                         }
                                     </ol>
 
-                                    @if (Model.ReviewCount != 0)
+                                    @if (Model.Product.ReviewCount != 0)
                                     {
                                         <div class="reviews-list__pagination">
                                             <ul class="pagination justify-content-center">
@@ -438,7 +438,7 @@
                                                 </li>
                                                 <li class="page-item active"><a class="page-link">1</a></li>
                                                 @{
-                                                    int totalPage = (int)Math.Ceiling(Model.ReviewCount / ((double)5));
+                                                    int totalPage = (int)Math.Ceiling(Model.Product.ReviewCount / ((double)5));
                                                 }
                                                 @for (var i = 2; i <= totalPage; i++)
                                                 {

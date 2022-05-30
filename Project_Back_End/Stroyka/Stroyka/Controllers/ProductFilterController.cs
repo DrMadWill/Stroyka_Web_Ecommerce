@@ -45,8 +45,9 @@ namespace Stroyka.Controllers
                     Image = dr.Product.Image,
                     Stars = dr.Product.Stars,
                     Status = new Status { Name = dr.Product.Status.Name },
-                    ReviewsCount = dr.Product.Reviews.Count
+                    ReviewsCount = dr.Product.ReviewCount
                 })
+                .Distinct()
                 .ToListAsync();
 
                 return Json(newArrivalsProduct.GenarateNewArrivals());
@@ -65,7 +66,7 @@ namespace Stroyka.Controllers
                 Image = dr.Product.Image,
                 Stars = dr.Product.Stars,
                 Status = new Status { Name = dr.Product.Status.Name },
-                ReviewsCount = dr.Product.Reviews.Count
+                ReviewsCount = dr.Product.ReviewCount
             })
             .ToListAsync();
 
@@ -93,7 +94,7 @@ namespace Stroyka.Controllers
                    Image = dr.Image,
                    Stars = dr.Stars,
                    Status = new Status { Name = dr.Status.Name },
-                   ReviewsCount = dr.Reviews.Count
+                   ReviewsCount = dr.ReviewCount
                })
                .ToListAsync();
                 return Json(newArrivalsProductDefault);
@@ -112,10 +113,10 @@ namespace Stroyka.Controllers
                        Image = dr.Product.Image,
                        Stars = dr.Product.Stars,
                        Status = new Status { Name = dr.Product.Status.Name },
-                       ReviewsCount = dr.Product.Reviews.Count
+                       ReviewsCount = dr.Product.ReviewCount
                    })
-                   
-                  .ToListAsync();
+                   .Distinct()
+                   .ToListAsync();
            
             return Json(newArrivalsProduct);
         }
@@ -155,7 +156,7 @@ namespace Stroyka.Controllers
                     IsInStock = dr.IsInStock,
                     Stars = dr.Stars,
                     Status = new { dr.Status.Id, dr.Status.Name },
-                    ReviewsCount = dr.Reviews.Count,
+                    ReviewsCount = dr.ReviewCount,
                     ProductDetail = new
                     {
                         dr.ProductDetail.SKU,
@@ -215,7 +216,6 @@ namespace Stroyka.Controllers
                     productIQeryable = _dbContext.SubCategoryToProducts
                     .Where(x => x.SubCategoryId == id)
                     .Include(x => x.Product.Status)
-                    .Include(x => x.Product.Reviews)
                     .Select(x => x.Product)
                     .AsQueryable();
                     productList.Products = await PaginationList<Product>
@@ -226,7 +226,6 @@ namespace Stroyka.Controllers
                     productIQeryable = _dbContext.SubCategoryToProducts
                     .Where(x => x.SubCategoryId == id)
                     .Include(x => x.Product.Status)
-                    .Include(x => x.Product.Reviews)
                     .Select(x => x.Product)
                     .OrderBy(x=>x.Name)
                     .AsQueryable();
@@ -238,7 +237,6 @@ namespace Stroyka.Controllers
                     productIQeryable = _dbContext.SubCategoryToProducts
                     .Where(x => x.SubCategoryId == id)
                     .Include(x => x.Product.Status)
-                    .Include(x => x.Product.Reviews)
                     .Select(x => x.Product)
                     .OrderByDescending(x => x.Name)
                     .AsQueryable();
@@ -278,8 +276,8 @@ namespace Stroyka.Controllers
                     productIQeryable = _dbContext.SubCategoryToProducts
                     .Where(x => x.SubCategory.CategoryId == id)
                     .Include(x => x.Product.Status)
-                    .Include(x => x.Product.Reviews)
                     .Select(x => x.Product)
+                    .Distinct()
                     .AsQueryable();
                     productList.Products = await PaginationList<Product>
                        .CreateAsync(productIQeryable, page ?? 1, 12, "/ProductFilter/ProductListByCategory/" + id + "/page");
@@ -289,9 +287,9 @@ namespace Stroyka.Controllers
                     productIQeryable = _dbContext.SubCategoryToProducts
                     .Where(x => x.SubCategory.CategoryId == id)
                     .Include(x => x.Product.Status)
-                    .Include(x => x.Product.Reviews)
                     .Select(x => x.Product)
                     .OrderBy(x => x.Name)
+                    .Distinct()
                     .AsQueryable();
                     productList.Products = await PaginationList<Product>
                         .CreateAsync(productIQeryable, page ?? 1, 12, "/ProductFilter/ProductListByCategory/" + id + "/page?key=" + key);
@@ -301,9 +299,9 @@ namespace Stroyka.Controllers
                     productIQeryable = _dbContext.SubCategoryToProducts
                     .Where(x => x.SubCategory.CategoryId == id)
                     .Include(x => x.Product.Status)
-                    .Include(x => x.Product.Reviews)
                     .Select(x => x.Product)
                     .OrderByDescending(x => x.Name)
+                    .Distinct()
                     .AsQueryable();
                     productList.Products = await PaginationList<Product>
                         .CreateAsync(productIQeryable, page ?? 1, 12, "/ProductFilter/ProductListByCategory/" + id + "/page?key=" + key);
@@ -342,40 +340,135 @@ namespace Stroyka.Controllers
                     productIQeryable = _dbContext.SubCategoryToProducts
                     .Where(x => x.SubCategory.Category.MegaCategoryId == id)
                     .Include(x => x.Product.Status)
-                    .Include(x => x.Product.Reviews)
                     .Select(x => x.Product)
+                    .Distinct()
                     .AsQueryable();
                     productList.Products = await PaginationList<Product>
-                       .CreateAsync(productIQeryable, page ?? 1, 3, "/ProductFilter/ProductListByMegaCategory/" + id + "/page");
+                       .CreateAsync(productIQeryable, page ?? 1, 12, "/ProductFilter/ProductListByMegaCategory/" + id + "/page");
                     break;
 
                 case "A-Z":
                     productIQeryable = _dbContext.SubCategoryToProducts
                     .Where(x => x.SubCategory.Category.MegaCategoryId == id)
                     .Include(x => x.Product.Status)
-                    .Include(x => x.Product.Reviews)
                     .Select(x => x.Product)
                     .OrderBy(x => x.Name)
+                    .Distinct()
                     .AsQueryable();
                     productList.Products = await PaginationList<Product>
-                        .CreateAsync(productIQeryable, page ?? 1, 3, "/ProductFilter/ProductListByMegaCategory/" + id + "/page?key=" + key);
+                        .CreateAsync(productIQeryable.OrderBy(x => x.Name), page ?? 1, 12, "/ProductFilter/ProductListByMegaCategory/" + id + "/page?key=" + key);
                     break;
 
                 case "Z-A":
                     productIQeryable = _dbContext.SubCategoryToProducts
                     .Where(x => x.SubCategory.Category.MegaCategoryId == id)
                     .Include(x => x.Product.Status)
-                    .Include(x => x.Product.Reviews)
                     .Select(x => x.Product)
                     .OrderByDescending(x => x.Name)
+                    .Distinct()
                     .AsQueryable();
                     productList.Products = await PaginationList<Product>
-                        .CreateAsync(productIQeryable, page ?? 1, 3, "/ProductFilter/ProductListByMegaCategory/" + id + "/page?key=" + key);
+                        .CreateAsync(productIQeryable.OrderByDescending(x=>x.Name), page ?? 1, 12, "/ProductFilter/ProductListByMegaCategory/" + id + "/page?key=" + key);
                     break;
 
             }
             return View("ProductList", productList);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> ProductListByFilterInfo(string id, int? page, string key)
+        {
+            ProductListByFilterInfo productList = new();
+            if (string.IsNullOrEmpty(id)) return NotFound();
+            var searchInfo = JsonConvert.DeserializeObject<SearchInfo>(id);
+
+            IQueryable<Product> producsIQueryable = _dbContext.Products
+                .Include(x=>x.Status)
+
+                .Where(dr => searchInfo.BrandIds.Contains(dr.BrandId) && 
+                dr.Stocks.Any(x => searchInfo.MaterialIds.Contains(x.MaterialId)) &&
+                dr.Stocks.Any(x => searchInfo.ColorIds.Contains(x.ColorId)))
+                .AsQueryable();
+
+            productList.MegaCategoryId = 1;
+            productList.SearchKey = "Filter Product";
+            productList.SearchInfo = id;
+
+            switch (key)
+            {
+                case "A-Z":
+                    productList.Products = await PaginationList<Product>
+                                    .CreateAsync(producsIQueryable.OrderBy(x => x.Name), page ?? 1, 12,
+                                    "/ProductFilter/ProductListByMegaCategory/" + id + "/page?key=" + key);
+                    productList.SortedKey = "A-Z";
+                    break;
+
+                case "Z-A":
+                    productList.Products = await PaginationList<Product>
+                                    .CreateAsync(producsIQueryable.OrderByDescending(x => x.Name), page ?? 1, 12,
+                                    "/ProductFilter/ProductListByMegaCategory/" + id + "/page?key=" + key);
+                    productList.SortedKey = "Z-A";
+                    break;
+                default:
+                    productList.Products = await PaginationList<Product>
+                                    .CreateAsync(producsIQueryable, page ?? 1, 12, "/ProductFilter/ProductListByFilterInfo/" + id + "/page");
+                    productList.SortedKey = "";
+                    break;
+            }
+            return View(productList);
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> ProductListByKeyWord(string id, int? page, string key)
+        {
+
+            if(id == null) return NotFound();
+            
+            var mega = await _dbContext.ProductMegaCategories
+                .FirstOrDefaultAsync(x => x.Name.ToLower().Contains(id.ToLower()) || 
+                x.Categories.Any(c=>c.Name.ToLower().Contains(id.ToLower())) ||
+                x.Categories.Any(c=>c.SubCategories.Any(s=>s.Name.ToLower().Contains(id.ToLower()))) 
+                );
+
+            if(mega == null) { mega = new MegaCategory { Id = 1 }; }
+
+            ProductListByKeyWordVM keyWord = new()
+            {
+                MegaCategoryId = mega.Id,
+                SearchKey = id,
+            };
+
+            var products = _dbContext.Products
+                .Where(x => x.Name.ToLower().Contains(id.ToLower()))
+                .Include(x=>x.Status)
+                .AsQueryable();
+
+
+            switch (key)
+            {
+                case "A-Z":
+                    keyWord.Products = await PaginationList<Product>
+                                    .CreateAsync(products.OrderBy(x => x.Name), page ?? 1, 12,
+                                    "/ProductFilter/ProductListByKeyWord/" + id + "/page?key=" + key);
+                    keyWord.SortedKey = "A-Z";
+                    break;
+
+                case "Z-A":
+                    keyWord.Products = await PaginationList<Product>
+                                    .CreateAsync(products.OrderByDescending(x => x.Name), page ?? 1, 12,
+                                    "/ProductFilter/ProductListByKeyWord/" + id + "/page?key=" + key);
+                    keyWord.SortedKey = "Z-A";
+                    break;
+                default:
+                    keyWord.Products = await PaginationList<Product>
+                                    .CreateAsync(products, page ?? 1, 12, "/ProductFilter/ProductListByKeyWord/" + id + "/page");
+                    keyWord.SortedKey = "";
+                    break;
+            }
+            return View(keyWord);
+        }
+
 
     }
 }

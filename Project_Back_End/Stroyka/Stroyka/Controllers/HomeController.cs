@@ -50,13 +50,11 @@ namespace Stroyka.Controllers
                 FeaturedProducts = await _dbContext.Products
                    .Where(dr => dr.Stars > 2) // Mumum Star : 3 
                    .OrderByDescending(x => x.Stars)
-                   .Include(x => x.Reviews)
                    .Include(x => x.Status)
                    .ToListAsync(),
 
                 // New Arrivals Product
                 NewArrivals = (await _dbContext.Products
-                .Include(x => x.Reviews)
                 .Include(x => x.Status)
                 .Where(dr => dr.Date > DateTime.Now.AddMonths(-3))
                 .ToListAsync()).GenarateNewArrivals(),
@@ -70,14 +68,12 @@ namespace Stroyka.Controllers
                 SpecialOffers = await _dbContext.Products
                 .Where(dr=>dr.ProductDetail.IsSpecial) // Specail And Lastest
                 .OrderByDescending(p=>p.Date)
-                .Include(x => x.Reviews)
                 .Include(x => x.Status)
                 .Take(3)
                 .ToListAsync(),
 
                 // Top Rated Product 
                 RatedProducts = await _dbContext.Products
-                .Include(x => x.Reviews)
                 .Include(x => x.Status)
                 .Where(dr => dr.Stars > 3)// Mimum Star : 4
                 .Take(3).ToListAsync(),
@@ -121,7 +117,6 @@ namespace Stroyka.Controllers
                 .ToListAsync(),
                 Reviews = await _dbContext.ProductReviews.Where(x => x.ProductId == id).Include(x=>x.User)
                 .Take(5).ToListAsync(),
-                ReviewCount =await _dbContext.ProductReviews.CountAsync(x=>x.ProductId == id),
                 Categories = await _dbContext.SubCategoryToProducts
                 .Include(x=>x.SubCategory.Category)
                 .Where(x=>x.ProductId == id).Select(x=>x.SubCategory.Category)

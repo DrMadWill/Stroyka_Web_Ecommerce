@@ -74,11 +74,29 @@
                                     <label for="">Sort By</label>
                                     <form class="sort_list_key_form"  action="/ProductFilter/ProductListByKeyWord">
                                         <input type="hidden" name="id" value="@Model.SearchKey"/>
-                                        <select class="form-control sort_list_select form-control-sm"  value="@Model.SortedKey" name="key" >
-                                            <option value="ad">Default</option>
-                                            <option value="A-Z">Name (A-Z)</option>
-                                            <option value="Z-A">Name (Z-A)</option>
+                                        <select class="form-control sort_list_select form-control-sm" name="key" >
+                                            
+                                            @if (Model.SortedKey == "A-Z")
+                                            {
+                                                <option value="">Default</option>
+                                                <option selected="selected" value="A-Z">Name (A-Z)</option>
+                                                <option value="Z-A">Name (Z-A)</option>
+                                            }
+                                            else if (Model.SortedKey == "Z-A")
+                                            {
+                                                <option value="">Default</option>
+                                                <option  value="A-Z">Name (A-Z)</option>
+                                                <option selected="selected" value="Z-A">Name (Z-A)</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="">Default</option>
+                                                <option  value="A-Z">Name (A-Z)</option>
+                                                <option  value="Z-A">Name (Z-A)</option>
+                                            }
+
                                         </select>
+                                        
                                     </form>
                                </div>
                             </div>

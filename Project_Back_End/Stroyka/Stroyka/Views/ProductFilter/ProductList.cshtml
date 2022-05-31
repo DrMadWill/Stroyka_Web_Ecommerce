@@ -72,20 +72,33 @@
                                 <div class="view-options__legend">Showing @Model.Products.Count of @Model.Products.TotalElement products</div>
                                 <div class="view-options__divider"></div>
                                 <div class="view-options__control">
-                                    <div class="dropdown">
-                                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            Sort By
-                                        </button>
+                                    <label for="">Sort By</label>
+                                    <form class="sort_list_key_form" action="/ProductFilter/@Model.Action">
+                                        <input type="hidden" name="id" value="@Model.SearchId" />
+                                        <select onchange="this.form.submit()" class="form-control sort_list_select form-control-sm" name="key">
 
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            <a class="dropdown-item" asp-controller="ProductFilter" asp-action="@Model.Action"
-                                               asp-route-id="@Model.SearchId">Default</a>
-                                            <a class="dropdown-item" asp-controller="ProductFilter" asp-action="@Model.Action"
-                                               asp-route-id="@Model.SearchId" asp-route-key="A-Z">Name (A-Z)</a>
-                                            <a class="dropdown-item" asp-controller="ProductFilter" asp-action="@Model.Action"
-                                               asp-route-id="@Model.SearchId" asp-route-key="Z-A">Name (Z-A)</a>
-                                        </div>
-                                    </div>
+                                            @if (Model.SortedKey == "A-Z")
+                                            {
+                                                <option value="">Default</option>
+                                                <option selected="selected" value="A-Z">Name (A-Z)</option>
+                                                <option value="Z-A">Name (Z-A)</option>
+                                            }
+                                            else if (Model.SortedKey == "Z-A")
+                                            {
+                                                <option value="">Default</option>
+                                                <option value="A-Z">Name (A-Z)</option>
+                                                <option selected="selected" value="Z-A">Name (Z-A)</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="">Default</option>
+                                                <option value="A-Z">Name (A-Z)</option>
+                                                <option value="Z-A">Name (Z-A)</option>
+                                            }
+
+                                        </select>
+
+                                    </form>
                                 </div>
 
                             </div>

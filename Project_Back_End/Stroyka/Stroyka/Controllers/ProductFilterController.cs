@@ -220,6 +220,7 @@ namespace Stroyka.Controllers
                     .AsQueryable();
                     productList.Products = await PaginationList<Product>
                        .CreateAsync(productIQeryable, page ?? 1, 12, "/ProductFilter/ProductListBySubCategory/" + id + "/page");
+                    productList.SortedKey = "";
                     break;
 
                 case "A-Z":
@@ -231,6 +232,7 @@ namespace Stroyka.Controllers
                     .AsQueryable();
                     productList.Products = await PaginationList<Product>
                         .CreateAsync(productIQeryable, page ?? 1, 12, "/ProductFilter/ProductListBySubCategory/" + id + "/page?key=" + key);
+                    productList.SortedKey = "A-Z";
                     break;
 
                 case "Z-A":
@@ -242,6 +244,7 @@ namespace Stroyka.Controllers
                     .AsQueryable();
                     productList.Products = await PaginationList<Product>
                         .CreateAsync(productIQeryable, page ?? 1, 12, "/ProductFilter/ProductListBySubCategory/" + id + "/page?key=" + key);
+                    productList.SortedKey = "Z-A";
                     break;
                
             }
@@ -281,8 +284,8 @@ namespace Stroyka.Controllers
                     .AsQueryable();
                     productList.Products = await PaginationList<Product>
                        .CreateAsync(productIQeryable, page ?? 1, 12, "/ProductFilter/ProductListByCategory/" + id + "/page");
+                    productList.SortedKey = "";
                     break;
-
                 case "A-Z":
                     productIQeryable = _dbContext.SubCategoryToProducts
                     .Where(x => x.SubCategory.CategoryId == id)
@@ -293,6 +296,7 @@ namespace Stroyka.Controllers
                     .AsQueryable();
                     productList.Products = await PaginationList<Product>
                         .CreateAsync(productIQeryable, page ?? 1, 12, "/ProductFilter/ProductListByCategory/" + id + "/page?key=" + key);
+                    productList.SortedKey = "Z-A";
                     break;
 
                 case "Z-A":
@@ -305,6 +309,7 @@ namespace Stroyka.Controllers
                     .AsQueryable();
                     productList.Products = await PaginationList<Product>
                         .CreateAsync(productIQeryable, page ?? 1, 12, "/ProductFilter/ProductListByCategory/" + id + "/page?key=" + key);
+                    productList.SortedKey = "A-Z";
                     break;
 
             }
@@ -345,6 +350,7 @@ namespace Stroyka.Controllers
                     .AsQueryable();
                     productList.Products = await PaginationList<Product>
                        .CreateAsync(productIQeryable, page ?? 1, 12, "/ProductFilter/ProductListByMegaCategory/" + id + "/page");
+                    productList.SortedKey = "";
                     break;
 
                 case "A-Z":
@@ -356,7 +362,9 @@ namespace Stroyka.Controllers
                     .Distinct()
                     .AsQueryable();
                     productList.Products = await PaginationList<Product>
-                        .CreateAsync(productIQeryable.OrderBy(x => x.Name), page ?? 1, 12, "/ProductFilter/ProductListByMegaCategory/" + id + "/page?key=" + key);
+                        .CreateAsync(productIQeryable.OrderBy(x => x.Name), page ?? 1, 12, 
+                        "/ProductFilter/ProductListByMegaCategory/" + id + "/page?key=" + key);
+                    productList.SortedKey = "A-Z";
                     break;
 
                 case "Z-A":
@@ -368,7 +376,9 @@ namespace Stroyka.Controllers
                     .Distinct()
                     .AsQueryable();
                     productList.Products = await PaginationList<Product>
-                        .CreateAsync(productIQeryable.OrderByDescending(x=>x.Name), page ?? 1, 12, "/ProductFilter/ProductListByMegaCategory/" + id + "/page?key=" + key);
+                        .CreateAsync(productIQeryable.OrderByDescending(x=>x.Name), page ?? 1, 12,
+                        "/ProductFilter/ProductListByMegaCategory/" + id + "/page?key=" + key);
+                    productList.SortedKey = "Z-A";
                     break;
 
             }

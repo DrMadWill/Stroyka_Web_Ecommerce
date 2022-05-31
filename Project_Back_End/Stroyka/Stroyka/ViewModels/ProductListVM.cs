@@ -10,6 +10,7 @@ namespace Stroyka.ViewModels
 
         public string SearchKey { get; set; }
         public string Action { get; set; }
+        public string SortedKey { get; set; }
 
         public int SearchId { get; set; }
 

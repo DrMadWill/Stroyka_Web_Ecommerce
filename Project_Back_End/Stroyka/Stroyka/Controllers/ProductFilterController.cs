@@ -335,7 +335,31 @@ namespace Stroyka.Controllers
             return View("ProductListByKey", productList);
         }
 
-        
+        // Search By Brand | GET
+
+        [HttpGet]
+        public async Task<IActionResult> ProductListByBrand(int? id, int? page, string key)
+        {
+            if (id == null) return NotFound();
+            var brand = await _dbContext.ProductBrands.FirstOrDefaultAsync(x => x.Id == id);
+            if (brand == null) return NotFound();
+
+
+            var productIQeryable = _dbContext.Products
+                    .Where(dr => dr.BrandId == id)
+                    .Include(x => x.Status)
+                    .AsQueryable();
+            ProductListVM productList = new()
+            {
+                SearchKey = brand.Name,
+                SearchId = brand.Id,
+                MegaCategoryId = 1,
+                Action = RouteData.Values["action"].ToString()
+            };
+
+            await SortBy(productIQeryable, productList, key, page, id);
+            return View("ProductList", productList);
+        }
 
 
         // Product Sort By Method

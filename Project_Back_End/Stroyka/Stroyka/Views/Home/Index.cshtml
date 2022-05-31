@@ -1318,7 +1318,7 @@
                     @foreach (var item in Model.Brands)
                     {
                         <div class="block-brands__item">
-                            <a href="#@item.Id"><img src="~/images/logos/@item.Image" alt="@item.Name"></a>
+                            <a asp-controller="ProductFilter" asp-action="ProductListByBrand" asp-route-id="@item.Id" data-toggle="tooltip" data-placement="top" title="@item.Name" ><img src="~/images/logos/@item.Image" alt="@item.Name"></a>
                         </div>
                     }
                 </div>

@@ -3,7 +3,7 @@ using Stroyka.Models.Products;
 
 namespace Stroyka.ViewModels
 {
-    public class ProductListByFilterInfo
+    public class ProductListByKeyVM
     {
         public PaginationList<Product> Products { get; set; }
         public string SearchKey { get; set; }

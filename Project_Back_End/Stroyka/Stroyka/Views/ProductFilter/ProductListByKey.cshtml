@@ -1,4 +1,4 @@
-﻿@model ProductListByFilterInfo
+﻿@model ProductListByKeyVM
 
 <div class="site__body">
     <div class="page-header">
@@ -25,7 +25,7 @@
                 </nav>
             </div>
             <div class="page-header__title">
-                <h1>@Model.SearchKey</h1>
+                <h1>@Model.SearchInfo</h1>
             </div>
         </div>
     </div>
@@ -74,7 +74,7 @@
                                 <div class="view-options__control">
                                     <label for="">Sort By</label>
                                     <form class="sort_list_key_form" action="/ProductFilter/ProductListByFilterInfo">
-                                        <input  type="hidden" name="id" value="@Model.SearchInfo" />
+                                        <input  type="hidden" name="id" value="@Model.SearchKey" />
                                         <select onchange="this.form.submit()" class="form-control sort_list_select form-control-sm" name="key">
                                             @if (Model.SortedKey == "A-Z")
                                             {

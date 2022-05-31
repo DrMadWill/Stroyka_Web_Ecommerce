@@ -200,7 +200,11 @@ namespace Stroyka.Controllers
             if(subcategory == null) return NotFound();
 
 
-            IQueryable<Product> productIQeryable;
+            var productIQeryable = _dbContext.SubCategoryToProducts
+                    .Where(x => x.SubCategoryId == id)
+                    .Include(x => x.Product.Status)
+                    .Select(x => x.Product)
+                    .AsQueryable();
             ProductListVM productList = new()
             {
                 SearchKey = subcategory.Name,
@@ -208,46 +212,8 @@ namespace Stroyka.Controllers
                 MegaCategoryId = subcategory.Category.MegaCategoryId,
                 Action = RouteData.Values["action"].ToString()
             };
-            
-            switch (key ?? "Default")
-            {
-                case "Default":
-                default:
-                    productIQeryable = _dbContext.SubCategoryToProducts
-                    .Where(x => x.SubCategoryId == id)
-                    .Include(x => x.Product.Status)
-                    .Select(x => x.Product)
-                    .AsQueryable();
-                    productList.Products = await PaginationList<Product>
-                       .CreateAsync(productIQeryable, page ?? 1, 12, "/ProductFilter/ProductListBySubCategory/" + id + "/page");
-                    productList.SortedKey = "";
-                    break;
 
-                case "A-Z":
-                    productIQeryable = _dbContext.SubCategoryToProducts
-                    .Where(x => x.SubCategoryId == id)
-                    .Include(x => x.Product.Status)
-                    .Select(x => x.Product)
-                    .OrderBy(x=>x.Name)
-                    .AsQueryable();
-                    productList.Products = await PaginationList<Product>
-                        .CreateAsync(productIQeryable, page ?? 1, 12, "/ProductFilter/ProductListBySubCategory/" + id + "/page?key=" + key);
-                    productList.SortedKey = "A-Z";
-                    break;
-
-                case "Z-A":
-                    productIQeryable = _dbContext.SubCategoryToProducts
-                    .Where(x => x.SubCategoryId == id)
-                    .Include(x => x.Product.Status)
-                    .Select(x => x.Product)
-                    .OrderByDescending(x => x.Name)
-                    .AsQueryable();
-                    productList.Products = await PaginationList<Product>
-                        .CreateAsync(productIQeryable, page ?? 1, 12, "/ProductFilter/ProductListBySubCategory/" + id + "/page?key=" + key);
-                    productList.SortedKey = "Z-A";
-                    break;
-               
-            }
+            await SortBy(productIQeryable, productList, key, page, id);
             return View("ProductList", productList);
         }
 
@@ -263,7 +229,13 @@ namespace Stroyka.Controllers
             if (category == null) return NotFound();
 
 
-            IQueryable<Product> productIQeryable;
+            var productIQeryable = _dbContext.SubCategoryToProducts
+                    .Where(x => x.SubCategory.CategoryId == id)
+                    .Include(x => x.Product.Status)
+                    .Select(x => x.Product)
+                    .Distinct()
+                    .AsQueryable();
+
             ProductListVM productList = new()
             {
                 SearchKey = category.Name,
@@ -272,47 +244,7 @@ namespace Stroyka.Controllers
                 Action = RouteData.Values["action"].ToString()
             };
 
-            switch (key ?? "Default")
-            {
-                case "Default":
-                default:
-                    productIQeryable = _dbContext.SubCategoryToProducts
-                    .Where(x => x.SubCategory.CategoryId == id)
-                    .Include(x => x.Product.Status)
-                    .Select(x => x.Product)
-                    .Distinct()
-                    .AsQueryable();
-                    productList.Products = await PaginationList<Product>
-                       .CreateAsync(productIQeryable, page ?? 1, 12, "/ProductFilter/ProductListByCategory/" + id + "/page");
-                    productList.SortedKey = "";
-                    break;
-                case "A-Z":
-                    productIQeryable = _dbContext.SubCategoryToProducts
-                    .Where(x => x.SubCategory.CategoryId == id)
-                    .Include(x => x.Product.Status)
-                    .Select(x => x.Product)
-                    .OrderBy(x => x.Name)
-                    .Distinct()
-                    .AsQueryable();
-                    productList.Products = await PaginationList<Product>
-                        .CreateAsync(productIQeryable, page ?? 1, 12, "/ProductFilter/ProductListByCategory/" + id + "/page?key=" + key);
-                    productList.SortedKey = "Z-A";
-                    break;
-
-                case "Z-A":
-                    productIQeryable = _dbContext.SubCategoryToProducts
-                    .Where(x => x.SubCategory.CategoryId == id)
-                    .Include(x => x.Product.Status)
-                    .Select(x => x.Product)
-                    .OrderByDescending(x => x.Name)
-                    .Distinct()
-                    .AsQueryable();
-                    productList.Products = await PaginationList<Product>
-                        .CreateAsync(productIQeryable, page ?? 1, 12, "/ProductFilter/ProductListByCategory/" + id + "/page?key=" + key);
-                    productList.SortedKey = "A-Z";
-                    break;
-
-            }
+            await SortBy(productIQeryable, productList, key, page, id);
             return View("ProductList", productList);
         }
 
@@ -328,7 +260,12 @@ namespace Stroyka.Controllers
             if (megaCategory == null) return NotFound();
 
 
-            IQueryable<Product> productIQeryable;
+           var productIQeryable = _dbContext.SubCategoryToProducts
+                    .Where(x => x.SubCategory.Category.MegaCategoryId == id)
+                    .Include(x => x.Product.Status)
+                    .Select(x => x.Product)
+                    .Distinct()
+                    .AsQueryable();
             ProductListVM productList = new()
             {
 
@@ -337,58 +274,16 @@ namespace Stroyka.Controllers
                 MegaCategoryId = megaCategory.Id,
                 Action = RouteData.Values["action"].ToString()
             };
-
-            switch (key ?? "Default")
-            {
-                case "Default":
-                default:
-                    productIQeryable = _dbContext.SubCategoryToProducts
-                    .Where(x => x.SubCategory.Category.MegaCategoryId == id)
-                    .Include(x => x.Product.Status)
-                    .Select(x => x.Product)
-                    .Distinct()
-                    .AsQueryable();
-                    productList.Products = await PaginationList<Product>
-                       .CreateAsync(productIQeryable, page ?? 1, 12, "/ProductFilter/ProductListByMegaCategory/" + id + "/page");
-                    productList.SortedKey = "";
-                    break;
-
-                case "A-Z":
-                    productIQeryable = _dbContext.SubCategoryToProducts
-                    .Where(x => x.SubCategory.Category.MegaCategoryId == id)
-                    .Include(x => x.Product.Status)
-                    .Select(x => x.Product)
-                    .OrderBy(x => x.Name)
-                    .Distinct()
-                    .AsQueryable();
-                    productList.Products = await PaginationList<Product>
-                        .CreateAsync(productIQeryable.OrderBy(x => x.Name), page ?? 1, 12, 
-                        "/ProductFilter/ProductListByMegaCategory/" + id + "/page?key=" + key);
-                    productList.SortedKey = "A-Z";
-                    break;
-
-                case "Z-A":
-                    productIQeryable = _dbContext.SubCategoryToProducts
-                    .Where(x => x.SubCategory.Category.MegaCategoryId == id)
-                    .Include(x => x.Product.Status)
-                    .Select(x => x.Product)
-                    .OrderByDescending(x => x.Name)
-                    .Distinct()
-                    .AsQueryable();
-                    productList.Products = await PaginationList<Product>
-                        .CreateAsync(productIQeryable.OrderByDescending(x=>x.Name), page ?? 1, 12,
-                        "/ProductFilter/ProductListByMegaCategory/" + id + "/page?key=" + key);
-                    productList.SortedKey = "Z-A";
-                    break;
-
-            }
+            await SortBy(productIQeryable, productList, key, page, id);
             return View("ProductList", productList);
         }
+
+        // Search By SideBar Filter Info | GET
 
         [HttpGet]
         public async Task<IActionResult> ProductListByFilterInfo(string id, int? page, string key)
         {
-            ProductListByFilterInfo productList = new();
+            ProductListByKeyVM productList = new();
             if (string.IsNullOrEmpty(id)) return NotFound();
             var searchInfo = JsonConvert.DeserializeObject<SearchInfo>(id);
 
@@ -401,33 +296,14 @@ namespace Stroyka.Controllers
                 .AsQueryable();
 
             productList.MegaCategoryId = 1;
-            productList.SearchKey = "Filter Product";
-            productList.SearchInfo = id;
+            productList.SearchKey = id;
+            productList.SearchInfo = "Filter Product";
 
-            switch (key)
-            {
-                case "A-Z":
-                    productList.Products = await PaginationList<Product>
-                                    .CreateAsync(producsIQueryable.OrderBy(x => x.Name), page ?? 1, 12,
-                                    "/ProductFilter/ProductListByMegaCategory/" + id + "/page?key=" + key);
-                    productList.SortedKey = "A-Z";
-                    break;
-
-                case "Z-A":
-                    productList.Products = await PaginationList<Product>
-                                    .CreateAsync(producsIQueryable.OrderByDescending(x => x.Name), page ?? 1, 12,
-                                    "/ProductFilter/ProductListByMegaCategory/" + id + "/page?key=" + key);
-                    productList.SortedKey = "Z-A";
-                    break;
-                default:
-                    productList.Products = await PaginationList<Product>
-                                    .CreateAsync(producsIQueryable, page ?? 1, 12, "/ProductFilter/ProductListByFilterInfo/" + id + "/page");
-                    productList.SortedKey = "";
-                    break;
-            }
-            return View(productList);
+            await SortBy(producsIQueryable, productList, key, page, id);
+            return View("ProductListByKey", productList);
         }
 
+        // Search By Keyword | GET
 
         [HttpGet]
         public async Task<IActionResult> ProductListByKeyWord(string id, int? page, string key)
@@ -443,7 +319,7 @@ namespace Stroyka.Controllers
 
             if(mega == null) { mega = new MegaCategory { Id = 1 }; }
 
-            ProductListByKeyWordVM keyWord = new()
+            ProductListByKeyVM productList = new()
             {
                 MegaCategoryId = mega.Id,
                 SearchKey = id,
@@ -455,30 +331,67 @@ namespace Stroyka.Controllers
                 .AsQueryable();
 
 
-            switch (key)
+            await SortBy(products, productList, key, page, id);
+            return View("ProductListByKey", productList);
+        }
+
+        
+
+
+        // Product Sort By Method
+        private async Task SortBy(IQueryable<Product> products, ProductListVM productList,string key,int? page,int? id)
+        {
+
+            string controller = RouteData.Values["action"].ToString();
+
+            switch (key ?? "Default")
             {
+                case "Default":
+                default:
+                    productList.Products = await PaginationList<Product>
+                       .CreateAsync(products, page ?? 1, 12, "/ProductFilter/" + controller + "/" + id + "/page");
+                    productList.SortedKey = "";
+                    break;
                 case "A-Z":
-                    keyWord.Products = await PaginationList<Product>
-                                    .CreateAsync(products.OrderBy(x => x.Name), page ?? 1, 12,
-                                    "/ProductFilter/ProductListByKeyWord/" + id + "/page?key=" + key);
-                    keyWord.SortedKey = "A-Z";
+                    productList.Products = await PaginationList<Product>
+                        .CreateAsync(products.OrderBy(x => x.Name), page ?? 1, 12, "/ProductFilter/" + controller + "/" + id + "/page?key=" + key);
+                    productList.SortedKey = "A-Z";
                     break;
 
                 case "Z-A":
-                    keyWord.Products = await PaginationList<Product>
-                                    .CreateAsync(products.OrderByDescending(x => x.Name), page ?? 1, 12,
-                                    "/ProductFilter/ProductListByKeyWord/" + id + "/page?key=" + key);
-                    keyWord.SortedKey = "Z-A";
+                    productList.Products = await PaginationList<Product>
+                        .CreateAsync(products.OrderByDescending(x => x.Name), page ?? 1, 12, "/ProductFilter/" + controller + "/" + id + "/page?key=" + key);
+                    productList.SortedKey = "Z-A";
                     break;
-                default:
-                    keyWord.Products = await PaginationList<Product>
-                                    .CreateAsync(products, page ?? 1, 12, "/ProductFilter/ProductListByKeyWord/" + id + "/page");
-                    keyWord.SortedKey = "";
-                    break;
+
             }
-            return View(keyWord);
         }
 
+        private async Task SortBy(IQueryable<Product> products, ProductListByKeyVM productList, string key, int? page, string searchKey)
+        {
+            string controller = RouteData.Values["action"].ToString();
+            switch (key ?? "Default")
+            {
+                case "Default":
+                default:
+                    productList.Products = await PaginationList<Product>
+                       .CreateAsync(products, page ?? 1, 12, "/ProductFilter/" + controller + "/" + searchKey + "/page");
+                    productList.SortedKey = "";
+                    break;
+                case "A-Z":
+                    productList.Products = await PaginationList<Product>
+                        .CreateAsync(products.OrderBy(x => x.Name), page ?? 1, 12, "/ProductFilter/" + controller + "/" + searchKey + "/page?key=" + key);
+                    productList.SortedKey = "A-Z";
+                    break;
+
+                case "Z-A":
+                    productList.Products = await PaginationList<Product>
+                        .CreateAsync(products.OrderByDescending(x => x.Name), page ?? 1, 12, "/ProductFilter/" + controller + "/" + searchKey + "/page?key=" + key);
+                    productList.SortedKey = "Z-A";
+                    break;
+
+            }
+        }
 
     }
 }

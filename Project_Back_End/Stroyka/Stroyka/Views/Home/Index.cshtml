@@ -1207,19 +1207,19 @@
                     <div class="block-categories__item category-card category-card--layout--classic">
                         <div class="category-card__body">
                             <div class="category-card__image">
-                                <a href="#">
+                                <a asp-controller="ProductFilter" asp-action="ProductListByCategory" asp-route-id="@item.Id" >
                                     <img src="~/images/categories/@item.Image" alt="">
                                 </a>
                             </div>
                             <div class="category-card__content">
-                                <div class="category-card__name"><a href="#">@item.Name</a></div>
+                                <div class="category-card__name"><a asp-controller="ProductFilter" asp-action="ProductListByCategory" asp-route-id="@item.Id">@item.Name</a></div>
                                 <ul class="category-card__links">
                                     @foreach (var sub in item.SubCategories)
                                     {
-                                        <li><a href="#">@sub.Name</a></li>
+                                        <li><a asp-controller="ProductFilter" asp-action="ProductListBySubCategory" asp-route-id="@sub.Id">@sub.Name</a></li>
                                     }
                                 </ul>
-                                <div class="category-card__all"><a href="#">Show All</a></div>
+                                <div class="category-card__all"><a asp-controller="ProductFilter" asp-action="ProductListByCategory" asp-route-id="@item.Id">Show All</a></div>
                             </div>
                         </div>
                     </div>

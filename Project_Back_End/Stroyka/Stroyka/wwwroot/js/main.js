@@ -596,7 +596,7 @@
 
                                                     <svg width="16px"
                                                           height="16px">
-                                                        <use xlink:href="images/sprite.svg#wishlist-16"></use>
+                                                        <use xlink:href="/images/sprite.svg#wishlist-16"></use>
                                                     </svg>
 
                                                 </button>
@@ -609,7 +609,7 @@
 
                                                     <svg width="16px"
                                                           height="16px">
-                                                        <use xlink:href="images/sprite.svg#compare-16"></use>
+                                                        <use xlink:href="/images/sprite.svg#compare-16"></use>
                                                     </svg>
 
                                                 </button>

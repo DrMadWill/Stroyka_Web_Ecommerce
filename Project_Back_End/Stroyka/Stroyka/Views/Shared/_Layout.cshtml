@@ -254,13 +254,6 @@
                                     convallis lorem erat at purus. Maecenas eu varius nisi.
 
                                 </div>
-                                <ul class="product__features">
-                                    <li>Speed: 750 RPM</li>
-                                    <li>Power Source: Cordless-Electric</li>
-                                    <li>Battery Cell Type: Lithium</li>
-                                    <li>Voltage: 20 Volts</li>
-                                    <li>Battery Capacity: 2 Ah</li>
-                                </ul>
                                 <ul class="product__meta">
                                     <li class="product__meta-availability">
 
@@ -1426,7 +1419,7 @@
                                                 </ul><!-- .menu / end -->
                                             </div>
                                         </li>
-                                         <li class="nav-links__item">
+                                        <li class="nav-links__item">
                                             <a href="contact-us.html">
                                                 <span>
                                                     Compare
@@ -1762,15 +1755,69 @@
     @RenderSection("script", false)
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
     <script>
-       $(document).ready(function() {
-            $("body").tooltip({ selector: '[data-toggle=tooltip]' });
-        });
+        $(document).ready(function() {
+             $("body").tooltip({ selector: '[data-toggle=tooltip]' });
+         });
     </script>
 
     <script>
-    
-    
+
+        $(document).ready(()=>{
+            $(document).on("click",".product__actions-item--compare button",(e)=>{
+                let id = $(e.currentTarget).data("id")
+                let quantity = $("#product-quantity").val();
+                let color;
+                let material;
+                $(".product_color_input").each(function(){
+                    if( $(this).is(':checked')){
+                       color = $(this).val();
+                    }
+                })
+                if(color == undefined) { color = $(".product_color_input").first().val() }
+                 $(".quickview_matrial").each(function(){
+                    if( $(this).is(':checked')){
+                       material = $(this).val();
+                    }
+                })
+
+                CompareProduct(id,color,material,quantity)
+            })
+        })
     </script>
+
+    <script>
+
+        function CompareProduct(productId,color,material,quantity){
+            quantity = new Number(quantity)
+            let product = {
+                Quantity:quantity,
+                Color:color,
+                Material:material,
+                Id:productId
+            }
+
+            let products = localStorage.getItem("compare_products")
+            if(products == null){
+                let products = new Array();
+                products.push(product);
+                let productsString = JSON.stringify(products)
+                localStorage.setItem("compare_products",productsString)
+            }else{
+                 products = JSON.parse(products)
+                 if(products.length > 2){
+                     products[0] = product
+                     let productsString = JSON.stringify(products)
+                     localStorage.setItem("compare_products",productsString)
+                 }else{
+                     products.push(product)
+                     let productsString = JSON.stringify(products)
+                     localStorage.setItem("compare_products",productsString)
+                 }
+            }
+        }
+
+    </script>
+
 
 </body>
 

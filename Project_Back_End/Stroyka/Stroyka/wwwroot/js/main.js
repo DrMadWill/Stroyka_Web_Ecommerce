@@ -537,8 +537,8 @@
                 if (!colors[i].isStock) {
                     html = html + ` input-radio-color__item--disabled `
                 }
-                html = html +                          `" style="color:${colors[i].code};" data-toggle="tooltip" title="${colors[i].name}">
-                                    <input type="radio" value="color:${colors[i].id}"`
+                html = html + `" style="color:${colors[i].code};" data-toggle="tooltip" title="${colors[i].name}">
+                                    <input type="radio" class="product_color_input" value="${colors[i].name}"`
                 if (!colors[i].isStock) {
                     html = html + ` disabled="disabled" `
                 }
@@ -604,7 +604,7 @@
                                             </div>
                                             <div class="product__actions-item product__actions-item--compare">
 
-                                                <button type="button" class="btn btn-secondary btn-svg-icon btn-lg"
+                                                <button data-id="${e.id}" type="button" class="btn btn-secondary btn-svg-icon btn-lg"
                                                             data-toggle="tooltip" title="Compare">
 
                                                     <svg width="16px"
@@ -774,7 +774,7 @@
                     html = html + ` input-radio-color__item--disabled `
                 }
                 html = html + `" style="color:${colors[i].code};" data-toggle="tooltip" title="${colors[i].name}">
-                                    <input type="radio" value="color:${colors[i].id}"`
+                                    <input type="radio" class="product_color_input" value="${colors[i].name}"`
                 if (!colors[i].isStock) {
                     html = html + ` disabled="disabled" `
                 }
@@ -796,7 +796,6 @@
             ProductList.forEach(child => {
                 let divColumn = document.createElement("div")
                 $(divColumn).attr("class", "block-products-carousel__column")
-                console.log(child, child.Id)
                 let html = `
                         <div class="block-products-carousel__cell">
                             <div class="product-card">

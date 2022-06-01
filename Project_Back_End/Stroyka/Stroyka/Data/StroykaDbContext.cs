@@ -102,6 +102,10 @@ namespace Stroyka.Data
                .HasIndex(x => x.Name)
                .IsUnique();
 
+            modelBuilder.Entity<Color>()
+               .HasIndex(x => x.Code)
+               .IsUnique();
+
             modelBuilder.Entity<MegaCategory>()
                .HasIndex(x => x.Name)
                .IsUnique();

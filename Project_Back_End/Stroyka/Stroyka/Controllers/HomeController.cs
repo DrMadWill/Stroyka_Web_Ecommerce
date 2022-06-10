@@ -26,7 +26,7 @@ namespace Stroyka.Controllers
         }
 
         // Product Index | GET
-
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             IndexVM index = new()
@@ -85,7 +85,7 @@ namespace Stroyka.Controllers
         }
 
         // Product Single | GET
-
+        [HttpGet]
         public async Task<IActionResult> Single(int? id)
         {
             if (id == null) return ValidationProblem();
@@ -126,6 +126,22 @@ namespace Stroyka.Controllers
             return View(single);
         }
 
+        // Compare | GET
+        [HttpGet]
+        public async Task<IActionResult> Compare(string id)
+        {
+            var products = JsonConvert.DeserializeObject<List<CompareVM>>(id);
+            foreach (var item in products)
+            {
+                item.Product = await _dbContext.Products
+                   .Include(x => x.Status)
+                   .Include(x => x.Brand)
+                   .FirstOrDefaultAsync(x => x.Id == item.Id);
+
+                if (item.Product == null) return NotFound();
+            }
+            return View(products);
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

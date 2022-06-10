@@ -1420,11 +1420,12 @@
                                             </div>
                                         </li>
                                         <li class="nav-links__item">
-                                            <a href="contact-us.html">
+                                            <a class="compare_item" asp-controller="Home" asp-action="Compare" > 
                                                 <span>
                                                     Compare
                                                 </span>
                                             </a>
+                                            
                                         </li>
                                         <li class="nav-links__item">
                                             <a href="contact-us.html">
@@ -1815,6 +1816,19 @@
                  }
             }
         }
+
+    </script>
+
+    @*Compare Click*@
+    <script>
+        $(document).ready(()=>{
+            $(document).on("click", ".compare_item", (e) => {
+                e.preventDefault();
+                let compare = localStorage.getItem("compare_products")
+                let href = $(e.currentTarget).attr("href") + "/" + compare
+                location.href = href
+            })
+        })
 
     </script>
 

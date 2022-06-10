@@ -52,127 +52,143 @@
             <div class="container">
                 <div class="table-responsive">
                     <table class="compare-table">
+                    @if (Model.Count > 0)
+                    {
                         <tbody>
                             <tr>
                                 <th>Product</th>
                                 @foreach (var item in Model)
-                            {
-                                <td>
-                                    <a class="compare-table__product-link" asp-controller="Home" asp-action="Single" asp-route-id="@item.Id">
-                                        <div class="compare-table__product-image">
-                                            <img src="~/images/products/@item.Product.Image" alt="">
-                                        </div>
-                                        <div class="compare-table__product-name">
-                                            @item.Product.Name
-                                        </div>
-                                    </a>
-                                </td>
-                            }
-                        </tr>
-                        <tr>
-                            <th>Rating</th>
-                            @foreach (var item in Model)
-                            {
-                                <td>
-                                    <div class="compare-table__product-rating">
-                                        <div class="rating">
-                                            <div class="rating__body">
-                                                @for (int i = 0; i < 5; i++)
-                                                {
-                                                    <svg class="rating__star @(i<item.Product.Stars ? "rating__star--active":"")" width="13px"
+                                {
+                                    <td>
+                                        <a class="compare-table__product-link" asp-controller="Home" asp-action="Single" asp-route-id="@item.Id">
+                                            <div class="compare-table__product-image">
+                                                <img src="~/images/products/@item.Product.Image" alt="">
+                                            </div>
+                                            <div class="compare-table__product-name">
+                                                @item.Product.Name
+                                            </div>
+                                        </a>
+                                    </td>
+                                }
+                            </tr>
+                            <tr>
+                                <th>Rating</th>
+                                @foreach (var item in Model)
+                                {
+                                    <td>
+                                        <div class="compare-table__product-rating">
+                                            <div class="rating">
+                                                <div class="rating__body">
+                                                    @for (int i = 0; i < 5; i++)
+                                                    {
+                                                        <svg class="rating__star @(i<item.Product.Stars ? "rating__star--active":"")" width="13px"
                                                  height="12px">
-                                                        <g class="rating__fill">
-                                                            <use xlink:href="/images/sprite.svg#star-normal"></use>
-                                                        </g>
-                                                        <g class="rating__stroke">
-                                                            <use xlink:href="/images/sprite.svg#star-normal-stroke">
-                                                            </use>
-                                                        </g>
-                                                    </svg>
-                                                    <div class="rating__star rating__star--only-edge @(i<item.Product.Stars ? "rating__star--active":"")">
-                                                        <div class="rating__fill">
-                                                            <div class="fake-svg-icon"></div>
+                                                            <g class="rating__fill">
+                                                                <use xlink:href="/images/sprite.svg#star-normal"></use>
+                                                            </g>
+                                                            <g class="rating__stroke">
+                                                                <use xlink:href="/images/sprite.svg#star-normal-stroke">
+                                                                </use>
+                                                            </g>
+                                                        </svg>
+                                                        <div class="rating__star rating__star--only-edge @(i<item.Product.Stars ? "rating__star--active":"")">
+                                                            <div class="rating__fill">
+                                                                <div class="fake-svg-icon"></div>
+                                                            </div>
+                                                            <div class="rating__stroke">
+                                                                <div class="fake-svg-icon"></div>
+                                                            </div>
                                                         </div>
-                                                        <div class="rating__stroke">
-                                                            <div class="fake-svg-icon"></div>
-                                                        </div>
-                                                    </div>
-                                                }
+                                                    }
+                                                </div>
                                             </div>
                                         </div>
+                                        <div class="compare-table__product-rating-legend">@item.Product.ReviewCount Reviews</div>
+                                    </td>
+                                }
+                            </tr>
+
+                            <tr>
+                                <th>Availability</th>
+                                @foreach (var item in Model)
+                                {
+                                    <td>
+                                        <span class="compare-table__product-badge badge @(item.Product.StockCount > 0 ? "badge-success":"badge-danger") ">@(item.Product.StockCount > 0 ? "In Stock":"No Stock")</span>
+                                    </td>
+                                }
+                            </tr>
+
+                            <tr>
+                                <th>Price</th>
+                                @foreach (var item in Model)
+                                {
+                                    <td>
+                                        @if (item.Product.OldPrice == null)
+                                        {
+                                            <span>$@item.Product.CurrentPrice</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="product-card__new-price">$@item.Product.CurrentPrice</span> <span class="product-card__old-price">$@item.Product.OldPrice</span>
+                                        }
+                                    </td>
+                                }
+                            </tr>
+                            <tr>
+                                <th>Add To Cart</th>
+                                @foreach (var item in Model)
+                               {
+                                   <td><button class="btn btn-primary">Add To Cart</button></td>
+                               }
+                            </tr>
+                            <tr>
+                                <th>Brand</th>
+                                @foreach (var item in Model)
+                                {
+                                    <td>@item.Product.Brand.Name</td>
+                                }
+
+                            </tr>
+
+                            <tr>
+                                <th>Color</th>
+                                @foreach (var item in Model)
+                                {
+                                    <td>@item.Color</td>
+                                }
+                            </tr>
+                            <tr>
+                                <th>Material</th>
+                                @foreach (var item in Model)
+                                {
+                                    <td>@item.Material</td>
+                                }
+                            </tr>
+                            <tr>
+                                <th></th>
+                                @foreach (var item in Model)
+                                {
+                                    <td>
+                                        <button data-id="@item.Id" class="btn btn-secondary btn-remove-element btn-sm">Remove</button>
+                                    </td>
+                                }
+
+
+                            </tr>
+                        </tbody>
+                    }
+                    else
+                    {
+                        <tbody>
+                            <tr>
+                                <th>
+                                    <div class="d-flex justify-content-center">
+                                        <h3>Not Add Poduct</h3>
                                     </div>
-                                    <div class="compare-table__product-rating-legend">@item.Product.ReviewCount Reviews</div>
-                                </td>
-                            }
-                        </tr>
-
-                        <tr>
-                            <th>Availability</th>
-                            @foreach (var item in Model)
-                            {
-                                <td>
-                                    <span class="compare-table__product-badge badge @(item.Product.StockCount > 0 ? "badge-success":"badge-danger") ">@(item.Product.StockCount > 0 ? "In Stock":"No Stock")</span>
-                                </td>
-                            }
-                        </tr>
-
-                        <tr>
-                            <th>Price</th>
-                            @foreach (var item in Model)
-                            {
-                                <td>
-                                    @if (item.Product.OldPrice == null)
-                                    {
-                                        <span>$@item.Product.CurrentPrice</span>
-                                    }
-                                    else
-                                    {
-                                        <span class="product-card__new-price">$@item.Product.CurrentPrice</span> <span class="product-card__old-price">$@item.Product.OldPrice</span>
-                                    }
-                                </td>
-                            }
-                        </tr>
-                        <tr>
-                            <th>Add To Cart</th>
-                            <td><button class="btn btn-primary">Add To Cart</button></td>
-                            <td><button class="btn btn-primary">Add To Cart</button></td>
-                            <td><button class="btn btn-primary">Add To Cart</button></td>
-                        </tr>
-                        <tr>
-                            <th>Brand</th>
-                            @foreach (var item in Model)
-                            {
-                                <td>@item.Product.Brand.Name</td>
-                            }
-
-                        </tr>
-
-                        <tr>
-                            <th>Color</th>
-                            @foreach (var item in Model)
-                            {
-                                <td>@item.Color</td>
-                            }
-                        </tr>
-                        <tr>
-                            <th>Material</th>
-                            @foreach (var item in Model)
-                            {
-                                <td>@item.Material</td>
-                            }
-                        </tr>
-                        <tr>
-                            <th></th>
-                            @foreach (var item in Model)
-                            {
-                                <td>
-                                    <button data-id="@item.Id" class="btn btn-secondary btn-remove-element btn-sm">Remove</button>
-                                </td>
-                            }
-
-
-                        </tr>
-                    </tbody>
+                                </th>
+                            </tr>
+                        </tbody>
+                    }
                 </table>
             </div>
         </div>
@@ -182,8 +198,28 @@
 @section script{
     <script>
         $(document).ready(() => {
-            $(document).on("click",".btn-remove-element",(e)=>{
-                console.log(e.currentTarget)
+            $(document).on("click", ".btn-remove-element", (e) => {
+                let productId = $(e.currentTarget).data("id");
+                let productsString = localStorage.getItem("compare_products");
+                let products = JSON.parse(productsString)
+                if (products.length > 0) {
+                    let product = products.find(x => x.Id == productId);
+                    if (product != undefined) {
+                        let index = products.indexOf(product)
+                        products.splice(index, 1)
+                        productsString = JSON.stringify(products)
+                        localStorage.setItem("compare_products", productsString)
+                        location.href = "/Home/Compare/" + productsString
+                    } else {
+                        // Elment Not Find
+                        let href = "/Home/Compare/" + productsString
+                        location.href = href;
+                    }
+                } else {
+                    // Elment Not Find
+                    let href = "/Home/Compare/" + productsString
+                    location.href = href;
+                }
             })
         })
     </script>

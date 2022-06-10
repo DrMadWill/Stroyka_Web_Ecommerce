@@ -1806,7 +1806,8 @@
             }else{
                  products = JSON.parse(products)
                  if(products.length > 2){
-                     products[0] = product
+                     products.unshift(product)
+                     products.pop();
                      let productsString = JSON.stringify(products)
                      localStorage.setItem("compare_products",productsString)
                  }else{

@@ -70,17 +70,15 @@
         <button class="btn btn-primary product-card__addtocart" type="button">
             Add To
             Cart
-        </button> <button class="btn btn-secondary product-card__addtocart product-card__addtocart--list"
-                          type="button">
-            Add To Cart
-        </button> <button class="btn btn-light btn-svg-icon btn-svg-icon--fake-svg product-card__wishlist"
-                          type="button">
+        </button> 
+        <button class="btn btn-light btn-svg-icon btn-svg-icon--fake-svg  product-card__wishlist"
+                         data-toggle="tooltip" title="Wishlist" type="button">
             <svg width="16px" height="16px">
                 <use xlink:href="/images/sprite.svg#wishlist-16"></use>
             </svg> <span class="fake-svg-icon fake-svg-icon--wishlist-16"></span>
         </button>
-        <button class="btn btn-light btn-svg-icon btn-svg-icon--fake-svg product-card__compare"
-                type="button">
+        <button data-id="@Model.Id" class="btn btn-light btn-svg-icon btn-svg-icon--fake-svg btn_compare_index product-card__compare"
+             data-toggle="tooltip" title="Compare"   type="button">
             <svg width="16px" height="16px">
                 <use xlink:href="/images/sprite.svg#compare-16"></use>
             </svg> <span class="fake-svg-icon fake-svg-icon--compare-16"></span>

@@ -1755,6 +1755,7 @@
     </div><!-- site / end -->
     @RenderSection("script", false)
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+    @*Tooltip Setting*@
     <script>
         $(document).ready(function() {
              $("body").tooltip({ selector: '[data-toggle=tooltip]' });
@@ -1786,8 +1787,9 @@
         })
     </script>
 
-    <script>
 
+    @*Product Compare Add LocalStorage*@
+    <script>
         function CompareProduct(productId,color,material,quantity){
             quantity = new Number(quantity)
             let product = {
@@ -1820,7 +1822,7 @@
 
     </script>
 
-    @*Compare Click*@
+    @*Compare Btn Click*@
     <script>
         $(document).ready(()=>{
             $(document).on("click", ".compare_item", (e) => {
@@ -1834,6 +1836,16 @@
     </script>
 
 
+    @*Product Compare Add Local Storage *@
+     <script>
+         $(document).ready(()=>{
+             $(document).on("click",".btn_compare_index",(e)=>{
+                 let id = $(e.currentTarget).data("id");
+                 CompareProduct(id,"Not Selected","Not Selected",1)
+            })
+         })
+         
+     </script>   
 </body>
 
 </html>

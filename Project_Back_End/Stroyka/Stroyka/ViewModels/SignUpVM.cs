@@ -23,6 +23,7 @@ namespace Stroyka.ViewModels
 
         [Required(ErrorMessage = "Email is required.")]
         [EmailAddress(ErrorMessage = "Email format is valid")]
+        [RegularExpression(@"^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$",ErrorMessage ="Email not valid")]
         public string Email { get; set; }
 
         [DataType(DataType.Password, ErrorMessage = "Password Format is Valid")]

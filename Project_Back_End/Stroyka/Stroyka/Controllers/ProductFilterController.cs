@@ -28,7 +28,7 @@ namespace Stroyka.Controllers
         [HttpGet]
         public async Task<JsonResult> NewArrivals(int? id)
         {
-            var date = DateTime.Now.AddMonths(-3);
+            var date = DateTime.Now.AddMonths(-7);
             List<Product> newArrivalsProduct = null;
             if (id == null)
             {

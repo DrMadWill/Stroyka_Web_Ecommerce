@@ -56,7 +56,7 @@ namespace Stroyka.Controllers
                 // New Arrivals Product
                 NewArrivals = (await _dbContext.Products
                 .Include(x => x.Status)
-                .Where(dr => dr.Date > DateTime.Now.AddMonths(-3))
+                .Where(dr => dr.Date > DateTime.Now.AddMonths(-7))
                 .ToListAsync()).GenarateNewArrivals(),
 
                 // ============================== Footer ===============

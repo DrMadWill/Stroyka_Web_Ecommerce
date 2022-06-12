@@ -80,7 +80,6 @@ namespace Stroyka.Controllers
         [HttpGet]
         public IActionResult Register()
         {
-            ViewBag.IsShowing = false;
             SignUpVM sign = new();
             return View(sign);
         }
@@ -91,14 +90,12 @@ namespace Stroyka.Controllers
         public async Task<IActionResult> Register(SignUpVM sign)
         {
 
-            ViewBag.IsShowing = false;
             if (!ModelState.IsValid) return View(sign);
 
             // Check User Name Unique 
             var userTest = await _userManager.FindByNameAsync(sign.UserName);
             if (userTest != null)
             {
-                ViewBag.IsShowing = true;
                 ModelState.AddModelError(string.Empty, "User Name Already Used.");
                 return View(sign);
             }
@@ -109,7 +106,6 @@ namespace Stroyka.Controllers
             var result = await passwordValidator.ValidateAsync(_userManager, null, sign.Password);
             if (!result.Succeeded)
             {
-                ViewBag.IsShowing = true;
                 foreach (var item in result.Errors)
                     ModelState.AddModelError(string.Empty, item.Description);
                 return View(sign);
@@ -138,12 +134,10 @@ namespace Stroyka.Controllers
             }
             else
             {
-                ViewBag.IsShowing = true;
                 ModelState.AddModelError("Email Error", "This Email Already Using");
                 return View(sign);
 
             }
-            ViewBag.IsShowing = true;
             ModelState.AddModelError("Error", "Sorry. Account Not Created.");
             return View(sign);
         }

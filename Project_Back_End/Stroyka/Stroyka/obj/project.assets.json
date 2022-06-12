@@ -6528,11 +6528,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Users\\nofel\\OneDrive\\Desktop\\Stroyka_Web_Ecommerce\\Project_Back_End\\Stroyka\\Stroyka\\Stroyka.csproj",
+      "projectUniqueName": "C:\\Users\\nofel\\OneDrive\\Desktop\\Stroyka_Web_Ecommerce\\Project_Back_End\\Stroyka\\Stroyka\\Stroyka.csproj",
       "projectName": "Stroyka",
-      "projectPath": "c:\\Users\\nofel\\OneDrive\\Desktop\\Stroyka_Web_Ecommerce\\Project_Back_End\\Stroyka\\Stroyka\\Stroyka.csproj",
+      "projectPath": "C:\\Users\\nofel\\OneDrive\\Desktop\\Stroyka_Web_Ecommerce\\Project_Back_End\\Stroyka\\Stroyka\\Stroyka.csproj",
       "packagesPath": "C:\\Users\\nofel\\.nuget\\packages\\",
-      "outputPath": "c:\\Users\\nofel\\OneDrive\\Desktop\\Stroyka_Web_Ecommerce\\Project_Back_End\\Stroyka\\Stroyka\\obj\\",
+      "outputPath": "C:\\Users\\nofel\\OneDrive\\Desktop\\Stroyka_Web_Ecommerce\\Project_Back_End\\Stroyka\\Stroyka\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\nofel\\AppData\\Roaming\\NuGet\\NuGet.Config",

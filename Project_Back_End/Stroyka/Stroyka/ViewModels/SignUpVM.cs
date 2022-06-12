@@ -11,12 +11,8 @@ namespace Stroyka.ViewModels
         [MaxLength(100, ErrorMessage = "So Large FirstName")]
         [MinLength(3, ErrorMessage = "So Small FirstName")]
         [Required(ErrorMessage = "FirstName Required")]
-        public string FirstName { get; set; }
-
-        [MaxLength(100, ErrorMessage = "So Large LastName")]
-        [MinLength(3, ErrorMessage = "So Small LastName")]
-        [Required(ErrorMessage = "LastName Required")]
-        public string LastName { get; set; }
+        public string FullName { get; set; }
+        public int Age { get; set; }
 
         [Required(ErrorMessage = "Select Gender.")]
         public bool Gender { get; set; }
@@ -33,6 +29,12 @@ namespace Stroyka.ViewModels
         [Compare("Password", ErrorMessage = "Password and Confirmation Password must match.")]
         [Required(ErrorMessage = "ConfirmPassword is required.")]
         public string ConfirmPassword { get; set; }
+
+        // Location
+        public string Location { get; set; }
+
+        [RegularExpression(@"")]
+        public string PhoneNumber { get; set; }
 
     }
 }

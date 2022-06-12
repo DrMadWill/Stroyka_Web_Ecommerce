@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "qHv6cOvrunjmbnbIGSxfrzOFelo9MQ1ZOHm/K6E9W61+pRrIn5QL095j2SpFlvPIydJ/Qq6Hn9/LXjK3jZhr6Q==",
+  "dgSpecHash": "LrTrcWrLQgApgnwkmIqG1kvPJrlUSL3wvYQqth+zdkRyKRI8l7d+zoDlXk9DYWsIhCi6Q13zUgxcjB2xWp/M0A==",
   "success": true,
-  "projectFilePath": "c:\\Users\\nofel\\OneDrive\\Desktop\\Stroyka_Web_Ecommerce\\Project_Back_End\\Stroyka\\Stroyka\\Stroyka.csproj",
+  "projectFilePath": "C:\\Users\\nofel\\OneDrive\\Desktop\\Stroyka_Web_Ecommerce\\Project_Back_End\\Stroyka\\Stroyka\\Stroyka.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\nofel\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\nofel\\.nuget\\packages\\mailkit\\3.2.0\\mailkit.3.2.0.nupkg.sha512",

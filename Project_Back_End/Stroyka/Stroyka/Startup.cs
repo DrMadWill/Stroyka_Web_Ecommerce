@@ -63,9 +63,7 @@ namespace Stroyka
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
             });
 
-            services.AddScoped<IEmailService>(option => new EmailServices(Configuration.GetSection("EmailService")["Name"], Configuration.GetSection("EmailService")["Password"]));
-
-
+            services.AddTransient<IEmailService>(option => new EmailServices(Configuration.GetSection("EmailService")["Name"], Configuration.GetSection("EmailService")["Password"]));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

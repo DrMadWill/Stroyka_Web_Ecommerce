@@ -77,7 +77,7 @@ namespace Stroyka.Controllers
 
 
         // ======================= Register ============
-        // Register GET
+        // Register | GET
         [HttpGet]
         public IActionResult Register()
         {
@@ -85,7 +85,7 @@ namespace Stroyka.Controllers
             return View(sign);
         }
 
-        // Register Post
+        // Register | POST
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(SignUpVM sign)
@@ -149,7 +149,8 @@ namespace Stroyka.Controllers
             }
         }
 
-
+        //========================= Forget Password ====
+        // Forget Password | GET
         [HttpGet]
         public IActionResult ForgetPassword()
         {
@@ -157,6 +158,7 @@ namespace Stroyka.Controllers
             return View(forgetPassword);
         }
 
+        // Forget Password | POST
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ForgetPassword(ForgetPasswordVM forgetPassword)
@@ -170,25 +172,26 @@ namespace Stroyka.Controllers
                 return View(forgetPassword);
             }
 
-            string token = await _userManager.GeneratePasswordResetTokenAsync(user);
-            string url = Url.Action("ResetPassword", "Signin", new { token, email = user.Email }, Request.Scheme);
+            string token = await _userManager.GeneratePasswordResetTokenAsync(user);    
+            string url = Url.Action("ResetPassword", "Account", new { token, email = user.Email }, Request.Scheme);
 
             string body = string.Empty;
             using (StreamReader reader = new("wwwroot/templates/forgetpasswod.html"))
                 body = reader.ReadToEnd();
 
             body = body.Replace("{{url}}", url);
-
             _emailService.Send(user.Email, "Reset Password", body);
 
-            return Redirect("/Signin/Login");
+            return RedirectToAction("/Login");
         }
 
+        //========================= Reset Password ====
+        // Reset Password | GET
         [HttpGet]
         public IActionResult ResetPassword(string token, string email)
         {
-            if (string.IsNullOrEmpty(token) || string.IsNullOrEmpty(email)) return Redirect("/System/Error404");
-            ResetPasswordVM resetPassword = new ResetPasswordVM
+            if (string.IsNullOrEmpty(token) || string.IsNullOrEmpty(email)) return NotFound();
+            ResetPasswordVM resetPassword = new()
             {
                 Token = token,
                 Email = email
@@ -196,7 +199,7 @@ namespace Stroyka.Controllers
             return View(resetPassword);
         }
 
-
+        // Reset Password | POST
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ResetPassword(ResetPasswordVM resetPassword)
@@ -205,7 +208,7 @@ namespace Stroyka.Controllers
 
             // Check User 
             var user = await _userManager.FindByEmailAsync(resetPassword.Email);
-            if (user == null) return Redirect("/System/Error404");
+            if (user == null) return NotFound();
 
             // Ckeck Password Usable
             var passwordValidator = new PasswordValidator<User>();
@@ -219,9 +222,8 @@ namespace Stroyka.Controllers
             var resault = await _userManager.ResetPasswordAsync(user, resetPassword.Token, resetPassword.Password);
 
             if (resault.Succeeded)
-            {
-                return Redirect("/");
-            }
+                return RedirectToAction("Login");
+
             ModelState.AddModelError("Password", "We Have Some Problem");
             return View(resetPassword);
         }

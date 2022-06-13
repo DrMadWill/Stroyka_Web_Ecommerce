@@ -7,6 +7,7 @@ using Stroyka.Models;
 using Stroyka.Models.Blogs;
 using Stroyka.Models.Users;
 using Stroyka.ViewModels;
+using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -92,13 +93,14 @@ namespace Stroyka.Controllers
 
             if (!ModelState.IsValid) return View(sign);
 
-            // Check User Name Unique 
+
+            // Genrate User Name Unique 
+            UserNameCreate:
+            Random random = new Random();
+            sign.UserName = sign.FullName.ToLower().Trim().Replace(" ", "") + random.Next(1000,9999); 
             var userTest = await _userManager.FindByNameAsync(sign.UserName);
-            if (userTest != null)
-            {
-                ModelState.AddModelError(string.Empty, "User Name Already Used.");
-                return View(sign);
-            }
+            if (userTest != null) goto UserNameCreate;
+           
 
 
             // Ckeck Password Usable
@@ -107,7 +109,7 @@ namespace Stroyka.Controllers
             if (!result.Succeeded)
             {
                 foreach (var item in result.Errors)
-                    ModelState.AddModelError(string.Empty, item.Description);
+                    ModelState.AddModelError("Password", item.Description);
                 return View(sign);
             }
 
@@ -118,6 +120,9 @@ namespace Stroyka.Controllers
                 User user = new User
                 {
                     Image = "profil.png",
+                    PhoneNumber = sign.PhoneNumber,
+                    FullName = sign.FullName,   
+                    Age = (byte)(DateTime.Now.Year - sign.Age),
                     Email = sign.Email,
                     UserName = sign.UserName,
                     Gender = sign.Gender
@@ -129,17 +134,19 @@ namespace Stroyka.Controllers
                     await _dbContext.SaveChangesAsync();
 
                     await _signInManager.SignInAsync(user, true);
-                    return RedirectToAction("UserAdmin");
+                    return Redirect("/");
+                }
+                else
+                {
+                    TempData["AccountErrorMessage"] = "Sorry.Plase Try Agein.";
+                    return View(sign);
                 }
             }
             else
             {
-                ModelState.AddModelError("Email Error", "This Email Already Using");
+                ModelState.AddModelError("Email", "This Email Already Using");
                 return View(sign);
-
             }
-            ModelState.AddModelError("Error", "Sorry. Account Not Created.");
-            return View(sign);
         }
 
 

@@ -4,13 +4,12 @@ namespace Stroyka.ViewModels
 {
     public class SignUpVM
     {
-        [MaxLength(100, ErrorMessage = "So Large User Name")]
-        [MinLength(1, ErrorMessage = "So Small User Name")]
+   
         public string UserName { get; set; }
 
-        [MaxLength(100, ErrorMessage = "So Large FirstName")]
-        [MinLength(3, ErrorMessage = "So Small FirstName")]
-        [Required(ErrorMessage = "FirstName Required")]
+        [MaxLength(100, ErrorMessage = "So Large Full Name")]
+        [MinLength(7, ErrorMessage = "So Small Full Name")]
+        [Required(ErrorMessage = "Full Name Required")]
         public string FullName { get; set; }
         public int Age { get; set; }
 
@@ -33,7 +32,7 @@ namespace Stroyka.ViewModels
         // Location
         public string Location { get; set; }
 
-        [RegularExpression(@"")]
+        [RegularExpression(@"\d{10}|\d{9}", ErrorMessage ="Phone Number Not Valid")]
         public string PhoneNumber { get; set; }
 
     }

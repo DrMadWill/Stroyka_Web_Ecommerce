@@ -16,3 +16,12 @@ bld/
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/
+
+
+# Click-Once directory
+publish/
+
+# Publish Web Output
+*.Publish.xml
+*.pubxml
+*.azurePubxml

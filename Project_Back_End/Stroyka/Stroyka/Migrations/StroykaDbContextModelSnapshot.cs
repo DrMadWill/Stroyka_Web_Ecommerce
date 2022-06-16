@@ -724,6 +724,111 @@ namespace Stroyka.Migrations
                     b.ToTable("SubCategoryToProducts");
                 });
 
+            modelBuilder.Entity("Stroyka.Models.Sales.Order", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<DateTime>("CreateAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("ModifiedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("PaymentId")
+                        .HasColumnType("int");
+
+                    b.Property<float>("Total")
+                        .HasColumnType("real");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId1")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId1");
+
+                    b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("Stroyka.Models.Sales.OrderDetails", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<DateTime>("CreateAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("ModifiedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<float>("Total")
+                        .HasColumnType("real");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("OrderDetails");
+                });
+
+            modelBuilder.Entity("Stroyka.Models.Sales.Payment", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<float>("Amount")
+                        .HasColumnType("real");
+
+                    b.Property<DateTime>("CreateAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("ModifiedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("StatusId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StatusId");
+
+                    b.ToTable("Payments");
+                });
+
+            modelBuilder.Entity("Stroyka.Models.Sales.Status", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PaymentStatuses");
+                });
+
             modelBuilder.Entity("Stroyka.Models.SqlFuncion.MaxMinPriceByMegaCategory", b =>
                 {
                     b.Property<int>("Id")
@@ -1137,6 +1242,53 @@ namespace Stroyka.Migrations
                     b.Navigation("SubCategory");
                 });
 
+            modelBuilder.Entity("Stroyka.Models.Sales.Order", b =>
+                {
+                    b.HasOne("Stroyka.Models.Users.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId1");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Stroyka.Models.Sales.OrderDetails", b =>
+                {
+                    b.HasOne("Stroyka.Models.Sales.Order", "Order")
+                        .WithMany()
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Stroyka.Models.Products.Product", "Product")
+                        .WithMany("OrderDetails")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("Stroyka.Models.Sales.Payment", b =>
+                {
+                    b.HasOne("Stroyka.Models.Sales.Order", "Order")
+                        .WithOne("Payment")
+                        .HasForeignKey("Stroyka.Models.Sales.Payment", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Stroyka.Models.Sales.Status", "Status")
+                        .WithMany()
+                        .HasForeignKey("StatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+
+                    b.Navigation("Status");
+                });
+
             modelBuilder.Entity("Stroyka.Models.Blogs.Blog", b =>
                 {
                     b.Navigation("BlogToTags");
@@ -1190,6 +1342,8 @@ namespace Stroyka.Migrations
 
             modelBuilder.Entity("Stroyka.Models.Products.Product", b =>
                 {
+                    b.Navigation("OrderDetails");
+
                     b.Navigation("ProductDetail");
 
                     b.Navigation("Reviews");
@@ -1207,6 +1361,11 @@ namespace Stroyka.Migrations
             modelBuilder.Entity("Stroyka.Models.Products.SubCategory", b =>
                 {
                     b.Navigation("SubCategoryToProducts");
+                });
+
+            modelBuilder.Entity("Stroyka.Models.Sales.Order", b =>
+                {
+                    b.Navigation("Payment");
                 });
 
             modelBuilder.Entity("Stroyka.Models.Users.User", b =>

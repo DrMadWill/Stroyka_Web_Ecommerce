@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Stroyka.Models.Sales;
 
 namespace Stroyka.Models.Products
 {
@@ -20,23 +21,30 @@ namespace Stroyka.Models.Products
         public byte Stars { get; set; }
         public string MiniDecription { get; set; }
         public int StockCount { get; set; }
+
         [NotMapped]
         public bool IsInStock
         {
             get { return StockCount > 0; }
             set => IsInStock = value; 
         }
+
         public int ReviewCount { get; set; }
+
+
+
         public virtual Status Status { get; set; }
         public virtual int StatusId { get; set; }
+        // Product Detail 
         public virtual Detail ProductDetail { get; set; }
+
         public virtual Brand Brand { get; set; }
         public virtual int BrandId { get; set; }
+
+
         public virtual ICollection<SubCategoryToProduct> SubCategoryToProducts { get; set; }
         public virtual ICollection<Review> Reviews { get; set; }
         public virtual ICollection<Stock> Stocks { get; set; }
-
-        [NotMapped]
-        public int ReviewsCount { get; set; }
+        public IList<OrderDetails> OrderDetails { get; set; }
     }
 }

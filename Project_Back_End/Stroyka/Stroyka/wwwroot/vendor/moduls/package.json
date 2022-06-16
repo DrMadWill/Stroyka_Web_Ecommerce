@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "jquery-validation": "^1.19.4",
+    "jquery-validation-unobtrusive": "^3.2.12"
+  }
+}

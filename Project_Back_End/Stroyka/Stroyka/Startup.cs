@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Session;
+using Microsoft.AspNetCore.Http;
 
 namespace Stroyka
 {
@@ -60,8 +61,37 @@ namespace Stroyka
                 options.Password.RequireLowercase = false;
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = false;
+
+                options.Lockout.MaxFailedAccessAttempts = 5;
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+                options.Lockout.AllowedForNewUsers = true;
+
+                // 
+                options.User.AllowedUserNameCharacters = "-";
+                options.User.RequireUniqueEmail = true;
+                options.SignIn.RequireConfirmedEmail = false;
+                options.SignIn.RequireConfirmedPhoneNumber = false;
             });
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/account/login";
+                options.LogoutPath = "/accout/logout";
+                options.AccessDeniedPath = "/account/accessdenied";
+
+                options.SlidingExpiration = true;
+                options.ExpireTimeSpan = TimeSpan.FromDays(7);
+
+                options.Cookie = new CookieBuilder
+                {
+                    HttpOnly = true,
+                    Name = "Stroyka.Secrutiy.Cookie"
+                };
+
+            });
+
+
+            
 
             services.AddTransient<IEmailService>(option => new EmailServices(Configuration.GetSection("EmailService")["Name"], Configuration.GetSection("EmailService")["Password"]));
         }

@@ -36,9 +36,12 @@ namespace Stroyka.Controllers
         // ======================= Login ============
         // Login Get
         [HttpGet]
-        public IActionResult Login()
+        public IActionResult Login(string ReturnUrl = "")
         {
-            SignInVM signIn = new();
+            SignInVM signIn = new()
+            {
+                ReturnUrl = ReturnUrl
+            };
             return View(signIn);
         }
 
@@ -61,7 +64,13 @@ namespace Stroyka.Controllers
             if (resault.Succeeded)
             {
                 await _signInManager.SignInAsync(user, true);
-                return Redirect("/");
+
+                if (string.IsNullOrEmpty(signIn.ReturnUrl))
+                {
+                    return Redirect("/");
+                }
+                return Redirect(signIn.ReturnUrl);
+
             }
             ModelState.AddModelError("Password", "Password Wrong!");
             return View(signIn);
@@ -74,6 +83,10 @@ namespace Stroyka.Controllers
             await _signInManager.SignOutAsync();
             return Redirect("/");
         }
+
+        // ======================== Access Denied ===============
+
+        public async Task<IActionResult> AccessDenied() => View();
 
 
         // ======================= Register ============

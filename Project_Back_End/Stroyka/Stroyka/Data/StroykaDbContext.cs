@@ -7,6 +7,7 @@ using Stroyka.Models.Users;
 using Stroyka.Models.SqlViews.Products;
 using Stroyka.Models.SqlFuncion;
 using System.ComponentModel.DataAnnotations.Schema;
+using Stroyka.Models.Sales;
 
 namespace Stroyka.Data
 {
@@ -17,7 +18,7 @@ namespace Stroyka.Data
 
         // Using Praduct Class
         #region Product
-        public DbSet<Status> ProductStatuses { get; set; }
+        public DbSet<Models.Products.Status> ProductStatuses { get; set; }
         public DbSet<Brand> ProductBrands { get; set; }
         public DbSet<Material> ProductMaterials { get; set; }
         public DbSet<Product> Products { get; set; }
@@ -67,6 +68,16 @@ namespace Stroyka.Data
 
         #endregion
 
+        // Sale
+        #region Order
+
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<Payment> Payments { get; set; }
+        public DbSet<OrderDetails> OrderDetails { get; set; }
+        public DbSet<Stroyka.Models.Sales.Status> PaymentStatuses { get; set; }
+
+        #endregion
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -74,7 +85,7 @@ namespace Stroyka.Data
 
             #region Product
             // Is Unique
-            modelBuilder.Entity<Status>()
+            modelBuilder.Entity<Stroyka.Models.Products.Status>()
                 .HasIndex(x => x.Name)
                 .IsUnique();
 

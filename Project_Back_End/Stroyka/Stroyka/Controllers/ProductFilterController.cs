@@ -45,7 +45,7 @@ namespace Stroyka.Controllers
                     Image = dr.Product.Image,
                     Stars = dr.Product.Stars,
                     Status = new Status { Name = dr.Product.Status.Name },
-                    ReviewsCount = dr.Product.ReviewCount
+                    ReviewCount = dr.Product.ReviewCount
                 })
                 .Distinct()
                 .ToListAsync();
@@ -66,7 +66,7 @@ namespace Stroyka.Controllers
                 Image = dr.Product.Image,
                 Stars = dr.Product.Stars,
                 Status = new Status { Name = dr.Product.Status.Name },
-                ReviewsCount = dr.Product.ReviewCount
+                ReviewCount = dr.Product.ReviewCount
             })
             .ToListAsync();
 
